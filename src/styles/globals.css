@@ -25,3 +25,35 @@ body {
     )
     rgb(var(--background-start-rgb));
 } */
+
+/* swiper */
+#imgCarousel .swiper-button-next::after,
+#imgCarousel .swiper-button-prev::after {
+  color: #fff;
+  font-size: 38px;
+}
+
+.thumbs .swiper-button-next::after,
+.thumbs .swiper-button-prev::after {
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  color: #5c5c5c;
+}
+
+/* .swiper-scrollbar {
+  background: #fff !important;
+  rgba(0, 0, 0, 0.5)
+} */
+
+.swiper-scrollbar-drag {
+  background: #fff !important;
+}
+
+/* .swiper-scrollbar-drag {
+  color: #fff;
+} */
