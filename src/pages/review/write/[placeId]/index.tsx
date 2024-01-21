@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import { Button, Spacer, Textarea } from '@nextui-org/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
@@ -24,11 +24,13 @@ const ReviewWritePage = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { userId } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
+
   const { placeId } = router.query;
 
   const { data: placeInfo } = useQuery({
     queryKey: ['placeInfo', placeId],
     queryFn: () => getPlaceInfo(placeId as string),
+    enabled: placeId !== undefined,
     // staleTime: Infinity,
   });
 
