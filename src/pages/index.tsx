@@ -41,6 +41,7 @@ const Home = () => {
         <MostReviews />
         <Spacer y={10} />
         <MostBookmarks />
+        <Spacer y={20} />
       </div>
     </>
   );

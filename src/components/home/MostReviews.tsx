@@ -39,7 +39,7 @@ const MostReviews = () => {
         modules={[Navigation, Autoplay]}
         autoplay={true}
         className='w-full h-full'
-        draggable={false}
+        allowTouchMove={false}
       >
         {topReviewedPlacesList?.map((place) => {
           return (

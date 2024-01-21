@@ -1,15 +1,7 @@
+import { Maplocation } from '@/types/types';
 import { Button } from '@nextui-org/react';
 import React from 'react';
 import { useMap } from 'react-kakao-maps-sdk';
-
-interface Maplocation {
-  center: {
-    lat: number;
-    lng: number;
-  };
-  errMsg: string | null;
-  isLoading: boolean;
-}
 
 const MylocationButton = ({
   mylocation,

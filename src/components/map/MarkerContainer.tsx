@@ -28,6 +28,13 @@ const EventMarkerContainer = ({ place }: { place: Tables<'places'> }) => {
           map.panTo(marker.getPosition());
           setIsVisible(true);
         }}
+        image={{
+          src: '/images/icons/marker.svg', // 마커이미지의 주소입니다
+          size: {
+            width: 44,
+            height: 40,
+          },
+        }}
       />
       {isVisible && (
         <CustomOverlayMap
@@ -36,24 +43,6 @@ const EventMarkerContainer = ({ place }: { place: Tables<'places'> }) => {
           yAnchor={1.15}
         >
           <div ref={overlayRef}>
-            <div
-              className='close w-[30px] h-[30px] bg-black text-white text-xs flex items-center justify-center'
-              onClick={() => setIsVisible(false)}
-              title='닫기'
-            >
-              X
-            </div>
-
-            {/* <Link href={`/place/${place.id}`}>
-              <div className='info'>
-                <div className='title'>{place.place_name}</div>
-                <div className='body'>
-                  <div className='desc'>
-                    <div className='jibun ellipsis'>{place.address}</div>
-                  </div>
-                </div>
-              </div>
-            </Link>  */}
             <PlaceCard2 place={place} />
           </div>
         </CustomOverlayMap>

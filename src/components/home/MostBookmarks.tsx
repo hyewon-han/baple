@@ -38,7 +38,7 @@ const MostBookmarks = () => {
         navigation={true} // prev, next button
         modules={[Navigation, Autoplay]}
         autoplay={true}
-        draggable={false}
+        allowTouchMove={false}
       >
         {topBookmarkedPlacesList?.map((place) => {
           return (

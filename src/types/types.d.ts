@@ -75,19 +75,6 @@ export interface ReviewWithPlaceAndUser extends Tables<'reviews'> {
   };
 }
 
-// export interface ReviewWithLikesUserComments extends Tables<'reviews'> {
-//   users: {
-//     avatar_url: string | null;
-//     user_name: string;
-//   };
-//   likes: Tables<'likes'>[];
-//   comments: Tables<'comments'>[];
-//   places: {
-//     place_name: string;
-//   };
-//   images_url: string[];
-// }
-
 export interface ReviewsFromRPC extends Tables<'reviews'> {
   images_url: string[];
   unique_review_id: string;
@@ -96,4 +83,13 @@ export interface ReviewsFromRPC extends Tables<'reviews'> {
   place_name: string;
   comments_count: number;
   likes_count: number;
+}
+
+export interface Maplocation {
+  center: {
+    lat: number;
+    lng: number;
+  };
+  errMsg: string | null;
+  isLoading: boolean;
 }

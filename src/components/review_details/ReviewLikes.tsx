@@ -39,14 +39,13 @@ const ReviewLikes = ({ review }: Props) => {
   const { data: likeState } = useQuery({
     queryKey: ['likes', userInfo.userId, review.id],
     queryFn: () => getLike({ userId: userInfo.userId, reviewId: review.id }),
+    enabled: !!userInfo.userId,
   });
 
   const { data: likeCount } = useQuery({
     queryKey: ['likes', review.id],
     queryFn: () => getLikes(review.id),
   });
-
-  console.log(likeCount);
 
   useEffect(() => {
     setIsLiked(likeState ? likeState.length > 0 : false);
@@ -249,8 +248,8 @@ const ReviewLikes = ({ review }: Props) => {
           <div className='z-[5] relative w-full'>
             <div className='absolute'>
               <div
-                className={`opacity-${
-                  isShown ? 100 : 0
+                className={`${isShown ? 'visible' : 'invisible'} opacity-${
+                  isShown ? '100' : '0'
                 } absolute w-[50px] h-[50px] bg-slate-300 top-[-40px] left-[44px] rounded-full flex justify-center items-center transition-opacity duration-200 ease-in-out`}
               >
                 <RiKakaoTalkFill
@@ -266,9 +265,9 @@ const ReviewLikes = ({ review }: Props) => {
                 />
               </div>
               <div
-                className={`opacity-${
-                  isShown ? 100 : 0
-                } absolute w-[50px] h-[50px] bg-slate-300 top-[20px] left-[44px] rounded-full flex justify-center items-center transition-opacity duration-200 ease-in-out`}
+                className={`${isShown ? 'visible' : 'invisible'} opacity-${
+                  isShown ? '100' : '0'
+                } absolute w-[50px] h-[50px] bg-slate-300 top-[20px] left-[44px] rounded-full flex justify-center items-center transition-all duration-200 ease-in-out`}
               >
                 <FaPaperclip
                   size={24}

@@ -16,8 +16,6 @@ const ReviewBody = ({ review, isEditing, setIsEditing }: Props) => {
   const { id, created_at, content, user_id, place_id } = review;
   const [editValue, setEditValue] = useState(content);
 
-  console.log('content', content);
-
   const queryClient = useQueryClient();
 
   const updateReviewMutate = useMutation({

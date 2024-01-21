@@ -15,6 +15,7 @@ import { RootState } from '@/redux/config/configStore';
 import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
 import { getUserDataById } from '@/apis/users';
+import Image from 'next/image';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -93,7 +94,12 @@ const Header = () => {
       <div className='container m-auto flex items-center max-w-[1200px] min-h-[48px] w-[90%]'>
         <nav className='flex gap-6 w-full justify-between items-center'>
           <Link href='/' className='text-3xl font-black'>
-            BAPLE
+            <Image
+              src='/images/icons/basic-logo.svg'
+              alt='main logo'
+              width={100}
+              height={50}
+            />
           </Link>
           <Link href='/nearby'>주변 장소</Link>
           <Link href='/places'>장소 검색</Link>

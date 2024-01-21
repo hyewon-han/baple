@@ -1,5 +1,7 @@
 import { getPosts } from '@/apis/boards';
 import MainWrapper from '@/components/layout/MainWrapper';
+import { toastWarn } from '@/libs/toastifyAlert';
+import { RootState } from '@/redux/config/configStore';
 import { formatDate } from '@/utils/dateFormatter';
 import { Button, Divider } from '@nextui-org/react';
 import {
@@ -15,6 +17,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const rows = [
   {
@@ -69,6 +72,7 @@ const columns = [
 const BoardPage = () => {
   const router = useRouter();
   const [page, setPage] = useState(1);
+  const userInfo = useSelector((state: RootState) => state.auth);
 
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ['posts'],
@@ -99,12 +103,21 @@ const BoardPage = () => {
     <MainWrapper>
       <header className='flex mt-[50px] mb-[30px] justify-between'>
         <h2 className='text-3xl font-bold'>게시판</h2>
-        <Button
-          className='bg-primary px-8 py-2 rounded-full text-black'
-          onClick={() => router.push('/board/write')}
-        >
-          글쓰기
-        </Button>
+        {userInfo.userId ? (
+          <Button
+            className='bg-primary px-8 py-2 rounded-full text-black'
+            onClick={() => router.push('/board/write')}
+          >
+            글쓰기
+          </Button>
+        ) : (
+          <Button
+            className='bg-primary px-8 py-2 rounded-full text-black'
+            onClick={() => toastWarn('로그인 후 이용해주세요')}
+          >
+            글쓰기
+          </Button>
+        )}
       </header>
       <Divider className='bg-primary h-0.5 mb-[30px]' />
 

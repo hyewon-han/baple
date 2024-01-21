@@ -19,12 +19,16 @@ import { useState } from 'react';
 import { Button, Divider } from '@nextui-org/react';
 import CarouselThumb from '@/components/common/Carousel_Thumb';
 import PaiginatedReviews from '@/components/place_detail/PaiginatedReviews';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/config/configStore';
+import { toastWarn } from '@/libs/toastifyAlert';
 
 const PlacePage = () => {
   const router = useRouter();
   const placeId: string = router.query.placeId as string;
   const [toggle, setToggle] = useState('map');
   const [recentOrder, setRecentOrder] = useState(true);
+  const userInfo = useSelector((state: RootState) => state.auth);
 
   const { data: placeInfo, isLoading: placeInfoLoading } = useQuery({
     queryKey: ['placeInfo', placeId],
@@ -64,7 +68,11 @@ const PlacePage = () => {
         {imgList && (
           <div className='w-[48%]'>
             <CarouselThumb
-              slideData={imgList ?? []} // imgList가 없으면 빈배열
+              slideData={
+                imgList.length !== 0
+                  ? imgList
+                  : ['https://dummyimage.com/600x400/000/fff.png&text=baple']
+              } // imgList가 없으면 빈배열
               slidesPerView={1} // 보여줄 슬라이스 수
               slideHeight={'700px'} // 캐러셀 높이
             />
@@ -136,12 +144,21 @@ const PlacePage = () => {
       <section>
         <div className='flex mt-[100px] mb-[30px] justify-between'>
           <h2 className='text-3xl font-bold'>방문자 리뷰</h2>
-          <Button
-            className='bg-primary px-8 py-2 rounded-full text-black'
-            onClick={() => router.push(`/review/write/${placeId}`)}
-          >
-            리뷰 작성하기
-          </Button>
+          {userInfo.isLoggedIn ? (
+            <Button
+              className='bg-primary px-8 py-2 rounded-full text-black'
+              onClick={() => router.push(`/review/write/${placeId}`)}
+            >
+              리뷰 작성하기
+            </Button>
+          ) : (
+            <Button
+              className='bg-primary px-8 py-2 rounded-full text-black'
+              onClick={() => toastWarn('로그인 후 이용해주세요')}
+            >
+              리뷰 작성하기
+            </Button>
+          )}
         </div>
         <Divider className='bg-primary h-0.5 mb-[30px]' />
         <div className='text-right mb-[20px] px-[10px]'>

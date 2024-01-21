@@ -1,29 +1,22 @@
 import Seo from '@/components/layout/Seo';
 import EventMarkerContainer from '@/components/map/MarkerContainer';
 import MylocationButton from '@/components/map/MylocationButton';
+import MylocationOverlayMap from '@/components/map/MylocationOverlayMap';
 import PlacesModal from '@/components/map/PlacesModal';
 import { supabase } from '@/libs/supabase';
 import { placesData } from '@/redux/modules/placesDataSlice';
 import { Tables } from '@/types/supabase';
+import { Maplocation } from '@/types/types';
 import axios from 'axios';
-import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import {
+  CustomOverlayMap,
   Map,
   MapMarker,
   MapTypeControl,
   ZoomControl,
 } from 'react-kakao-maps-sdk';
 import { useDispatch } from 'react-redux';
-
-interface Maplocation {
-  center: {
-    lat: number;
-    lng: number;
-  };
-  errMsg: string | null;
-  isLoading: boolean;
-}
 
 // TODO: 고민 포인트
 // 1. zoom level에 따라 radius 를 설정 가능한지
@@ -176,13 +169,21 @@ const NearByPage = () => {
           })
         }
       >
-        {
-          <MapMarker position={mylocation.center}>
-            <div style={{ padding: '5px', color: '#000' }}>
-              {mylocation.errMsg ? mylocation.errMsg : '현재위치'}
-            </div>
-          </MapMarker>
-        }
+        <MapMarker
+          position={mylocation.center}
+          image={{
+            src: '/images/icons/character.svg', // 마커이미지의 주소입니다
+            size: {
+              width: 44,
+              height: 40,
+            },
+          }}
+        />
+        {/* <div style={{ padding: '5px', color: '#000' }}>
+            {mylocation.errMsg ? mylocation.errMsg : '현재위치'}
+          </div>
+        </MapMarker> */}
+        <MylocationOverlayMap mylocation={mylocation} />
 
         {/* 커스텀 오버레이를 뿌려줌 */}
         {place?.map((place) => (

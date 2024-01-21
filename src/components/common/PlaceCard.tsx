@@ -11,8 +11,11 @@ interface Props {
 const PlaceCard = ({ place }: Props) => {
   const router = useRouter();
   // console.log('placeCardProps', place);
-  const imgURL = place.image_url;
-  // console.log(imgURL);
+  const imgURL =
+    place.image_url !== null
+      ? place.image_url
+      : 'https://dummyimage.com/600x400/000/fff.png&text=baple';
+
   return (
     <div className='m-1'>
       <Card
@@ -30,7 +33,7 @@ const PlaceCard = ({ place }: Props) => {
             height={230}
             alt={place.place_name}
             className='w-full object-cover h-[140px]'
-            src={imgURL || undefined}
+            src={imgURL}
           />
         </CardBody>
         <CardFooter className='text-small justify-between'>

@@ -46,7 +46,7 @@ const PlacesModal = ({
         {places?.slice(offset, offset + limit).map((place) => {
           return (
             <Link key={place.id} href={`/place/${place?.id}`}>
-              <div className='w-[390px] bg-white flex h-[100px] m-2 rounded-[80px] p-4 '>
+              <div className='w-[390px] bg-white flex h-[100px] m-2 rounded-[80px] p-4 shadow-xl '>
                 <MapPlaceCard place={place} />
               </div>
             </Link>

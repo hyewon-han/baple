@@ -12,11 +12,17 @@ import { useRouter } from 'next/router';
 import ReviewLikes from '@/components/review_details/ReviewLikes';
 import ReviewUpperSection from '@/components/review_details/ReviewUpperSection';
 import { getAllComments } from '@/apis/comments';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/config/configStore';
 
 const ReviewPage = () => {
   const router = useRouter();
   const reviewId = router.query.reviewId as string;
   const [isEditing, setIsEditing] = useState(false);
+
+  const { userId: currentUserId } = useSelector(
+    (state: RootState) => state.auth,
+  );
 
   const { data: comments } = useQuery({
     queryKey: ['comments', reviewId],
@@ -54,6 +60,7 @@ const ReviewPage = () => {
                 review={review}
                 setIsEditing={setIsEditing}
                 isEditing={isEditing}
+                currentUserId={currentUserId}
               />
 
               <Seo title='Review' />

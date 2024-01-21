@@ -1,7 +1,8 @@
 import PlaceCard2 from '@/components/common/PlaceCard2';
+import MainWrapper from '@/components/layout/MainWrapper';
 import { supabase } from '@/libs/supabase';
 import { Tables } from '@/types/supabase';
-import { Button, Input } from '@nextui-org/react';
+import { Button, Input, Spacer } from '@nextui-org/react';
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -100,10 +101,11 @@ const PlacesPage = () => {
   );
 
   return (
-    <div>
-      <div className='flex flex-col'>
-        <div>
-          <div className='flex flex-col gap-4 w-[300px] z-10 fixed top-[8rem] left-[20rem] '>
+    <MainWrapper>
+      <div className='flex gap-6'>
+        {/* 태그 */}
+        <div className='flex w-[20%]'>
+          <div className='flex flex-col gap-4 w-full mt-[50px]'>
             {checkboxButton('is_paid', '# 입장료')}
             {checkboxButton('is_easy_door', '# 장애인용 출입문')}
             {checkboxButton('is_wheelchair_rental', '# 휠체어 대여')}
@@ -114,35 +116,36 @@ const PlacesPage = () => {
             {checkboxButton('is_disabled_parking', '# 장애인용 주차장')}
           </div>
         </div>
-        {/* <p className='text-default-500 text-small'>
-          Selected: {selected.join(', ')}
-        </p> */}
-      </div>
-      <div className='flex justify-center mb-20 mt-10'>
-        <Input
-          placeholder='검색어를 입력하세요'
-          value={searchValue}
-          onValueChange={setSearchValue}
-          className='w-[51rem] '
-        />
-        <Button
-          color='primary'
-          type='submit'
-          className='h-12 ml-10'
-          onClick={handleClickSearch}
-        >
-          검색
-        </Button>
-      </div>
-      <div className='flex justify-center'>
-        <div className='grid grid-cols-3 gap-[5rem]'>
-          {searchedPlaces.map((place, idx) => (
-            <PlaceCard2 key={idx} place={place} />
-          ))}
+        {/* 검색창 */}
+        <div className='w-[70%]'>
+          <div className='flex justify-center mb-4 mt-10 w-full'>
+            <Input
+              placeholder='검색어를 입력하세요'
+              value={searchValue}
+              onValueChange={setSearchValue}
+            />
+            <Button
+              color='primary'
+              type='submit'
+              className='h-[56px] ml-2'
+              onClick={handleClickSearch}
+            >
+              검색
+            </Button>
+          </div>
+          {/* 카드 */}
+          <div className='flex justify-center'>
+            <div className='grid lg:grid-cols-3 sm:grid-cols-2 gap-[3rem] w-full'>
+              {searchedPlaces.map((place, idx) => (
+                <PlaceCard2 key={idx} place={place} />
+              ))}
+            </div>
+          </div>
+
+          <div ref={ref}></div>
         </div>
       </div>
-      <div ref={ref}></div>
-    </div>
+    </MainWrapper>
   );
 };
 

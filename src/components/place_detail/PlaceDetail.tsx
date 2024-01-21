@@ -24,6 +24,7 @@ const PlaceDetail = ({ placeInfo, placeId }: PlaceInfoAllData) => {
   const { data: bookmarkState } = useQuery({
     queryKey: ['bookmark', userInfo.userId, placeId],
     queryFn: () => getBookmark({ userId: userInfo.userId, placeId }),
+    enabled: !!userInfo.userId,
   });
 
   useEffect(() => {

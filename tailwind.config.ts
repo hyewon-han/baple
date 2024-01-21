@@ -86,7 +86,14 @@ module.exports = {
       },
     }),
   ],
-  safelist: ['h-[200px]', 'h-[300px]', 'opacity-100', 'opacity-0'],
+  safelist: [
+    'h-[200px]',
+    'h-[300px]',
+    'visible',
+    'invisible',
+    'opacity-100',
+    'opacity-0',
+  ],
 };
 
 // export default config;

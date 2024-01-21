@@ -37,11 +37,10 @@ const Carousel = ({
         spaceBetween={10} // 슬라이스 사이 간격
         slidesPerView={slidesPerView} // 보여질 슬라이스 수
         navigation={true} // prev, next button
-        // autoplay={{
-        //   delay: 2500,
-        //   disableOnInteraction: false, // 사용자 상호작용시 슬라이더 일시 정지 비활성
-        // }}
-        // scrollbar={{ draggable: true }}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false, // 사용자 상호작용시 슬라이더 일시 정지 비활성
+        }}
         keyboard={{
           enabled: true,
         }}

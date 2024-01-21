@@ -49,11 +49,11 @@ const ReviewWritePage = () => {
         }
         const imageUrl = URL.createObjectURL(file);
         console.log('imageUrl', imageUrl);
-        if (selectedImageArray.length < 5) {
+        if (selectedImageArray.length < 3) {
           selectedImageArray.push({ file, imageUrl });
           selectedFileArray.push(file);
         } else {
-          toastWarn('이미지는 최대 5장까지만 업로드 가능합니다.');
+          toastWarn('이미지는 최대 3장만 업로드 가능합니다.');
         }
       }
       setSelectedImages(selectedImageArray);
@@ -137,70 +137,82 @@ const ReviewWritePage = () => {
   };
 
   return (
-    <div className='p-10 max-w-screen-md mx-auto shadow-lg '>
+    <div className='min-h-screen  py-20'>
       <Seo title='리뷰 작성' />
-      <div className='mb-10 text-3xl font-bold '>{placeInfo?.place_name}</div>
-      <div>
-        <div className='flex items-center mb-8'>
-          <h2 className='text-2xl mr-1 mb-2'>후기</h2>
-          <span className='text-red-500 text-3xl font-bold'>*</span>
+      <div className=' p-20 max-w-screen-md mx-auto shadow '>
+        <Seo title='리뷰 작성' />
+        <div className=' mb-10 text-2xl font-semibold  ;'>
+          <div className='border-b-3  border-yellow-400'>
+            {placeInfo?.place_name}
+          </div>
         </div>
-      </div>
-      <div className='mb-20'>
-        <Textarea
-          value={reviewText}
-          onChange={(event) => setReviewText(event.target.value)}
-          placeholder='다녀오신 장소에서 즐거운 시간을 보내셨나요? 
+        <div>
+          <div className='flex items-center mb-5'>
+            {/* <div></div> 아이콘 들어갈 부분 */}
+            <h2 className='text-xl mr-1 mb-2 font-medium'>후기</h2>
+            <span className='text-red-500 text-2xl font-bold'>*</span>
+          </div>
+        </div>
+        <div className='mb-10'>
+          <Textarea
+            value={reviewText}
+            onChange={(event) => setReviewText(event.target.value)}
+            placeholder='다녀오신 장소에서 즐거운 시간을 보내셨나요? 
           방문 경험을 사용자들과 공유해 주세요!
           리뷰를 보는 사용자를 위해 욕설, 비방, 명예훼손성 표현은 주의해 주세요.'
-          className='w-full p-2 border rounded focus:outline-none focus:border-blue-500'
-        />
-      </div>
-      <h2 className='text-xl'>사진 올리기(최대 5장까지 첨부 가능합니다)</h2>
-      <div className='mb-20 flex gap-6 mt-7'>
-        <label className='relative cursor-pointer'>
-          <input
-            type='file'
-            accept='image/*'
-            multiple
-            onChange={handleImageChange}
-            className='hidden'
+            className='w-full p-2 border rounded focus:outline-none focus:border-blue-500'
           />
-          <div className='w-24 h-24 bg-gray-100 flex items-center justify-center rounded'>
-            <span className='text-3xl'>+</span>
-          </div>
-        </label>
-        {selectedImages.map((image, index) => (
-          <div
-            key={index}
-            className='image-preview relative inline-block w-24 h-24'
-          >
-            <Image
-              src={image.imageUrl}
-              alt={`Selected Image ${index}`}
-              fill
-              style={{ objectFit: 'cover' }}
+        </div>
+        <div className='border-t-3 border-yellow-400 py-9'>
+          <h2 className='text-xl font-medium'>
+            사진 올리기(최대 3장까지 첨부 가능합니다)
+          </h2>
+        </div>
+        <div className='mb-10  flex gap-6 mt-7'>
+          <label className='relative cursor-pointer'>
+            <input
+              type='file'
+              accept='image/*'
+              multiple
+              onChange={handleImageChange}
+              className='hidden'
             />
-            <button
-              onClick={() => handleRemoveImage(index)}
-              className='delete-button absolute font-extrabold right-1 text-gray-200 hover:text-red-500 cursor-pointer'
+            <div className='w-24 h-24 bg-gray-100 flex items-center justify-center rounded'>
+              <span className='text-3xl'>+</span>
+            </div>
+          </label>
+          {selectedImages.map((image, index) => (
+            <div
+              key={index}
+              className='image-preview relative inline-block w-24 h-24'
             >
-              X
-            </button>
-          </div>
-        ))}
-      </div>
-      <div className='flex itmes-center justify-center'>
-        <Spacer x={2} />
-        <Button
-          color='primary'
-          variant='solid'
-          className='px-8'
-          onClick={onSubmitReview}
-          isDisabled={!reviewText}
-        >
-          등록하기
-        </Button>
+              <Image
+                src={image.imageUrl}
+                alt={`Selected Image ${index}`}
+                fill
+                style={{ objectFit: 'cover' }}
+              />
+              <button
+                onClick={() => handleRemoveImage(index)}
+                className='delete-button absolute font-extrabold right-1 text-gray-200 hover:text-red-500 cursor-pointer'
+              >
+                X
+              </button>
+            </div>
+          ))}
+        </div>
+        <div className='flex itmes-center justify-center'>
+          <Spacer x={2} />
+          <Button
+            color='primary'
+            variant='solid'
+            className='px-8'
+            onClick={onSubmitReview}
+            isDisabled={!reviewText}
+          >
+            등록하기
+          </Button>
+        </div>
       </div>
     </div>
   );

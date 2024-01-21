@@ -12,11 +12,20 @@ interface Props {
   review: ReviewWithPlaceAndUser;
   isEditing: boolean;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  currentUserId: string;
 }
 
-const ReviewUpperSection = ({ review, setIsEditing, isEditing }: Props) => {
+const ReviewUpperSection = ({
+  review,
+  setIsEditing,
+  isEditing,
+  currentUserId,
+}: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
+  console.log('uppersection 에서 review', review);
+
+  const showDelEditBtn = currentUserId === review.user_id ? true : false;
 
   const reviewDelteMutate = useMutation({
     mutationFn: deleteReview,
@@ -64,7 +73,7 @@ const ReviewUpperSection = ({ review, setIsEditing, isEditing }: Props) => {
           />
           <p className='text-[25px]'>{review.users.user_name}</p>
         </div>
-        <div className='flex gap-5'>
+        <div className={`flex gap-5 ${showDelEditBtn ? '' : 'hidden'}`}>
           <Button size='sm' color='primary' onClick={reviewDelete}>
             삭제
           </Button>
