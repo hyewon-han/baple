@@ -45,7 +45,7 @@ const PlaceCard2 = ({ place }: Props) => {
         </CardBody>
         <CardFooter className='text-small justify-between'>
           <div className='flex flex-col items-start'>
-            <strong>{place.place_name}</strong>
+            <strong className='mb-3'>{place.place_name}</strong>
             <div className='flex justify-between w-[210px]'>
               <div>
                 <span>📑{reviewsData?.length}</span>
