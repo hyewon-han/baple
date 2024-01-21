@@ -109,7 +109,7 @@ const ReviewWritePage = () => {
         publicUrlList.push(imageData.publicUrl);
       }
       // place의 image_url이 null 이면, 리뷰 이미지의 첫번째 사진으로 place image_url 저장
-      if (placeInfo.image_url === null) {
+      if (placeInfo?.image_url === null) {
         mutateToUpdate({ id: placeId as string, imageUrl: publicUrlList[0] });
       }
     }
@@ -137,7 +137,7 @@ const ReviewWritePage = () => {
   return (
     <div className='p-10 max-w-screen-md mx-auto shadow-lg '>
       <Seo title='리뷰 작성' />
-      <div className='mb-10 text-3xl font-bold '>{placeInfo.place_name}</div>
+      <div className='mb-10 text-3xl font-bold '>{placeInfo?.place_name}</div>
       <div>
         <div className='flex items-center mb-8'>
           <h2 className='text-2xl mr-1 mb-2'>후기</h2>

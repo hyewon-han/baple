@@ -8,13 +8,23 @@ import localFont from 'next/font/local';
 const nanumSquareRound = localFont({
   src: [
     {
+      path: './fonts/NanumSquareRoundL.ttf',
+      weight: '200', // font-extralight
+      style: 'normal',
+    },
+    {
       path: './fonts/NanumSquareRoundR.ttf',
-      weight: '400',
+      weight: '400', // font-normal
       style: 'normal',
     },
     {
       path: './fonts/NanumSquareRoundB.ttf',
-      weight: '700',
+      weight: '700', // font-bold
+      style: 'normal',
+    },
+    {
+      path: './fonts/NanumSquareRoundEB.ttf',
+      weight: '900', // font-black
       style: 'normal',
     },
   ],

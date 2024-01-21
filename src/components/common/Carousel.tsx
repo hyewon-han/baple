@@ -1,10 +1,17 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Scrollbar, Autoplay } from 'swiper/modules';
+import {
+  Navigation,
+  Scrollbar,
+  Autoplay,
+  Pagination,
+  Keyboard,
+} from 'swiper/modules';
 import SwiperCore from 'swiper';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
+import 'swiper/css/pagination';
 import Image from 'next/image';
 
 const Carousel = ({
@@ -21,6 +28,11 @@ const Carousel = ({
   return (
     <section id='imgCarousel' className={`swiper-container mb-[20px]`}>
       <Swiper
+        pagination={{
+          clickable: true,
+        }}
+        modules={[Keyboard, Pagination, Navigation]}
+        className='mySwiper'
         loop={true} // 슬라이드 루프
         spaceBetween={10} // 슬라이스 사이 간격
         slidesPerView={slidesPerView} // 보여질 슬라이스 수
@@ -29,7 +41,10 @@ const Carousel = ({
         //   delay: 2500,
         //   disableOnInteraction: false, // 사용자 상호작용시 슬라이더 일시 정지 비활성
         // }}
-        scrollbar={{ draggable: true }}
+        // scrollbar={{ draggable: true }}
+        keyboard={{
+          enabled: true,
+        }}
       >
         {slideData.map((slide: string) => (
           <SwiperSlide key={slide}>

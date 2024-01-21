@@ -59,7 +59,9 @@ const LogInPage = () => {
       <Seo title='Login' />
 
       <div className='h-screen flex flex-col justify-center items-center gap-2'>
-        <Link href='/'>BAPLE</Link>
+        <Link href='/' className='text-3xl font-black'>
+          BAPLE
+        </Link>
         <form onSubmit={handleSubmit(logInHandler)}>
           <Input
             isClearable
@@ -115,7 +117,7 @@ const LogInPage = () => {
           )}
           <div className='flex flex-col gap-2'>
             <Button
-              color='primary'
+              color='warning'
               type='submit'
               isDisabled={!watchEmail || !watchPassword}
               className=''

@@ -87,7 +87,10 @@ const MyProfile = () => {
       .select()
       .eq('user_name', username);
     if (error) throw error;
-    if (data?.length !== 0) {
+    if (username === undefined) {
+      toastWarn('닉네임을 변경해주세요. 😅');
+      setIsCheckedUsername(false);
+    } else if (data?.length !== 0) {
       toastWarn('이미 사용중인 닉네임 입니다. 😅');
       setIsCheckedUsername(false);
     } else {
@@ -95,6 +98,7 @@ const MyProfile = () => {
       setIsCheckedUsername(true);
     }
   };
+  console.log('newUsername', newUsername);
   return (
     <div className='flex gap-6 items-center justify-center w-full m-6'>
       {isEditing ? (

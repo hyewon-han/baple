@@ -9,6 +9,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
+  Button,
 } from '@nextui-org/react';
 import { RootState } from '@/redux/config/configStore';
 import { useRouter } from 'next/router';
@@ -90,13 +91,13 @@ const Header = () => {
   return (
     <header className='bg-[#FFD029] py-2 font-bold sticky top-0 z-20 shadow-md'>
       <div className='container m-auto flex items-center max-w-[1200px] min-h-[48px] w-[90%]'>
-        <nav className='flex gap-6 w-full justify-between'>
-          <Link href='/'>BAPLE</Link>
+        <nav className='flex gap-6 w-full justify-between items-center'>
+          <Link href='/' className='text-3xl font-black'>
+            BAPLE
+          </Link>
           <Link href='/nearby'>주변 장소</Link>
           <Link href='/places'>장소 검색</Link>
-          <Link href='/place/bf2dafff-f2a1-41ff-942f-056a242e53f1'>
-            장소 상세
-          </Link>
+
           <Link href='/board'>게시판</Link>
 
           {currentUser ? (
@@ -122,8 +123,18 @@ const Header = () => {
             </>
           ) : (
             <>
-              <Link href='/login'>로그인</Link>
-              <Link href='/signup'>회원가입</Link>
+              <div className='flex gap-4'>
+                <Link href='/login'>
+                  <Button variant='solid' color='warning'>
+                    로그인
+                  </Button>
+                </Link>
+                <Link href='/signup'>
+                  <Button variant='bordered' color='warning'>
+                    회원가입
+                  </Button>
+                </Link>
+              </div>
             </>
           )}
         </nav>

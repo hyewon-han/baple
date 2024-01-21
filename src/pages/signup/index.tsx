@@ -68,7 +68,10 @@ const SignupPage = () => {
       .select()
       .eq('user_name', username);
     if (error) throw error;
-    if (data?.length !== 0) {
+    if (watchUsername === undefined) {
+      toastWarn('닉네임을 입력해주세요. 😅');
+      setCheckedUsername(false);
+    } else if (data?.length !== 0) {
       toastWarn('이미 사용중인 닉네임 입니다. 😅');
       setCheckedUsername(false);
     } else {
@@ -81,7 +84,9 @@ const SignupPage = () => {
     <>
       <Seo title='SignUp' />
       <div className='h-screen flex flex-col justify-center items-center'>
-        <Link href='/'>BAPLE</Link>
+        <Link href='/' className='text-3xl font-black'>
+          BAPLE
+        </Link>
         <form onSubmit={handleSubmit(signUpHandler)} className='flex flex-col'>
           <Input
             type='email'

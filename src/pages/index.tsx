@@ -11,8 +11,9 @@ import Carousel from '@/components/common/Carousel';
 const inter = Inter({ subsets: ['latin'] });
 
 const imgList = [
-  'https://viqpcjrcqjtetxqetmpo.supabase.co/storage/v1/object/public/review_images/1705164393565',
-  'https://viqpcjrcqjtetxqetmpo.supabase.co/storage/v1/object/public/review_images/1705164394232',
+  'https://dummyimage.com/1200x400/b8b8b8/fff&text=BAPLE',
+  'https://dummyimage.com/1200x400/000000/fff&text=BAPLE',
+  'https://dummyimage.com/1200x400/f0c518/000000&text=BAPLE',
 ];
 
 const Home = () => {
@@ -33,7 +34,7 @@ const Home = () => {
         <Carousel
           slideData={imgList} // imgList가 없으면 빈배열
           slidesPerView={1} // 보여줄 슬라이스 수
-          slideHeight={'700px'} // 캐러셀 높이
+          slideHeight={'400px'} // 캐러셀 높이
         />
       </section>
       <div className='flex flex-col w-full justify-center items-center'>

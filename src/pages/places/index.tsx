@@ -21,12 +21,9 @@ const PlacesPage = () => {
   const [searchedPlaces, setSearchedPlaces] = useState<Tables<'places'>[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [loading, setLoading] = useState(false);
-  // const [isFinished, setIsFinished] = useState(false);
   const queryClient = useQueryClient();
   const pageSize = 20; // 페이지당 장소 수
 
-  // console.log('searchValue', searchValue);
-  // console.log('aaaa', selected);
   useEffect(() => {
     handleSearch();
   }, [selected]);
@@ -79,7 +76,6 @@ const PlacesPage = () => {
           // setIsFinished(true);
           return;
         }
-
         // console.log('페이징 및 필터링된 데이터:', data);
         setSearchedPlaces([...searchedPlaces, ...data]);
         setCurrentPage((prev) => prev + 1);
@@ -88,9 +84,6 @@ const PlacesPage = () => {
       setLoading(false);
     }
   };
-  // console.log('CurrentPage', currentPage);
-
-  // console.log('searchedPlaces', searchedPlaces);
   const { ref } = useInView({
     threshold: 1,
     onChange: (inView) => {
@@ -148,31 +141,20 @@ const PlacesPage = () => {
           검색
         </Button>
       </div>
-      <div className='grid grid-cols-4'>
-        {/* {places?.pages?.map((page) =>
-          page.map((place: Tables<'places'>, idx: number) => (
-            <PlaceCard2 key={idx} place={place} />
-          )),
-        )} */}
+      <div className='grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
         {searchedPlaces.map((place, idx) => (
           <PlaceCard2 key={idx} place={place} />
         ))}
       </div>
-      {/* {searchedPlaces.length === 0 || isFinished ? null : (
-        <div className='w-full flex justify-center m-2'>
-          <Button onClick={loadMoreData} isDisabled={loading} color='primary'>
-            더보기
-          </Button>
-        </div>
-      )} */}
       <div
-        style={{
-          textAlign: 'center',
-          backgroundColor: 'green',
-          color: 'white',
-          width: '100%',
-          height: 50,
-        }}
+        // style={{
+        //   textAlign: 'center',
+        //   backgroundColor: 'green',
+        //   color: 'white',
+        //   width: '100%',
+        //   height: 50,
+        // }}
+        // className='hidden'
         ref={ref}
       >
         Trigger to Fetch Here
