@@ -30,30 +30,32 @@ const ReviewUpperSection = ({
   const reviewDelteMutate = useMutation({
     mutationFn: deleteReview,
     onSuccess: () => {
-      Swal.fire({
-        icon: 'warning',
-        title: '정말 삭제하시겠습니까?',
-        showCancelButton: true,
-        confirmButtonText: '삭제',
-        cancelButtonText: '취소',
-        confirmButtonColor: '#FFD029',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          queryClient.invalidateQueries({
-            queryKey: ['reviews', review.place_id],
-          });
-          router.back();
-          toastSuccess('삭제 완료');
-        }
+      // toastSuccess('삭제 완료');
+      queryClient.invalidateQueries({
+        queryKey: ['reviews', review.place_id],
       });
     },
+    // router.back();
     onError: () => {
       toastError('문제가 발생하여 삭제하지 못했습니다');
       return;
     },
   });
   const reviewDelete = () => {
-    reviewDelteMutate.mutate(review.id);
+    Swal.fire({
+      icon: 'warning',
+      title: '정말 삭제하시겠습니까?',
+      showCancelButton: true,
+      confirmButtonText: '삭제',
+      cancelButtonText: '취소',
+      confirmButtonColor: '#FFD029',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        reviewDelteMutate.mutate(review.id);
+        router.back();
+        toastSuccess('삭제 완료');
+      }
+    });
   };
 
   return (
