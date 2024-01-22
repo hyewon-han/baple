@@ -40,17 +40,16 @@ const Header = () => {
       const avatarUrl = session?.user.user_metadata.avatar_url;
       const username = session?.user.user_metadata.user_name;
       console.log(event, session);
-      // setUserId(userId);
-      if (event === 'INITIAL_SESSION') {
+      if (event === 'INITIAL_SESSION' && session !== null) {
         setCurrentUser(session?.user);
-        // dispatch(
-        //   logInUser({
-        //     userId,
-        //     email,
-        //     avatarUrl: user?.avatar_url,
-        //     username: user?.user_name,
-        //   }),
-        // );
+        dispatch(
+          logInUser({
+            userId,
+            email,
+            avatarUrl: user?.avatar_url,
+            username: user?.user_name,
+          }),
+        );
         // setusername(username);
       } else if (event === 'SIGNED_IN') {
         // handle sign in event

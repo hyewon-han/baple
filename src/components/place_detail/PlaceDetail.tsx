@@ -5,10 +5,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { toastWarn } from '@/libs/toastifyAlert';
+import { toastSuccess, toastWarn } from '@/libs/toastifyAlert';
 import { Chip } from '@nextui-org/react';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { shareKakao } from '@/utils/shareKaKao';
+import Image from 'next/image';
 
 interface PlaceInfoAllData {
   placeId: string;
@@ -126,9 +127,11 @@ const PlaceDetail = ({ placeInfo, placeId }: PlaceInfoAllData) => {
     if (isBookmarked) {
       setIsBookmarked(false);
       delBookmark.mutate({ userId: userInfo.userId, placeId });
+      toastSuccess('북마크에 해제되었습니다');
     } else {
       setIsBookmarked(true);
       addBookmark.mutate({ userId: userInfo.userId, placeId });
+      toastSuccess('북마크에 추가되었습니다');
     }
   };
 
@@ -148,6 +151,14 @@ const PlaceDetail = ({ placeInfo, placeId }: PlaceInfoAllData) => {
             {userInfo.isLoggedIn ? (
               isBookmarked ? (
                 <>
+                  {/* <Image
+                    src='/images/icons/bookmark.svg'
+                    alt='bookmark'
+                    width={34}
+                    height={34}
+                    className='cursor-pointer mr-[10px]'
+                    onClick={toggleBookmark}
+                  /> */}
                   <FaBookmark
                     className='cursor-pointer mr-[10px]'
                     size='34px'
@@ -167,6 +178,14 @@ const PlaceDetail = ({ placeInfo, placeId }: PlaceInfoAllData) => {
                 </>
               ) : (
                 <>
+                  {/* <Image
+                    src='/images/icons/bookmark.svg'
+                    alt='bookmark'
+                    width={34}
+                    height={34}
+                    className='cursor-pointer mr-[10px]'
+                    onClick={toggleBookmark}
+                  /> */}
                   <FaRegBookmark
                     className='cursor-pointer mr-[10px]'
                     size='34px'
@@ -187,6 +206,14 @@ const PlaceDetail = ({ placeInfo, placeId }: PlaceInfoAllData) => {
               )
             ) : (
               <>
+                {/* <Image
+                  src='/images/icons/bookmark.svg'
+                  alt='bookmark'
+                  width={34}
+                  height={34}
+                  className='cursor-pointer'
+                  onClick={showAlert}
+                /> */}
                 <FaRegBookmark
                   className='cursor-pointer'
                   size='34px'
@@ -229,10 +256,7 @@ const PlaceDetail = ({ placeInfo, placeId }: PlaceInfoAllData) => {
                 {infoDetails[index]}
               </Chip>
             ) : (
-              <Chip
-                className='rounded-xl text-lg w-full max-w-full max-w text-center'
-                color='primary'
-              >
+              <Chip className='rounded-xl text-lg w-full max-w-full max-w text-center'>
                 {infoDetails[index]}
               </Chip>
             )}

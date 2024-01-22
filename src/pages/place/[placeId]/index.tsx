@@ -1,7 +1,6 @@
 import { getPlaceInfo } from '@/apis/places';
 import { getReviewsByPlaceIdrpc } from '@/apis/reviews';
 import MainWrapper from '@/components/layout/MainWrapper';
-import Carousel from '@/components/common/Carousel';
 import { useQuery } from '@tanstack/react-query';
 import PlaceDetail from '@/components/place_detail/PlaceDetail';
 import { useRouter } from 'next/router';

@@ -60,20 +60,6 @@ const BoardWritePage = () => {
           onSubmit={handleSubmit(createPost)}
           className='w-[70%] p-4 shadow-md '
         >
-          <Select
-            id='category'
-            className='mb-[10px]'
-            placeholder='카테고리 선택'
-            {...register('category', {
-              required: '카테고리를 입력하세요',
-            })}
-          >
-            {categoryList.map((category) => (
-              <SelectItem key={category.value} value={category.value}>
-                {category.label}
-              </SelectItem>
-            ))}
-          </Select>
           <Input
             type='text'
             label='제목'
@@ -83,15 +69,32 @@ const BoardWritePage = () => {
               required: '제목을 입력하세요',
             })}
           />
-          <Input
-            type='text'
-            variant='bordered'
-            label='장소'
-            className='mb-[10px]'
-            {...register('placeName', {
-              required: '장소를 입력하세요',
-            })}
-          />
+          <div className='flex gap-2'>
+            <Select
+              id='category'
+              variant='bordered'
+              className='mb-[10px] w-[40%]'
+              placeholder='카테고리 선택'
+              {...register('category', {
+                required: '카테고리를 입력하세요',
+              })}
+            >
+              {categoryList.map((category) => (
+                <SelectItem key={category.value} value={category.value}>
+                  {category.label}
+                </SelectItem>
+              ))}
+            </Select>
+            <Input
+              type='text'
+              variant='bordered'
+              label='장소'
+              className='mb-[10px]'
+              {...register('placeName', {
+                required: '장소를 입력하세요',
+              })}
+            />
+          </div>
           <Textarea
             type='text'
             variant='bordered'

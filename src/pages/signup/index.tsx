@@ -33,7 +33,7 @@ const SignupPage = () => {
 
   const [isVisible1, setIsVisible1] = useState(false);
   const [isVisible2, setIsVisible2] = useState(false);
-  const [checkedUsername, setCheckedUsername] = useState(false);
+  const [isCheckedUsername, setIsCheckedUsername] = useState(false);
   const toggleVisibility1 = () => setIsVisible1(!isVisible1);
   const toggleVisibility2 = () => setIsVisible2(!isVisible2);
 
@@ -67,16 +67,23 @@ const SignupPage = () => {
       .from('users')
       .select()
       .eq('user_name', username);
+    console.log('data', data);
     if (error) throw error;
     if (watchUsername === undefined) {
       toastWarn('닉네임을 입력해주세요. 😅');
-      setCheckedUsername(false);
+      setIsCheckedUsername(false);
+    } else if (watchUsername.length < 2) {
+      toastWarn('2글자 이상의 닉네임을 입력해주세요. 😅');
+      setIsCheckedUsername(false);
+    } else if (watchUsername.length > 8) {
+      toastWarn('8글자 이하의 닉네임을 입력해주세요. 😅');
+      setIsCheckedUsername(false);
     } else if (data?.length !== 0) {
       toastWarn('이미 사용중인 닉네임 입니다. 😅');
-      setCheckedUsername(false);
+      setIsCheckedUsername(false);
     } else {
       toastSuccess('사용 가능한 닉네임 입니다. 😄');
-      setCheckedUsername(true);
+      setIsCheckedUsername(true);
     }
   };
 
@@ -214,7 +221,7 @@ const SignupPage = () => {
               !watchPassword ||
               !watchConfirmPassword ||
               !watchUsername ||
-              !checkedUsername
+              !isCheckedUsername
             }
           >
             회원 가입

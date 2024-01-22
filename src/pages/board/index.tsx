@@ -3,7 +3,7 @@ import MainWrapper from '@/components/layout/MainWrapper';
 import { toastWarn } from '@/libs/toastifyAlert';
 import { RootState } from '@/redux/config/configStore';
 import { formatDate } from '@/utils/dateFormatter';
-import { Button, Divider } from '@nextui-org/react';
+import { Button, Divider, Spacer } from '@nextui-org/react';
 import {
   Table,
   TableHeader,
@@ -103,23 +103,7 @@ const BoardPage = () => {
     <MainWrapper>
       <header className='flex mt-[50px] mb-[30px] justify-between'>
         <h2 className='text-3xl font-bold'>게시판</h2>
-        {userInfo.userId ? (
-          <Button
-            className='bg-primary px-8 py-2 rounded-full text-black'
-            onClick={() => router.push('/board/write')}
-          >
-            글쓰기
-          </Button>
-        ) : (
-          <Button
-            className='bg-primary px-8 py-2 rounded-full text-black'
-            onClick={() => toastWarn('로그인 후 이용해주세요')}
-          >
-            글쓰기
-          </Button>
-        )}
       </header>
-      <Divider className='bg-primary h-0.5 mb-[30px]' />
 
       <Table
         aria-label='Example table with dynamic content'
@@ -161,6 +145,25 @@ const BoardPage = () => {
           )}
         </TableBody>
       </Table>
+      <Spacer y={8} />
+      <Divider className='bg-primary h-0.5 mb-[18px]' />
+      <div className='text-right'>
+        {userInfo.userId ? (
+          <Button
+            className='bg-primary px-8 py-2 rounded-full text-black'
+            onClick={() => router.push('/board/write')}
+          >
+            글쓰기
+          </Button>
+        ) : (
+          <Button
+            className='bg-primary px-8 py-2 rounded-full text-black'
+            onClick={() => toastWarn('로그인 후 이용해주세요')}
+          >
+            글쓰기
+          </Button>
+        )}
+      </div>
     </MainWrapper>
   );
 };
