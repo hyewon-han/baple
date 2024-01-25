@@ -1,40 +1,29 @@
 import React, { useState } from 'react';
 import { Button, Input } from '@nextui-org/react';
 import newComment from '@/utils/newComment';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { insertNewComment } from '@/apis/comments';
-import { toast } from 'react-toastify';
-// import { USER_ID } from '@/constants/temp_develop';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
 import { useForm, FieldErrors, FieldValues } from 'react-hook-form';
-import { toastSuccess, toastWarn } from '@/libs/toastifyAlert';
+import { toastWarn } from '@/libs/toastifyAlert';
+import { useComments } from '@/hooks/useComments';
+import Image from 'next/image';
 
 interface Props {
   reviewId: string;
   commentsCount: number | undefined;
+  placeId: string | undefined;
 }
 
-const CommentInput = ({ reviewId, commentsCount }: Props) => {
+const CommentInput = ({ reviewId, placeId, commentsCount }: Props) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: 'onSubmit' });
   const { isLoggedIn, userId } = useSelector((state: RootState) => state.auth);
-  // console.log('로그인됨?>>', isLoggedIn, 'uid >>', userId);
-  // console.log('리액트훅폼 에러>>', errors);
+  const { insertComment } = useComments(userId as string, placeId);
 
   const [comment, setComment] = useState('');
-
-  const queryClient = useQueryClient();
-  const InsertMutate = useMutation({
-    mutationFn: insertNewComment,
-    onSuccess: () => {
-      toastSuccess('댓글이 성공적으로 등록되었습니다!');
-      queryClient.invalidateQueries({ queryKey: ['comments'] });
-    },
-  });
 
   const submitComment = async () => {
     // e.preventDefault();
@@ -42,11 +31,8 @@ const CommentInput = ({ reviewId, commentsCount }: Props) => {
       toastWarn('로그인 후 이용해 주세요');
       return;
     }
-
     const newCommentData = new newComment(reviewId, userId, comment);
-
-    InsertMutate.mutate(newCommentData);
-
+    insertComment(newCommentData);
     setComment('');
   };
 
@@ -59,10 +45,22 @@ const CommentInput = ({ reviewId, commentsCount }: Props) => {
 
   return (
     <div>
-      <strong className='ml-2'>댓글</strong>
-      <span className='px-[10px]'>댓글아이콘 : {commentsCount}</span>
+      <div className='flex gap-x-2'>
+        <strong className='ml-2 text-lg'>댓글</strong>
+        <span className='px-[10px] flex items-center'>
+          <Image
+            src='/images/icons/comment_select.svg'
+            width={20}
+            height={20}
+            alt='comment icon'
+            className='mr-2'
+          />
+          {commentsCount}
+        </span>
+      </div>
+
       <form
-        className='flex gap-5 items-center border border-t-2 border-b-2 border-l-0 border-r-0 border-primary py-[20px]'
+        className='flex gap-5 items-center border border-t-2 border-b-2 border-l-0 border-r-0 py-[20px]'
         onSubmit={handleSubmit(submitComment, onError)}
       >
         <Input

@@ -27,7 +27,7 @@ const PlacePage = () => {
   const placeId: string = router.query.placeId as string;
   const [toggle, setToggle] = useState('map');
   const [recentOrder, setRecentOrder] = useState(true);
-  const userInfo = useSelector((state: RootState) => state.auth);
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
 
   const { data: placeInfo, isLoading: placeInfoLoading } = useQuery({
     queryKey: ['placeInfo', placeId],
@@ -63,9 +63,9 @@ const PlacePage = () => {
     <MainWrapper>
       <Seo title={placeInfo.place_name} />
       {/* 이미지 캐러셀 */}
-      <div className='flex justify-between h-[500px] mb-[50px] mt-[80px]'>
+      <div className='flex flex-col items-center justify-start h-auto md:h-[500px] mb-[50px] mt-[20px] md:mt-[80px] md:flex-row md:justify-between'>
         {imgList && (
-          <div className='w-[48%]'>
+          <div className='w-[90%] mb-[20px] md:w-[48%]'>
             <CarouselThumb
               slideData={
                 imgList.length !== 0
@@ -95,10 +95,19 @@ const PlacePage = () => {
           level={5}
           maxLevel={5}
         >
-          <MapMarker position={placePosition} />
+          <MapMarker
+            position={placePosition}
+            image={{
+              src: '/images/icons/marker.svg', // 마커이미지의 주소입니다
+              size: {
+                width: 44,
+                height: 40,
+              },
+            }}
+          />
           {toggle === 'map' && (
             <Button
-              className='absolute flex  z-10 top-[3px] left-[130px] w-[90px] h-[32px] justify-center'
+              className='absolute flex z-10 top-[3px] left-[130px] w-[90px] h-[32px] justify-center'
               variant='solid'
               color='primary'
               onClick={() => setToggle('roadview')}
@@ -143,9 +152,10 @@ const PlacePage = () => {
       <section>
         <div className='flex mt-[100px] mb-[30px] justify-between'>
           <h2 className='text-3xl font-bold'>방문자 리뷰</h2>
-          {userInfo.isLoggedIn ? (
+          {isLoggedIn ? (
             <Button
-              className='bg-primary px-8 py-2 rounded-full text-black'
+              color='primary'
+              className=' px-8 py-2 rounded-full '
               onClick={() => router.push(`/review/write/${placeId}`)}
             >
               리뷰 작성하기
@@ -159,7 +169,7 @@ const PlacePage = () => {
             </Button>
           )}
         </div>
-        <Divider className='bg-primary h-0.5 mb-[30px]' />
+        <Divider className='h-0.5 mb-[30px]' />
         <div className='text-right mb-[20px] px-[10px]'>
           <span
             className={`mr-[20px] text-gray-500 text-sm cursor-pointer ${

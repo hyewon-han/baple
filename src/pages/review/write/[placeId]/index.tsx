@@ -8,13 +8,13 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { insertNewReview } from '@/apis/reviews';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { supabase } from '@/libs/supabase';
 import { toastSuccess, toastWarn } from '@/libs/toastifyAlert';
 import { getPlaceInfo, updatePlaceImage } from '@/apis/places';
 import Seo from '@/components/layout/Seo';
+import { useReviews } from '@/hooks/useReviews';
 
 const ReviewWritePage = () => {
   const [reviewText, setReviewText] = useState('');
@@ -64,15 +64,8 @@ const ReviewWritePage = () => {
   console.log('selectedImages', selectedImages);
   console.log('selectedFiles', selectedFiles);
   const queryClient = useQueryClient();
-  const { mutate: mutateToAdd } = useMutation({
-    mutationFn: insertNewReview,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries([
-        'reviews',
-        placeId,
-      ] as InvalidateQueryFilters);
-    },
-  });
+
+  const { insertReview } = useReviews(undefined, placeId as string);
 
   const { mutate: mutateToUpdate } = useMutation({
     mutationFn: updatePlaceImage,
@@ -130,7 +123,7 @@ const ReviewWritePage = () => {
       userId,
       publicUrlList,
     };
-    mutateToAdd(args);
+    insertReview(args);
     toastSuccess('리뷰가 등록되었습니다.');
     // setReviewText('');
     router.replace(`/place/${placeId}`);

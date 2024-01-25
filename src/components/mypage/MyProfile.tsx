@@ -11,7 +11,8 @@ import { supabase } from '@/libs/supabase';
 import { MdPhotoCameraBack } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
-import { toastSuccess, toastWarn } from '@/libs/toastifyAlert';
+import { toastWarn } from '@/libs/toastifyAlert';
+import { validateUsername } from '@/utils/validationUtils';
 
 const MyProfile = () => {
   const { username, avatarUrl, userId } = useSelector(
@@ -81,30 +82,6 @@ const MyProfile = () => {
     }
   };
 
-  const validateUsername = async (username: string) => {
-    const { data, error } = await supabase
-      .from('users')
-      .select()
-      .eq('user_name', username);
-    if (error) throw error;
-    if (username === undefined) {
-      toastWarn('닉네임을 변경해주세요. 😅');
-      setIsCheckedUsername(false);
-    } else if (username.length < 2) {
-      toastWarn('2글자 이상의 닉네임을 입력해주세요. 😅');
-      setIsCheckedUsername(false);
-    } else if (username.length > 8) {
-      toastWarn('8글자 이하의 닉네임을 입력해주세요. 😅');
-      setIsCheckedUsername(false);
-    } else if (data?.length !== 0) {
-      toastWarn('이미 사용중인 닉네임 입니다. 😅');
-      setIsCheckedUsername(false);
-    } else {
-      toastSuccess('사용 가능한 닉네임 입니다. 😄');
-      setIsCheckedUsername(true);
-    }
-  };
-  console.log('newUsername', newUsername);
   return (
     <div className='flex gap-6 items-center justify-center w-full m-6'>
       {isEditing ? (
@@ -137,7 +114,11 @@ const MyProfile = () => {
                 onChange={(e) => setNewUsername(e.target.value)}
                 className='w-32'
               />
-              <Button onClick={() => validateUsername(newUsername)}>
+              <Button
+                onClick={() =>
+                  validateUsername(newUsername, setIsCheckedUsername)
+                }
+              >
                 중복 확인
               </Button>
             </div>
@@ -161,7 +142,6 @@ const MyProfile = () => {
             <Button
               onClick={() => {
                 setIsEditing(false);
-                // setImagePreview('');
                 setIsCheckedAvatar(false);
                 setIsCheckedUsername(false);
               }}

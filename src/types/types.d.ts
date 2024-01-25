@@ -32,6 +32,9 @@ export interface CommentsWithUser extends Tables<'comments'> {
     avatar_url: string;
     user_name: string;
   };
+  reviews: {
+    place_id: string;
+  };
 }
 
 export interface ReviewCard {
@@ -92,4 +95,23 @@ export interface Maplocation {
   };
   errMsg: string | null;
   isLoading: boolean;
+}
+
+export interface PlacesForPlaceCard {
+  bookmarks_count: number;
+  reviews_count: number;
+  city: string;
+  image_url: string;
+  place_name: string;
+  unique_place_id: string;
+}
+export interface PlacesForSearch extends PlacesForPlaceCard {
+  is_paid: boolean;
+  is_easy_door: boolean;
+  is_wheelchair_rental: boolean;
+  is_guide_dog: boolean;
+  is_braille_guide: boolean;
+  is_audio_guide: boolean;
+  is_disabled_toilet: boolean;
+  is_disabled_parking: boolean;
 }

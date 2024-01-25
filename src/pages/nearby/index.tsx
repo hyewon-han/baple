@@ -1,3 +1,4 @@
+import MainWrapper from '@/components/layout/MainWrapper';
 import Seo from '@/components/layout/Seo';
 import EventMarkerContainer from '@/components/map/MarkerContainer';
 import MylocationButton from '@/components/map/MylocationButton';
@@ -7,7 +8,9 @@ import { supabase } from '@/libs/supabase';
 import { placesData } from '@/redux/modules/placesDataSlice';
 import { Tables } from '@/types/supabase';
 import { Maplocation } from '@/types/types';
+import { Spinner } from '@nextui-org/react';
 import axios from 'axios';
+import Script from 'next/script';
 import React, { useEffect, useState } from 'react';
 import {
   CustomOverlayMap,
@@ -44,6 +47,8 @@ const NearByPage = () => {
   const [cityName, setCityName] = useState<string>('');
   const [place, setplace] = useState<Tables<'places'>[] | null>([]);
   const dispatch = useDispatch();
+
+  // console.log('windowkakao', window.kakao);
   /**
    * 현재 할것
    * 1. 현재 위경도 값을 동적으로 변환 시키기 위해 sdk제공 코드 사용
@@ -116,6 +121,7 @@ const NearByPage = () => {
               lat: position.coords.latitude,
               lng: position.coords.longitude,
             },
+            isLoading: false,
           }));
           setMyLocation((prev) => ({
             ...prev,
@@ -123,6 +129,7 @@ const NearByPage = () => {
               lat: position.coords.latitude,
               lng: position.coords.longitude,
             },
+            isLoading: false,
           }));
         },
         (err) => {
@@ -143,60 +150,65 @@ const NearByPage = () => {
   }, []);
 
   return (
-    <div style={{ position: 'relative', display: 'flex' }}>
-      <Seo title='내 근처 장소' />
-      <Map // 지도를 표시할 Container
-        center={location.center}
-        style={{
-          // 지도의 크기
-          width: '100%',
-          height: '93vh',
-        }}
-        level={7} // 지도의 확대 레벨
-        maxLevel={7}
-        draggable={true}
-        zoomable={true}
-        keyboardShortcuts={true}
-        scrollwheel={true}
-        onDragEnd={(map) =>
-          setLocation({
-            center: {
-              lat: map.getCenter().getLat(),
-              lng: map.getCenter().getLng(),
-            },
-            errMsg: null,
-            isLoading: false,
-          })
-        }
-      >
-        <MapMarker
-          position={mylocation.center}
-          image={{
-            src: '/images/icons/character.svg', // 마커이미지의 주소입니다
-            size: {
-              width: 44,
-              height: 40,
-            },
+    <div
+      style={{ position: 'relative', display: 'flex' }}
+      // className='overflow-y-hidden'
+    >
+      <Seo title='내 주변 장소' />
+      {!mylocation.isLoading ? (
+        <Map // 지도를 표시할 Container
+          center={location.center}
+          style={{
+            // 지도의 크기
+            width: '100%',
+            height: '93vh',
           }}
-        />
-        {/* <div style={{ padding: '5px', color: '#000' }}>
-            {mylocation.errMsg ? mylocation.errMsg : '현재위치'}
-          </div>
-        </MapMarker> */}
-        <MylocationOverlayMap mylocation={mylocation} />
+          level={8} // 지도의 확대 레벨
+          maxLevel={8}
+          draggable={true}
+          zoomable={true}
+          keyboardShortcuts={true}
+          scrollwheel={true}
+          onDragEnd={(map) =>
+            setLocation({
+              center: {
+                lat: map.getCenter().getLat(),
+                lng: map.getCenter().getLng(),
+              },
+              errMsg: null,
+              isLoading: false,
+            })
+          }
+        >
+          <MapMarker
+            position={mylocation.center}
+            image={{
+              src: '/images/icons/character.svg', // 마커이미지의 주소입니다
+              size: {
+                width: 44,
+                height: 40,
+              },
+            }}
+          />
+          <MylocationOverlayMap mylocation={mylocation} />
 
-        {/* 커스텀 오버레이를 뿌려줌 */}
-        {place?.map((place) => (
-          <EventMarkerContainer key={place.id} place={place} />
-        ))}
-        {place?.length !== 0 ? (
-          <PlacesModal cityName={cityName} regionName={regionName} />
-        ) : null}
+          {/* 커스텀 오버레이를 뿌려줌 */}
+          {place?.map((place) => (
+            <EventMarkerContainer key={place.id} place={place} />
+          ))}
+          {place?.length !== 0 ? (
+            <PlacesModal cityName={cityName} regionName={regionName} />
+          ) : null}
 
-        <MylocationButton mylocation={mylocation} setLocation={setLocation} />
-        <MapTypeControl position={'TOPLEFT'} />
-        <ZoomControl position={'LEFT'} />
-      </Map>
+          <MylocationButton mylocation={mylocation} setLocation={setLocation} />
+          <MapTypeControl position={'TOPLEFT'} />
+          <ZoomControl position={'LEFT'} />
+        </Map>
+      ) : (
+        <div className='w-[100%] h-[90vh] flex items-center justify-center'>
+          <Spinner label='로딩중!' color='warning' />
+        </div>
+      )}
     </div>
   );
 };

@@ -18,6 +18,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
+import _ from 'lodash';
 
 const rows = [
   {
@@ -56,7 +57,7 @@ const columns = [
     label: '제목',
   },
   {
-    key: 'content',
+    key: 'user_name',
     label: '작성자',
   },
   {
@@ -80,20 +81,23 @@ const BoardPage = () => {
     select: (posts) => {
       return posts.map((post) => ({
         ...post,
+        user_name: post.users.user_name,
         created_at: formatDate(post.created_at),
       }));
     },
   });
 
-  const postsPerPage = 4;
-  const pages = Math.ceil((posts?.length || 0) / postsPerPage);
+  const recentOrder = _.orderBy(posts, 'created_at', 'desc');
+
+  const postsPerPage = 10;
+  const pages = Math.ceil((recentOrder?.length || 0) / postsPerPage);
 
   const items = useMemo(() => {
     const start = (page - 1) * postsPerPage;
     const end = start + postsPerPage;
 
-    return posts?.slice(start, end);
-  }, [page, posts]);
+    return recentOrder?.slice(start, end);
+  }, [page, recentOrder]);
 
   if (isLoading) {
     return <p>로딩중...</p>;
@@ -105,6 +109,7 @@ const BoardPage = () => {
         <h2 className='text-3xl font-bold'>게시판</h2>
       </header>
 
+      <Divider className='bg-primary h-0.5 mb-[18px]' />
       <Table
         aria-label='Example table with dynamic content'
         bottomContent={
@@ -114,19 +119,24 @@ const BoardPage = () => {
               showControls
               showShadow
               color='primary'
+              variant='light'
               page={page}
               total={pages}
               onChange={(page) => setPage(page)}
+              classNames={{ wrapper: 'shadow-none' }}
             />
           </div>
         }
         classNames={{
-          wrapper: 'min-h-[222px]',
+          wrapper: 'min-h-[222px] shadow-none',
         }}
       >
         <TableHeader columns={columns}>
           {(column) => (
-            <TableColumn key={column.key} className='text-center'>
+            <TableColumn
+              key={column.key}
+              className='text-center bg-white text-black text-xl'
+            >
               {column.label}
             </TableColumn>
           )}
@@ -150,14 +160,14 @@ const BoardPage = () => {
       <div className='text-right'>
         {userInfo.userId ? (
           <Button
-            className='bg-primary px-8 py-2 rounded-full text-black'
+            className='bg-primary px-8 py-2 rounded-full text-white'
             onClick={() => router.push('/board/write')}
           >
             글쓰기
           </Button>
         ) : (
           <Button
-            className='bg-primary px-8 py-2 rounded-full text-black'
+            className='bg-primary px-8 py-2 rounded-full text-white'
             onClick={() => toastWarn('로그인 후 이용해주세요')}
           >
             글쓰기

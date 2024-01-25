@@ -7,8 +7,10 @@ import MostReviews from '@/components/home/MostReviews';
 import MostBookmarks from '@/components/home/MostBookmarks';
 import { Spacer } from '@nextui-org/react';
 import Carousel from '@/components/common/Carousel';
+import { getTopBookmarkedPlaces, getTopReviewedPlaces } from '@/apis/places';
+import { PlacesForPlaceCard } from '@/types/types';
 
-const inter = Inter({ subsets: ['latin'] });
+// const inter = Inter({ subsets: ['latin'] });
 
 const imgList = [
   'https://dummyimage.com/1200x400/b8b8b8/fff&text=BAPLE',
@@ -16,20 +18,21 @@ const imgList = [
   'https://dummyimage.com/1200x400/f0c518/000000&text=BAPLE',
 ];
 
-const Home = () => {
-  const { username, userId } = useSelector((state: RootState) => state.auth);
+interface Props {
+  topBookmarked: PlacesForPlaceCard[];
+  topReviewed: PlacesForPlaceCard[];
+}
+
+const Home = ({ topBookmarked, topReviewed }: Props) => {
+  // const { username, userId } = useSelector((state: RootState) => state.auth);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
   return (
-    <>
-      {isLoaded && (
-        <div className='container'>
-          <Seo title='Home' />
-        </div>
-      )}
+    <div>
+      <Seo title='Home' />
       <section className='mb-[80px]'>
         <Carousel
           slideData={imgList} // imgList가 없으면 빈배열
@@ -38,13 +41,19 @@ const Home = () => {
         />
       </section>
       <div className='flex flex-col w-full justify-center items-center'>
-        <MostReviews />
+        <MostReviews initialData={topReviewed} />
         <Spacer y={10} />
-        <MostBookmarks />
+        <MostBookmarks initialData={topBookmarked} />
         <Spacer y={20} />
       </div>
-    </>
+    </div>
   );
 };
 
 export default Home;
+
+export async function getServerSideProps() {
+  const topBookmarked = await getTopBookmarkedPlaces();
+  const topReviewed = await getTopReviewedPlaces();
+  return { props: { topBookmarked, topReviewed } };
+}

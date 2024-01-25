@@ -1,9 +1,9 @@
 class newComment {
   content: string;
   review_id: string;
-  user_id: string;
+  user_id: string | null;
 
-  constructor(reviewId: string, userId: string, content: string) {
+  constructor(reviewId: string, userId: string | null, content: string) {
     // this.id = nanoid();
     this.content = content;
     this.review_id = reviewId;

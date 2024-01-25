@@ -1,8 +1,8 @@
 import { supabase } from '@/libs/supabase';
 
 interface Props {
-  userId: string;
-  placeId: string;
+  userId: string | null;
+  placeId: string | null;
 }
 
 // 북마크 추가

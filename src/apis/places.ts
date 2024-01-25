@@ -1,4 +1,5 @@
 import { supabase } from '@/libs/supabase';
+import { PlacesForPlaceCard } from '@/types/types';
 import { QueryFunction } from '@tanstack/react-query';
 
 export const getPlaceInfo = async (id: string) => {
@@ -71,3 +72,33 @@ export const fetchPlacesData = async ({
   return data;
 };
 */
+export const getMyBookmarkedPlaces = async (userId: string) => {
+  const { data, error } = await supabase.rpc('get_bookmarked_places2', {
+    p_user_id: userId,
+  });
+
+  if (error) {
+    throw error;
+  }
+
+  return data as PlacesForPlaceCard[];
+};
+
+export const getTopReviewedPlaces = async () => {
+  const { data, error } = await supabase.rpc('get_top_reviewed_places');
+
+  if (error) {
+    throw error;
+  }
+
+  return data as PlacesForPlaceCard[];
+};
+export const getTopBookmarkedPlaces = async () => {
+  const { data, error } = await supabase.rpc('get_top_bookmarked_places');
+
+  if (error) {
+    throw error;
+  }
+
+  return data as PlacesForPlaceCard[];
+};

@@ -14,9 +14,9 @@ export const getUserDataById = async (userId: string | null) => {
 };
 
 type Props = {
-  userId: string;
-  newUsername: string;
-  newAvatarUrl?: string;
+  userId: string | null;
+  newUsername: string | null;
+  newAvatarUrl?: string | null;
 };
 
 // mutateFn

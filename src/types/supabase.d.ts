@@ -82,7 +82,7 @@ export interface Database {
       };
       comments: {
         Row: {
-          content: string | null;
+          content: string;
           created_at: string;
           id: string;
           review_id: string | null;

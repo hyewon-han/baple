@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app';
 import Providers from './providers';
 import { useRouter } from 'next/router';
 import localFont from 'next/font/local';
+import Script from 'next/script';
 
 const nanumSquareRound = localFont({
   src: [
@@ -30,9 +31,6 @@ const nanumSquareRound = localFont({
   ],
   variable: '--font-nanum-square-round',
 });
-
-import Script from 'next/script';
-import { useEffect } from 'react';
 
 declare global {
   interface Window {

@@ -23,16 +23,6 @@ module.exports = {
     ];
   },
   reactStrictMode: false,
-
-  // webpack: (config) => {
-  //   config.module.rules.push({
-  //     test: /\.svg$/i,
-  //     issuer: /\.[jt]sx?$/,
-  //     use: ['@svgr/webpack'],
-  //   });
-  //   return config;
-  // },
-
   images: {
     remotePatterns: [
       {
@@ -54,5 +44,13 @@ module.exports = {
         pathname: '/**',
       },
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/kakaomap',
+        destination: `http://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&libraries=services&autoload=false;`,
+      },
+    ];
   },
 };

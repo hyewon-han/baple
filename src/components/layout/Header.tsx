@@ -22,7 +22,12 @@ const Header = () => {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<any>(null);
   // const [userId, setUserId] = useState('');
-  const { userId } = useSelector((state: RootState) => state.auth);
+  const { userId, isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   const {
     data: user,
@@ -50,7 +55,6 @@ const Header = () => {
             username: user?.user_name,
           }),
         );
-        // setusername(username);
       } else if (event === 'SIGNED_IN') {
         // handle sign in event
         setCurrentUser(session?.user);
@@ -88,63 +92,103 @@ const Header = () => {
     if (error) throw error;
     router.push('/');
   };
+
   return (
-    <header className='bg-[#FFD029] py-2 font-bold sticky top-0 z-20 shadow-md'>
-      <div className='container m-auto flex items-center max-w-[1200px] min-h-[48px] w-[90%]'>
-        <nav className='flex gap-6 w-full justify-between items-center'>
-          <Link href='/' className='text-3xl font-black'>
-            <Image
-              src='/images/icons/basic-logo.svg'
-              alt='main logo'
-              width={100}
-              height={50}
-            />
-          </Link>
-          <Link href='/nearby'>주변 장소</Link>
-          <Link href='/places'>장소 검색</Link>
-
-          <Link href='/board'>게시판</Link>
-
-          {currentUser ? (
-            <>
-              <span>반가워요 {user?.user_name}님!</span>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Avatar
-                    showFallback
-                    src={user?.avatar_url}
-                    className='hover:brightness-50 transition cursor-pointer'
+    <>
+      {isLoaded ? (
+        <header className='py-2 font-bold sticky top-0 z-20 shadow-xl bg-white'>
+          <div className='m-auto flex items-center min-h-[48px] w-[90%]'>
+            <nav className='flex sm:flex w-full justify-between items-center'>
+              {isLoggedIn ? (
+                <div className='block sm:hidden w-full'></div>
+              ) : null}
+              <div className='flex w-full justify-center '>
+                <Link href='/' className='flex justify-center'>
+                  <Image
+                    src='/images/icons/basic-logo.svg'
+                    alt='main logo'
+                    width={100}
+                    height={50}
                   />
-                </DropdownTrigger>
-                <DropdownMenu aria-label='Static Actions'>
-                  <DropdownItem key='mypage' href={`/user/${currentUser.id}`}>
-                    마이페이지
-                  </DropdownItem>
-                  <DropdownItem key='logout' onClick={logOutHandler}>
-                    로그아웃
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </>
-          ) : (
-            <>
-              <div className='flex gap-4'>
-                <Link href='/login'>
-                  <Button variant='solid' color='warning'>
-                    로그인
-                  </Button>
                 </Link>
-                <Link href='/signup'>
-                  <Button variant='bordered' color='warning'>
-                    회원가입
-                  </Button>
-                </Link>
+                <div className='hidden sm:flex gap-16 items-center w-full justify-center'>
+                  <Link
+                    href='/nearby'
+                    className={` ${
+                      router.pathname === '/nearby'
+                        ? 'text-primary'
+                        : 'text-gray-500'
+                    }`}
+                  >
+                    내 주변 장소
+                  </Link>
+                  <Link
+                    href='/places'
+                    className={` ${
+                      router.pathname === '/places'
+                        ? 'text-primary'
+                        : 'text-gray-500'
+                    }`}
+                  >
+                    장소 검색
+                  </Link>
+                  <Link
+                    href='/board'
+                    className={` ${
+                      router.pathname === '/board'
+                        ? 'text-primary'
+                        : 'text-gray-500'
+                    }`}
+                  >
+                    게시판
+                  </Link>
+                </div>
               </div>
-            </>
-          )}
-        </nav>
-      </div>
-    </header>
+              {currentUser ? (
+                <div className='flex gap-4 items-center w-full justify-end'>
+                  <span className='hidden sm:block'>
+                    반가워요 {user?.user_name}님!
+                  </span>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Avatar
+                        showFallback
+                        src={user?.avatar_url}
+                        className='hover:brightness-50 transition cursor-pointer'
+                      />
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label='Static Actions'>
+                      <DropdownItem
+                        key='mypage'
+                        href={`/user/${currentUser.id}`}
+                      >
+                        마이페이지
+                      </DropdownItem>
+                      <DropdownItem key='logout' onClick={logOutHandler}>
+                        로그아웃
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+              ) : (
+                <div className='hidden sm:flex gap-4 w-full justify-end'>
+                  <Link href='/login'>
+                    <Button variant='solid' color='primary'>
+                      로그인
+                    </Button>
+                  </Link>
+                  <Link href='/signup'>
+                    <Button variant='bordered' color='primary'>
+                      회원가입
+                    </Button>
+                  </Link>
+                </div>
+              )}
+            </nav>
+          </div>
+        </header>
+      ) : null}
+    </>
   );
 };
 

@@ -7,13 +7,15 @@ import { Card, CardBody, Tabs, Tab } from '@nextui-org/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
 import CardProfile from './MyProfile';
+import { getMyBookmarkedPlaces } from '@/apis/places';
+import PlaceCard from '../common/PlaceCard';
 
 const MyTabs = () => {
   const { userId } = useSelector((state: RootState) => state.auth);
 
   const { data: bookmarkedPlaces, isLoading: isBookmarksLoading } = useQuery({
-    queryKey: ['bookmark', userId],
-    queryFn: () => getBookmarksByUserId(userId),
+    queryKey: ['bookmarkRPC', userId],
+    queryFn: () => getMyBookmarkedPlaces(userId),
     enabled: !!userId,
   });
 
@@ -40,7 +42,7 @@ const MyTabs = () => {
     <div className='flex w-full flex-col'>
       <Tabs
         aria-label='Options'
-        color='warning'
+        color='primary'
         className='w-full flex justify-center'
         size='lg'
         variant='underlined'
@@ -49,9 +51,9 @@ const MyTabs = () => {
           <Card>
             <CardBody>
               {bookmarkedPlaces?.length !== 0 ? (
-                <div className='grid grid-cols-4 gap-12'>
+                <div className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-12'>
                   {bookmarkedPlaces?.map((place, idx) => (
-                    <PlaceCard2 key={idx} place={place} />
+                    <PlaceCard key={idx} place={place} />
                   ))}
                 </div>
               ) : (

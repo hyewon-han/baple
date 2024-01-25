@@ -1,18 +1,17 @@
 import { Avatar, Button, Divider, Spacer } from '@nextui-org/react';
 import React from 'react';
 import type { ReviewWithPlaceAndUser } from '@/types/types';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteReview } from '@/apis/reviews';
-import { toastError, toastSuccess } from '@/libs/toastifyAlert';
+import { toastSuccess } from '@/libs/toastifyAlert';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Swal from 'sweetalert2';
+import { useReviews } from '@/hooks/useReviews';
 
 interface Props {
   review: ReviewWithPlaceAndUser;
   isEditing: boolean;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
-  currentUserId: string;
+  currentUserId: string | null;
 }
 
 const ReviewUpperSection = ({
@@ -21,26 +20,16 @@ const ReviewUpperSection = ({
   isEditing,
   currentUserId,
 }: Props) => {
-  const queryClient = useQueryClient();
   const router = useRouter();
-  console.log('uppersection 에서 review', review);
 
   const showDelEditBtn = currentUserId === review.user_id ? true : false;
 
-  const reviewDelteMutate = useMutation({
-    mutationFn: deleteReview,
-    onSuccess: () => {
-      // toastSuccess('삭제 완료');
-      queryClient.invalidateQueries({
-        queryKey: ['reviews', review.place_id],
-      });
-    },
-    // router.back();
-    onError: () => {
-      toastError('문제가 발생하여 삭제하지 못했습니다');
-      return;
-    },
-  });
+  const { deleteReview } = useReviews(
+    undefined,
+    review.place_id,
+    currentUserId as string,
+  );
+
   const reviewDelete = () => {
     Swal.fire({
       icon: 'warning',
@@ -48,10 +37,10 @@ const ReviewUpperSection = ({
       showCancelButton: true,
       confirmButtonText: '삭제',
       cancelButtonText: '취소',
-      confirmButtonColor: '#FFD029',
+      confirmButtonColor: '#7b4cff',
     }).then((result) => {
       if (result.isConfirmed) {
-        reviewDelteMutate.mutate(review.id);
+        deleteReview(review.id);
         router.back();
         toastSuccess('삭제 완료');
       }
@@ -65,8 +54,9 @@ const ReviewUpperSection = ({
         <strong className='text-2xl'>{review.places.place_name}</strong>
       </Link>
       <Spacer y={5} />
+      <Divider className='h-0.5' />
 
-      <div className='flex justify-between items-center gap-4 border-t-3 border-primary py-5'>
+      <div className='flex justify-between items-center gap-4 py-5'>
         <div className='flex  items-center gap-4'>
           <Avatar
             className='w-[88px] h-[88px]'

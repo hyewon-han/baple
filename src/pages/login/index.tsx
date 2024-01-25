@@ -58,11 +58,14 @@ const LogInPage = () => {
     <>
       <Seo title='Login' />
 
-      <div className='h-screen flex flex-col justify-center items-center gap-2'>
+      <div className='h-screen flex flex-col justify-center items-center gap-4'>
         <Link href='/' className='text-3xl font-black'>
           BAPLE
         </Link>
-        <form onSubmit={handleSubmit(logInHandler)}>
+        <form
+          onSubmit={handleSubmit(logInHandler)}
+          className='flex flex-col gap-2'
+        >
           <Input
             isClearable
             type='email'
@@ -117,7 +120,7 @@ const LogInPage = () => {
           )}
           <div className='flex flex-col gap-2'>
             <Button
-              color='warning'
+              color='primary'
               type='submit'
               isDisabled={!watchEmail || !watchPassword}
               className=''
