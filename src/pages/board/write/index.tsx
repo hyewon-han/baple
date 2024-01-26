@@ -10,12 +10,11 @@ const BoardWritePage = () => {
 
   return (
     <MainWrapper>
-      <header className='flex mt-[50px] justify-between'>
+      <header className='flex mt-[50px] mb-3 sm:mb-6 justify-between'>
         <h2 className='text-2xl md:text-3xl font-bold'>
           {isEdit ? '게시글 수정' : '게시글 작성'}
         </h2>
       </header>
-      <Spacer y={6} />
       <Divider className='bg-primary h-0.5' />
       <Spacer y={6} />
       <Editor isEdit={isEdit} />

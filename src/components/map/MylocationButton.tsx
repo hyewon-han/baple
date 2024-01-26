@@ -21,7 +21,6 @@ const MylocationButton = ({
     <div className='absolute flex  z-10 top-[3px] left-[130px] w-[90px] h-[32px] justify-center'>
       <Button
         color='primary'
-        className='bg-[#FFD029]'
         onClick={() => {
           map.setCenter(location);
           setLocation({

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Avatar, Input } from '@nextui-org/react';
 import { formatDate } from '@/utils/dateFormatter';
-import type { CommentsWithUser } from '@/types/types';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
 import { useComments } from '@/hooks/useComments';
 import Swal from 'sweetalert2';
+
+import type { CommentsWithUser } from '@/types/types';
 
 interface Props {
   comment: CommentsWithUser;
@@ -45,15 +46,16 @@ const CommentCard = ({ comment }: Props) => {
             showFallback
             className='h-100px h-[60px] w-[60px]'
             radius='full'
-            // size='lg'
           />
           <div className='w-full flex justify-between'>
             <div className='flex flex-col gap-3'>
-              <div className='flex gap-x-6'>
+              <div className='flex gap-x-6 items-center'>
                 <strong className='text-md text-lg'>
                   {comment.users?.user_name}
                 </strong>
-                <span>{formatDate(comment.created_at)}</span>
+                <span className='text-gray-500 text-[13px]'>
+                  {formatDate(comment.created_at)}
+                </span>
               </div>
               {isEditing ? (
                 <Input

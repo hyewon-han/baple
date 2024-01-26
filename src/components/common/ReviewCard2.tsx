@@ -3,9 +3,10 @@ import { Avatar, Spacer } from '@nextui-org/react';
 import Link from 'next/link';
 import { formatDate } from '@/utils/dateFormatter';
 import Image from 'next/image';
-import type { ReviewsFromRPC } from '@/types/types';
 import { useRouter } from 'next/router';
 import { useViewport } from '@/hooks/useViewport';
+
+import type { ReviewsFromRPC } from '@/types/types';
 
 interface Props {
   review: ReviewsFromRPC;
@@ -65,8 +66,8 @@ const ReviewCard2 = ({ review }: Props) => {
               </div>
             </div>
           </section>
-          <section className='flex text-end flex-col items-end justify-between h-auto w-[15%]'>
-            <span className='text-sm w-[90px] text-gray-500'>
+          <section className='flex text-end flex-col items-end justify-between h-auto w-[30%]'>
+            <span className='text-sm text-gray-500'>
               {formatDate(review.created_at)}
             </span>
             <div className='flex justify-end gap-3'>

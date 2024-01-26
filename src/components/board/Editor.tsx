@@ -127,6 +127,7 @@ const Editor = ({ isEdit }: Props) => {
           name='title'
           value={inputs.title}
           onChange={inputChange}
+          maxLength={20}
         />
         <div className='flex gap-2'>
           <select
@@ -157,6 +158,7 @@ const Editor = ({ isEdit }: Props) => {
             value={inputs.place_name}
             className='mb-[10px]'
             onChange={inputChange}
+            maxLength={16}
           />
         </div>
         <Textarea
@@ -172,7 +174,7 @@ const Editor = ({ isEdit }: Props) => {
         <Spacer y={6} />
         <Divider className='bg-primary h-0.5 mb-[30px]' />
 
-        <div className='text-right'>
+        <div className='text-right mb-6 sm:mb-0'>
           <Button
             className='mr-[10px] rounded-full px-8'
             onClick={() => router.back()}

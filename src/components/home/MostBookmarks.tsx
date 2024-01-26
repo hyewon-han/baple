@@ -1,23 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
-import { getPlaceInfoList, getTopBookmarkedPlaces } from '@/apis/places';
+import { getTopBookmarkedPlaces } from '@/apis/places';
 import PlaceCard from '../common/PlaceCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
-import { getPlacesByBookmarkCount } from '@/apis/bookmarks';
-
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
 import { Spacer } from '@nextui-org/react';
-import { PlacesForPlaceCard } from '@/types/types';
 import { useViewport } from '@/hooks/useViewport';
+
+import type { PlacesForPlaceCard } from '@/types/types';
 
 interface Props {
   initialData: PlacesForPlaceCard[];
 }
 
 const MostBookmarks = ({ initialData }: Props) => {
-  const { isTablet } = useViewport();
+  const { isMobile } = useViewport();
   const { data: topBookmarkedPlacesList, isLoading: placesListLoading } =
     useQuery({
       queryKey: ['topBookmarkedPlacesList'],
@@ -41,7 +40,7 @@ const MostBookmarks = ({ initialData }: Props) => {
       <Swiper
         loop={true} // 슬라이드 루프
         spaceBetween={20}
-        slidesPerView={isTablet ? 2 : 4}
+        slidesPerView={isMobile ? 1 : 4}
         navigation={true} // prev, next button
         modules={[Navigation, Autoplay]}
         autoplay={true}

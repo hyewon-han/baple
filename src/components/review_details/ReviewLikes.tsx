@@ -80,6 +80,10 @@ const ReviewLikes = ({ review }: Props) => {
   // 토글 공유 버튼
   const toggleShareBtn = () => {
     setIsShown((prev) => !prev);
+    if (!isShown) {
+      const time = setTimeout((isShown) => setIsShown(false), 5000);
+      return () => clearTimeout(time);
+    }
   };
 
   // 클립보드 url 복사
@@ -92,70 +96,84 @@ const ReviewLikes = ({ review }: Props) => {
 
   return (
     <div className='relative'>
-      <div className='absolute left-[-120px] z-10'>
+      <div className='absolute right-[100px] top-[20px] xl:left-[-90px] z-10'>
         {/* 좋아요 */}
-        <div className='flex flex-col justify-center items-center fixed top-[120px] w-auto h-auto p-3 rounded-full bg-slate-200'>
+        <div className='flex xl:flex-col justify-center items-center absolute xl:fixed top-[-250px] xl:top-[120px] w-[100px] xl:w-auto h-[40px] xl:h-auto p-3 rounded-full border border-gray-200 shadow-sm'>
           {isLoggedIn ? (
             isLiked ? (
-              <>
-                <Image
-                  src='/images/icons/filled-heart.svg'
-                  alt=''
-                  width={34}
-                  height={34}
-                  onClick={toggleLikes}
-                  className='cursor-pointer'
-                />
-                {/* <FcLike
-                  className='cursor-pointer'
-                  size='30px'
-                  onClick={toggleLikes}
-                /> */}
-                <span className='mb-[4px]'>{likeCount?.length}</span>
-              </>
+              <div className='flex xl:flex-col xl:items-center'>
+                <div className='w-[24px] h-[24px] mr-[6px] xl:mr-0 xl:w-[34px] xl:h-[34px] xl:mb-[4px]'>
+                  <Image
+                    src='/images/icons/filled-heart.svg'
+                    alt=''
+                    width={34}
+                    height={34}
+                    onClick={toggleLikes}
+                    className='cursor-pointer'
+                  />
+                </div>
+
+                <span className='mr-[6px] xl:mr-0 xl:mb-[4px]'>
+                  {likeCount?.length}
+                </span>
+              </div>
             ) : (
-              <>
+              <div className='flex xl:flex-col xl:items-center'>
+                <div className='w-[24px] h-[24px] mr-[6px] xl:mr-0 xl:w-[34px] xl:h-[34px] xl:mb-[4px]'>
+                  <Image
+                    src='/images/icons/empty-heart.svg'
+                    alt=''
+                    width={34}
+                    height={34}
+                    onClick={toggleLikes}
+                    className='cursor-pointer'
+                  />
+                </div>
+
+                <span className='mr-[6px] xl:mr-0 xl:mb-[4px]'>
+                  {likeCount?.length}
+                </span>
+              </div>
+            )
+          ) : (
+            <div className='flex xl:flex-col xl:items-center'>
+              <div className='w-[24px] h-[24px] mr-[6px] xl:mr-0 xl:w-[34px] xl:h-[34px] xl:mb-[4px]'>
                 <Image
                   src='/images/icons/empty-heart.svg'
                   alt=''
                   width={34}
                   height={34}
-                  onClick={toggleLikes}
+                  onClick={showLoginAlert}
                   className='cursor-pointer'
                 />
-                {/* <FcLikePlaceholder
-                  className='cursor-pointer'
-                  size='30px'
-                  onClick={toggleLikes}
-                /> */}
-                <span className='mb-[4px]'>{likeCount?.length}</span>
-              </>
-            )
-          ) : (
-            <>
+              </div>
+              <span className='mr-[6px] xl:mr-0 xl:mb-[4px]'>
+                {likeCount?.length}
+              </span>
+            </div>
+          )}
+
+          {/* 토글버튼 */}
+          <div>
+            <div className='w-[24px] h-[24px] mr-[4px] xl:mr-0 xl:w-[34px] xl:h-[34px]'>
               <Image
-                src='/images/icons/empty-heart.svg'
-                alt=''
+                src='/images/icons/share_select.svg'
+                alt='share button'
                 width={34}
                 height={34}
-                onClick={showLoginAlert}
+                onClick={toggleShareBtn}
                 className='cursor-pointer'
               />
-              <span className='mb-[4px]'>{likeCount?.length}</span>
-              {/* <FcLikePlaceholder
-               className='cursor-pointer mb-[10px]'
-               size='30px'
-               onClick={showLoginAlert}
-             /> */}
-            </>
-          )}
+            </div>
+          </div>
+
           {/* 공유하기 */}
           <div className='z-[5] relative w-full'>
             <div className='absolute'>
               <div
                 className={`${isShown ? 'visible' : 'invisible'} opacity-${
                   isShown ? '100' : '0'
-                } absolute w-[50px] h-[50px] bg-slate-300 top-[-40px] left-[44px] rounded-full flex justify-center items-center transition-opacity duration-200 ease-in-out`}
+                } absolute w-[50px] h-[50px] bg-slate-300 top-[20px] xl:top-[-65px] left-[-70px] xl:left-[44px] rounded-full flex justify-center items-center transition-opacity duration-200 ease-in-out`}
               >
                 <RiKakaoTalkFill
                   size={24}
@@ -172,7 +190,7 @@ const ReviewLikes = ({ review }: Props) => {
               <div
                 className={`${isShown ? 'visible' : 'invisible'} opacity-${
                   isShown ? '100' : '0'
-                } absolute w-[50px] h-[50px] bg-slate-300 top-[20px] left-[44px] rounded-full flex justify-center items-center transition-all duration-200 ease-in-out`}
+                } absolute w-[50px] h-[50px] bg-slate-300 top-[20px] xl:top-[-10px] left-[-16px] xl:left-[44px] rounded-full flex justify-center items-center transition-all duration-200 ease-in-out`}
               >
                 <FaPaperclip
                   size={24}
@@ -182,19 +200,6 @@ const ReviewLikes = ({ review }: Props) => {
               </div>
             </div>
           </div>
-          <Image
-            src='/images/icons/share.svg'
-            alt='share button'
-            width={34}
-            height={34}
-            onClick={toggleShareBtn}
-            className='cursor-pointer'
-          />
-          {/* <FaShareAlt
-            size='30px'
-            className='cursor-pointer'
-            onClick={toggleShareBtn}
-          /> */}
         </div>
       </div>
     </div>

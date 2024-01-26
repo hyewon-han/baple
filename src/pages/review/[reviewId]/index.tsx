@@ -25,7 +25,7 @@ const ReviewPage = () => {
     (state: RootState) => state.auth,
   );
 
-  const { isTablet } = useViewport();
+  const { isTablet, isMobile } = useViewport();
 
   const { data: comments } = useQuery({
     queryKey: ['comments', reviewId],
@@ -72,7 +72,7 @@ const ReviewPage = () => {
             <Carousel
               slideData={imgUrl}
               slideHeight={'300px'}
-              slidesPerView={isTablet ? 2 : 3}
+              slidesPerView={isMobile ? 1 : 3}
             />
           )}
           <Spacer y={10} />

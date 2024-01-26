@@ -44,7 +44,6 @@ const Header = () => {
       const email = session?.user.email;
       const avatarUrl = session?.user.user_metadata.avatar_url;
       const username = session?.user.user_metadata.user_name;
-      console.log(event, session);
       if (event === 'INITIAL_SESSION' && session !== null) {
         setCurrentUser(session?.user);
         dispatch(
@@ -69,6 +68,7 @@ const Header = () => {
       } else if (event === 'SIGNED_OUT') {
         dispatch(logOutUser());
         setCurrentUser(null);
+        // window.history.replaceState(null, '', '/');
       } else if (event === 'PASSWORD_RECOVERY') {
         // handle password recovery event
       } else if (event === 'TOKEN_REFRESHED') {
@@ -96,7 +96,7 @@ const Header = () => {
   return (
     <>
       {isLoaded ? (
-        <header className='py-2 font-bold sticky top-0 z-20 shadow-xl bg-white'>
+        <header className='py-2 font-bold sticky top-0 z-20 shadow-xl bg-white bg-opacity-95'>
           <div className='m-auto flex items-center min-h-[48px] w-[90%]'>
             <nav className='flex sm:flex w-full justify-between items-center'>
               {isLoggedIn ? (
@@ -111,10 +111,10 @@ const Header = () => {
                     height={50}
                   />
                 </Link>
-                <div className='hidden sm:flex gap-16 items-center w-full justify-center'>
+                <div className='hidden md:flex gap-16 items-center w-full justify-center '>
                   <Link
                     href='/nearby'
-                    className={` ${
+                    className={`hover:text-primary ${
                       router.pathname === '/nearby'
                         ? 'text-primary'
                         : 'text-gray-500'
@@ -124,7 +124,7 @@ const Header = () => {
                   </Link>
                   <Link
                     href='/places'
-                    className={` ${
+                    className={`hover:text-primary ${
                       router.pathname === '/places'
                         ? 'text-primary'
                         : 'text-gray-500'
@@ -134,7 +134,7 @@ const Header = () => {
                   </Link>
                   <Link
                     href='/board'
-                    className={` ${
+                    className={`hover:text-primary ${
                       router.pathname === '/board'
                         ? 'text-primary'
                         : 'text-gray-500'

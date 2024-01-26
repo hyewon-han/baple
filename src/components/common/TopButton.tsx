@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { FaArrowUp } from 'react-icons/fa';
 
 const TopButton = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -27,13 +28,11 @@ const TopButton = () => {
   return (
     <div
       onClick={scrollToTop}
-      className={`z-20 fixed bottom-8 right-8 bg-blue-500 p-2 cursor-pointer transition-opacity ${
+      className={`z-20 fixed bottom-8 right-8 p-2 bg-primary rounded-full w-12 h-12 cursor-pointer transition-opacity flex justify-center items-center shadow-lg ${
         isVisible ? 'opacity-100' : 'opacity-0'
       }`}
     >
-      <span className='bg-primary text-white font-black text-2xl p-5 rounded-full w-full h-full'>
-        &uarr;
-      </span>
+      <FaArrowUp className='text-white w-6 h-6' />
     </div>
   );
 };

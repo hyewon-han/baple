@@ -14,20 +14,28 @@ import {
   RoadviewMarker,
   ZoomControl,
 } from 'react-kakao-maps-sdk';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Divider } from '@nextui-org/react';
 import CarouselThumb from '@/components/common/Carousel_Thumb';
 import PaiginatedReviews from '@/components/place_detail/PaiginatedReviews';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
-import { toastWarn } from '@/libs/toastifyAlert';
+import { toastSuccess, toastWarn } from '@/libs/toastifyAlert';
+import PlaceDetailHeader from '@/components/place_detail/PlaceDetailHeader';
+import { getBookmark } from '@/apis/bookmarks';
+import { useBookmarks } from '@/hooks/useBookmarks';
+
+export type ToggleBookmarkType = () => void;
+export type ShowAlertType = () => void;
 
 const PlacePage = () => {
   const router = useRouter();
   const placeId: string = router.query.placeId as string;
   const [toggle, setToggle] = useState('map');
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
   const [recentOrder, setRecentOrder] = useState(true);
-  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const { userId, isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const { insertBookmark, deleteBookmark } = useBookmarks(userId, placeId);
 
   const { data: placeInfo, isLoading: placeInfoLoading } = useQuery({
     queryKey: ['placeInfo', placeId],
@@ -45,6 +53,16 @@ const PlacePage = () => {
     },
   });
 
+  const { data: bookmarkState } = useQuery({
+    queryKey: ['bookmark', userId, placeId],
+    queryFn: () => getBookmark({ userId, placeId }),
+    enabled: !!userId,
+  });
+
+  useEffect(() => {
+    setIsBookmarked(bookmarkState ? bookmarkState.length > 0 : false);
+  }, [bookmarkState]);
+
   const imgList = reviews?.recentOrder
     ?.map((item) => item.images_url)
     .flat()
@@ -55,6 +73,24 @@ const PlacePage = () => {
     lng: placeInfo?.lng,
   };
 
+  // 버튼 토글
+  const toggleBookmark = () => {
+    if (isBookmarked) {
+      setIsBookmarked(false);
+      deleteBookmark({ userId, placeId });
+      toastSuccess('북마크가 해제되었습니다');
+    } else {
+      setIsBookmarked(true);
+      insertBookmark({ userId, placeId });
+      toastSuccess('북마크에 추가되었습니다');
+    }
+  };
+
+  // 모달
+  const showAlert = () => {
+    toastWarn('로그인 후 이용해 주세요');
+  };
+
   if (placeInfoLoading || reviewLoading) {
     return <div>Loading...</div>;
   }
@@ -62,23 +98,38 @@ const PlacePage = () => {
   return (
     <MainWrapper>
       <Seo title={placeInfo.place_name} />
+      <div className='flex items-center justify-between w-full mb-[20px] sm:hidden'>
+        <PlaceDetailHeader
+          placeId={placeId}
+          placeInfo={placeInfo}
+          isLoggedIn={isLoggedIn}
+          isBookmarked={isBookmarked}
+          toggleBookmark={toggleBookmark}
+          showAlert={showAlert}
+        />
+      </div>
       {/* 이미지 캐러셀 */}
-      <div className='flex flex-col items-center justify-start h-auto md:h-[500px] mb-[50px] mt-[20px] md:mt-[80px] md:flex-row md:justify-between'>
+      <div className='flex flex-col items-center justify-start h-auto sm:h-[500px] mb-[50px] mt-[10px] sm:mt-[80px] sm:flex-row sm:justify-between'>
         {imgList && (
-          <div className='w-[90%] mb-[20px] md:w-[48%]'>
+          <div className='w-full mb-[20px] sm:w-[48%]'>
             <CarouselThumb
               slideData={
                 imgList.length !== 0
                   ? imgList
                   : ['https://dummyimage.com/600x400/000/fff.png&text=baple']
               } // imgList가 없으면 빈배열
-              slidesPerView={1} // 보여줄 슬라이스 수
-              slideHeight={'700px'} // 캐러셀 높이
             />
           </div>
         )}
         {/* 장소 상세정보 */}
-        <PlaceDetail placeInfo={placeInfo} placeId={placeId} />
+        <PlaceDetail
+          placeInfo={placeInfo}
+          placeId={placeId}
+          isLoggedIn={isLoggedIn}
+          isBookmarked={isBookmarked}
+          toggleBookmark={toggleBookmark}
+          showAlert={showAlert}
+        />
       </div>
 
       {/* 지도 */}
@@ -92,8 +143,8 @@ const PlacePage = () => {
             height: '500px',
             display: toggle === 'map' ? 'block' : 'none',
           }}
-          level={5}
-          maxLevel={5}
+          level={8}
+          maxLevel={8}
         >
           <MapMarker
             position={placePosition}
@@ -151,11 +202,11 @@ const PlacePage = () => {
       {/* 리뷰 */}
       <section>
         <div className='flex mt-[100px] mb-[30px] justify-between'>
-          <h2 className='text-3xl font-bold'>방문자 리뷰</h2>
+          <h2 className='text-2xl sm:text-3xl font-bold'>방문자 리뷰</h2>
           {isLoggedIn ? (
             <Button
               color='primary'
-              className=' px-8 py-2 rounded-full '
+              className='px-4 sm:px-8 py-2 rounded-full text-sm sm:text-md'
               onClick={() => router.push(`/review/write/${placeId}`)}
             >
               리뷰 작성하기

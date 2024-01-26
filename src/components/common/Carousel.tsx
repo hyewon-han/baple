@@ -26,7 +26,7 @@ const Carousel = ({
   SwiperCore.use([Navigation, Scrollbar, Autoplay]);
 
   return (
-    <section id='imgCarousel' className={`swiper-container mb-[20px]`}>
+    <section id='imgCarousel' className={`swiper-container mb-[50px]`}>
       <Swiper
         pagination={{
           clickable: true,
@@ -47,7 +47,7 @@ const Carousel = ({
       >
         {slideData.map((slide: string) => (
           <SwiperSlide key={slide}>
-            <div className={`bg-slate-400 h-[${slideHeight}]`}>
+            <div className={`h-[${slideHeight}]`}>
               <Image
                 src={slide}
                 width={200}

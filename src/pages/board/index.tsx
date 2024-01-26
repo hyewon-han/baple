@@ -4,76 +4,19 @@ import { toastWarn } from '@/libs/toastifyAlert';
 import { RootState } from '@/redux/config/configStore';
 import { formatDate } from '@/utils/dateFormatter';
 import { Button, Divider, Spacer } from '@nextui-org/react';
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
-  Pagination,
-} from '@nextui-org/react';
+import { Pagination } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
-
-const rows = [
-  {
-    key: '1',
-    category: '신규',
-    title: '화장실 공사중이에요',
-    content: '홍길동',
-    place_name: '관악구민',
-    created_at: '24-01-19',
-  },
-  {
-    key: '2',
-    category: '불편사항',
-    title: '경사가 있어요',
-    content: '임꺽정',
-    place_name: '시청',
-    created_at: '24-01-19',
-  },
-  {
-    key: '3',
-    category: '신규',
-    title: '여름엔 문 닫아요',
-    content: '빨강머리 앤',
-    place_name: '아이스링크장',
-    created_at: '24-01-19',
-  },
-];
-
-const columns = [
-  {
-    key: 'category',
-    label: '카테고리',
-  },
-  {
-    key: 'title',
-    label: '제목',
-  },
-  {
-    key: 'user_name',
-    label: '작성자',
-  },
-  {
-    key: 'place_name',
-    label: '장소',
-  },
-  {
-    key: 'created_at',
-    label: '작성일',
-  },
-];
+import { useViewport } from '@/hooks/useViewport';
 
 const BoardPage = () => {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const userInfo = useSelector((state: RootState) => state.auth);
+  const { isMobile } = useViewport();
 
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ['posts'],
@@ -105,59 +48,66 @@ const BoardPage = () => {
 
   return (
     <MainWrapper>
-      <header className='flex mt-[50px] mb-[30px] justify-between'>
-        <h2 className='text-3xl font-bold'>게시판</h2>
+      <header className='flex mt-[50px] mb-3 sm:mb-6 justify-between'>
+        <h2 className='text-2xl sm:text-3xl font-bold'>게시판</h2>
       </header>
 
       <Divider className='bg-primary h-0.5 mb-[18px]' />
-      <Table
-        aria-label='Example table with dynamic content'
-        bottomContent={
-          <div className='flex w-full justify-center'>
-            <Pagination
-              isCompact
-              showControls
-              showShadow
-              color='primary'
-              variant='light'
-              page={page}
-              total={pages}
-              onChange={(page) => setPage(page)}
-              classNames={{ wrapper: 'shadow-none' }}
-            />
-          </div>
-        }
-        classNames={{
-          wrapper: 'min-h-[222px] shadow-none',
-        }}
-      >
-        <TableHeader columns={columns}>
-          {(column) => (
-            <TableColumn
-              key={column.key}
-              className='text-center bg-white text-black text-xl'
-            >
-              {column.label}
-            </TableColumn>
-          )}
-        </TableHeader>
-        <TableBody items={items}>
-          {(item) => (
-            <TableRow
-              key={item.key}
-              className='cursor-pointer hover:scale-[1.003] text-center'
+      <table className='w-[96%] m-auto h-auto'>
+        <thead>
+          <tr className='text-lg sm:text-xl'>
+            <th>카테고리</th>
+            <th>제목</th>
+            <th className='hidden md:table-cell lg:table-cell'>작성자</th>
+            <th className='hidden lg:table-cell'>장소</th>
+            <th className='hidden lg:table-cell'>작성일</th>
+          </tr>
+        </thead>
+        <tbody>
+          {items.map((item) => (
+            <tr
+              key={item.id}
+              className='cursor-pointer hover:scale-[1.003] text-sm h-[40px]'
               onClick={() => router.push(`board/${item.id}`)}
             >
-              {(columnKey) => (
-                <TableCell>{getKeyValue(item, columnKey)}</TableCell>
-              )}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+              <td className='text-center'>{item.category}</td>
+              <td className='text-center w-[70%] lg:w-[50%] pre-line'>
+                {isMobile
+                  ? item.title.length > 14
+                    ? item.title.slice(0, 14) + '...'
+                    : item.title
+                  : item.title}
+              </td>
+              <td className='text-center hidden md:table-cell lg:table-cell'>
+                {item.users.user_name}
+              </td>
+              <td className='text-center hidden lg:table-cell whitespace-nowrap'>
+                {item.place_name.length > 10
+                  ? item.place_name.substr(0, 10) + '...'
+                  : item.place_name}
+              </td>
+              <td className='text-center hidden lg:table-cell'>
+                {item.created_at.slice(0, 11)}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <Spacer y={6} />
+      <div className='flex justify-center w-full'>
+        <Pagination
+          isCompact
+          showControls
+          showShadow
+          color='primary'
+          page={page}
+          total={pages}
+          onChange={(page) => setPage(page)}
+        />
+      </div>
       <Spacer y={8} />
       <Divider className='bg-primary h-0.5 mb-[18px]' />
-      <div className='text-right'>
+      <div className='text-right mb-6 sm:mb-0'>
         {userInfo.userId ? (
           <Button
             className='bg-primary px-8 py-2 rounded-full text-white'

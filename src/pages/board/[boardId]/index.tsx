@@ -44,18 +44,20 @@ const BoardPostPage = () => {
 
   return (
     <MainWrapper>
-      <header className='flex mt-[50px] items-center'>
-        <h2 className='text-2xl mr-5 md:text-3xl font-bold'>{post.title}</h2>
-        <span className='text-gray-600 font-bold text-md md:text-lg'>
+      <header className='flex flex-col sm:flex-row mt-[50px] mb-3 sm:mb-6 items-start sm:items-center'>
+        <h2 className='text-2xl mr-3 sm:mr-5 sm:text-3xl font-bold order-2 sm:order-1'>
+          {post.title}
+        </h2>
+        <span className='text-gray-600 font-bold text-sm sm:text-lg mb-1 sm:mb-0 order-1 sm:order-2'>
           {post.category}
         </span>
       </header>
-      <Spacer y={3} />
+
       <Divider className='bg-primary h-0.5' />
 
       <Spacer y={8} />
-      <div className='flex justify-between'>
-        <div className='flex justify-between w-full items-center gap-4'>
+      <div className='flex justify-between px-4'>
+        <div className='flex flex-col sm:flex-row justify-between w-full items-start gap-2 sm:gap-4'>
           <div className='flex items-center gap-4'>
             <Avatar
               size='sm'
@@ -65,20 +67,20 @@ const BoardPostPage = () => {
             <p className='text-md'>{post.users?.user_name}</p>
           </div>
           <div className='flex items-center'>
-            <span className='text-gray-400'>{formatDate(post.created_at)}</span>
+            <span className='text-sm sm:text-base text-gray-400'>
+              {formatDate(post.created_at)}
+            </span>
           </div>
         </div>
       </div>
-      <Spacer y={8} />
-
-      <div className='w-full min-h-[200px] p-4 rounded-md'>
-        <p>{post.content}</p>
+      <div className='w-full min-h-[200px] p-4 rounded-md sm:mt-2'>
+        <p className='break-all whitespace-pre-wrap'>{post.content}</p>
       </div>
       <Spacer y={5} />
       <Divider className='bg-primary h-0.5' />
       <Spacer y={5} />
       {userInfo.userId === post.user_id ? (
-        <div className='flex justify-end gap-5'>
+        <div className='flex justify-end gap-5 mb-6 sm:md-0'>
           <Button
             className='rounded-full px-8 hover:bg-pink hover:text-white'
             onClick={delPost}

@@ -14,25 +14,19 @@ import 'swiper/css/free-mode';
 import 'swiper/css/thumbs';
 import Image from 'next/image';
 import { useState } from 'react';
+import { useViewport } from '@/hooks/useViewport';
 
-const CarouselThumb = ({
-  slidesPerView,
-  slideHeight,
-  slideData,
-}: {
-  slidesPerView: number;
-  slideHeight: string;
-  slideData: string[];
-}) => {
+const CarouselThumb = ({ slideData }: { slideData: string[] }) => {
   SwiperCore.use([Navigation, Scrollbar, Autoplay, Thumbs, FreeMode]);
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);
+  const { isMobile } = useViewport();
 
   return (
     <section className={`swiper-container`}>
       <Swiper
         loop={true} // 슬라이드 루프
         spaceBetween={10} // 슬라이스 사이 간격
-        slidesPerView={slidesPerView} // 보여질 슬라이스 수
+        slidesPerView={1} // 보여질 슬라이스 수
         navigation={true} // prev, next button
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Navigation, Thumbs]}
@@ -45,11 +39,11 @@ const CarouselThumb = ({
       >
         {slideData.map((slide: string) => (
           <SwiperSlide key={slide}>
-            <div className={`bg-slate-400 h-[400px]`}>
+            <div className={`bg-slate-400 h-[350px] sm:h-[400px]`}>
               <Image
                 src={slide}
                 width={200}
-                height={500}
+                height={300}
                 className='object-fill w-full h-full'
                 alt='img'
               />
@@ -61,7 +55,7 @@ const CarouselThumb = ({
         onSwiper={setThumbsSwiper}
         loop={true} // 슬라이드 루프
         spaceBetween={4} // 슬라이스 사이 간격
-        slidesPerView={5} // 보여질 슬라이스 수
+        slidesPerView={isMobile ? 3 : 5} // 보여질 슬라이스 수
         navigation={true} // prev, next button
         watchSlidesProgress={true}
         slideToClickedSlide
@@ -73,11 +67,11 @@ const CarouselThumb = ({
       >
         {slideData.map((slide: string) => (
           <SwiperSlide key={slide}>
-            <div className={`bg-slate-400 h-[100px]`}>
+            <div className='bg-slate-400 h-[100px]'>
               <Image
                 src={slide}
                 width={200}
-                height={500}
+                height={100}
                 className='object-fill w-full h-full'
                 alt='img'
               />

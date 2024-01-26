@@ -7,6 +7,7 @@ const EventMarkerContainer = ({ place }: { place: Tables<'places'> }) => {
   const map = useMap();
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const overlayRef = useRef<HTMLDivElement | null>(null);
+  const markerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const clickOutside = (event: MouseEvent) => {
@@ -22,30 +23,33 @@ const EventMarkerContainer = ({ place }: { place: Tables<'places'> }) => {
 
   return (
     <>
-      <MapMarker
-        position={{ lat: place.lat, lng: place.lng }} // 마커를 표시할 위치
-        onClick={(marker) => {
-          map.panTo(marker.getPosition());
-          setIsVisible(true);
-        }}
-        image={{
-          src: '/images/icons/marker.svg', // 마커이미지의 주소입니다
-          size: {
-            width: 44,
-            height: 40,
-          },
-        }}
-      />
+      <div ref={markerRef}>
+        <MapMarker
+          position={{ lat: place.lat, lng: place.lng }} // 마커를 표시할 위치
+          onClick={(marker) => {
+            map.panTo(marker.getPosition());
+            setIsVisible(true);
+          }}
+          image={{
+            src: '/images/icons/marker.svg', // 마커이미지의 주소입니다
+            size: {
+              width: 44,
+              height: 40,
+            },
+          }}
+        />
+      </div>
       {isVisible && (
-        <CustomOverlayMap
-          position={{ lat: place.lat, lng: place.lng }}
-          key={place.id}
-          yAnchor={1.15}
-        >
-          <div ref={overlayRef}>
+        <div ref={overlayRef}>
+          <CustomOverlayMap
+            position={{ lat: place.lat, lng: place.lng }}
+            key={place.id}
+            yAnchor={1.15}
+            zIndex={2}
+          >
             <PlaceCard2 place={place} />
-          </div>
-        </CustomOverlayMap>
+          </CustomOverlayMap>
+        </div>
       )}
     </>
   );

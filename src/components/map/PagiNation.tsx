@@ -16,7 +16,7 @@ const PagiNation = ({
   const endRange = Math.min(currentPageGroup * itemsPerPage, numPages);
 
   return (
-    <div className='gap-4 flex bottom-0 absolute w-[380px] h-[70px] text-[30px] items-center justify-center'>
+    <div className='gap-4 flex  w-[320px] h-[70px] text-[30px] items-center justify-center'>
       {currentPageGroup > 1 && (
         <button
           onClick={() => setPage(startRange - 1)}
@@ -32,9 +32,7 @@ const PagiNation = ({
           <button
             key={pageNumber}
             onClick={() => setPage(pageNumber)}
-            className={
-              pageNumber === page ? 'text-[#FFD029]' : '아니면 색깔 죽이기'
-            }
+            className={pageNumber === page ? 'text-primary' : ''}
           >
             {pageNumber}
           </button>
