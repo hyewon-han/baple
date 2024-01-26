@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { useViewport } from '@/hooks/useViewport';
 
 import type { ReviewsFromRPC } from '@/types/types';
+import { useTheme } from 'next-themes';
 
 interface Props {
   review: ReviewsFromRPC;
@@ -26,6 +27,8 @@ const ReviewCard2 = ({ review }: Props) => {
     user_avatar_url,
   } = review;
   const { isTablet } = useViewport();
+
+  const { theme } = useTheme();
 
   return (
     <Link className='w-full' href={`/review/${unique_review_id}`}>
@@ -87,6 +90,7 @@ const ReviewCard2 = ({ review }: Props) => {
                   height={20}
                   alt='likes icon'
                 />
+
                 {likes_count}
               </span>
             </div>

@@ -60,7 +60,12 @@ const LogInPage = () => {
 
       <div className='h-screen flex flex-col justify-center items-center gap-4'>
         <Link href='/' className='text-3xl font-black'>
-          BAPLE
+          <Image
+            src='/images/icons/basic-logo.svg'
+            alt='main logo'
+            width={100}
+            height={50}
+          />
         </Link>
         <form
           onSubmit={handleSubmit(logInHandler)}

@@ -120,7 +120,7 @@ const PlacesPage = () => {
           onClick={handleClickSearch}
         >
           <Image
-            src='/images/icons/search.svg'
+            src='/images/icons/search_white.svg'
             width={24}
             height={24}
             alt='search_icon'
@@ -129,7 +129,7 @@ const PlacesPage = () => {
       </div>
       <div className='flex gap-6 flex-col md:flex md:flex-row'>
         {/* 태그 */}
-        <div className='grid grid-cols-2 sm:grid-cols-3 place-items-center md:w-36 md:flex md:flex-col gap-4 '>
+        <div className='grid grid-cols-2 sm:grid-cols-3 place-items-center md:w-36 md:flex md:flex-col gap-4'>
           {checkboxButton('is_paid', '입장료')}
           {checkboxButton('is_easy_door', '장애인용 출입문')}
           {checkboxButton('is_wheelchair_rental', '휠체어 대여')}
@@ -141,7 +141,7 @@ const PlacesPage = () => {
         </div>
         {/* 카드 */}
         <div className='flex justify-center'>
-          <div className='grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-3'>
+          <div className='grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-3 places-items-center md:w-[100%] '>
             {searchedPlaces.map((place, idx) => (
               <PlaceCard key={idx} place={place} />
             ))}

@@ -14,10 +14,10 @@ export const validateUsername = async (
   if (username === undefined) {
     toastWarn('닉네임을 입력해주세요. 😅');
     setIsCheckedUsername(false);
-  } else if (username.length < 2) {
+  } else if (username?.length < 2) {
     toastWarn('2글자 이상의 닉네임을 입력해주세요. 😅');
     setIsCheckedUsername(false);
-  } else if (username.length > 8) {
+  } else if (username?.length > 8) {
     toastWarn('8글자 이하의 닉네임을 입력해주세요. 😅');
     setIsCheckedUsername(false);
   } else if (data?.length !== 0) {

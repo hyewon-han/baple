@@ -15,7 +15,7 @@ import {
   ZoomControl,
 } from 'react-kakao-maps-sdk';
 import { useEffect, useState } from 'react';
-import { Button, Divider } from '@nextui-org/react';
+import { Button, Divider, Spacer, Spinner } from '@nextui-org/react';
 import CarouselThumb from '@/components/common/Carousel_Thumb';
 import PaiginatedReviews from '@/components/place_detail/PaiginatedReviews';
 import { useSelector } from 'react-redux';
@@ -92,7 +92,16 @@ const PlacePage = () => {
   };
 
   if (placeInfoLoading || reviewLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className='w-[100%] h-[90vh] flex items-center justify-center'>
+        <Spinner
+          label='로딩중!'
+          color='primary'
+          size='lg'
+          labelColor='primary'
+        />
+      </div>
+    );
   }
 
   return (
@@ -137,6 +146,7 @@ const PlacePage = () => {
         <Map
           center={placePosition}
           draggable={false}
+          zoomable={true}
           style={{
             // 지도의 크기
             width: '100%',
@@ -144,7 +154,7 @@ const PlacePage = () => {
             display: toggle === 'map' ? 'block' : 'none',
           }}
           level={8}
-          maxLevel={8}
+          minLevel={8}
         >
           <MapMarker
             position={placePosition}
@@ -253,6 +263,7 @@ const PlacePage = () => {
             />
           )}
         </div>
+        <Spacer y={10} />
       </section>
     </MainWrapper>
   );

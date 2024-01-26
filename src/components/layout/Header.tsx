@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
 import { getUserDataById } from '@/apis/users';
 import Image from 'next/image';
+import ThemeSwitcher from './ThemeSwitcher';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -108,7 +109,7 @@ const Header = () => {
                     src='/images/icons/basic-logo.svg'
                     alt='main logo'
                     width={100}
-                    height={50}
+                    height={100}
                   />
                 </Link>
                 <div className='hidden md:flex gap-16 items-center w-full justify-center '>
@@ -144,6 +145,7 @@ const Header = () => {
                   </Link>
                 </div>
               </div>
+              <ThemeSwitcher />
               {currentUser ? (
                 <div className='flex gap-4 items-center w-full justify-end'>
                   <span className='hidden sm:block'>
@@ -160,9 +162,14 @@ const Header = () => {
                     <DropdownMenu aria-label='Static Actions'>
                       <DropdownItem
                         key='mypage'
-                        href={`/user/${currentUser.id}`}
+                        // href={`/user/${currentUser.id}`}
                       >
-                        마이페이지
+                        <Link
+                          className='block'
+                          href={`/user/${currentUser.id}`}
+                        >
+                          마이페이지
+                        </Link>
                       </DropdownItem>
                       <DropdownItem key='logout' onClick={logOutHandler}>
                         로그아웃

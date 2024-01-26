@@ -3,7 +3,7 @@ import { getLikedReviews, getReviewsByUserIdrpc } from '@/apis/reviews';
 import PlaceCard2 from '../common/PlaceCard2';
 import ReviewCard2 from '../common/ReviewCard2';
 import { useQuery } from '@tanstack/react-query';
-import { Card, CardBody, Tabs, Tab } from '@nextui-org/react';
+import { Card, CardBody, Tabs, Tab, Spinner } from '@nextui-org/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
 import CardProfile from './MyProfile';
@@ -11,6 +11,7 @@ import { getMyBookmarkedPlaces } from '@/apis/places';
 import PlaceCard from '../common/PlaceCard';
 import ReviewCardMobile from '../common/ReviewCardMobile';
 import { useViewport } from '@/hooks/useViewport';
+import PlaceCard3 from '../common/PlaceCard3';
 
 const MyTabs = () => {
   const { userId } = useSelector((state: RootState) => state.auth);
@@ -35,12 +36,17 @@ const MyTabs = () => {
 
   const { isMobile } = useViewport();
 
-  console.log('내가 북마크한 장소', bookmarkedPlaces);
-  console.log('내가 좋아요한 리뷰', likedReviews);
-  console.log('내가 작성한 리뷰', writtenReviews);
-
   if (isBookmarksLoading || isLikesLoading || isWrittenReviewsLoading)
-    return <div>로딩중...</div>;
+    return (
+      <div className='w-[100%] h-[90vh] flex items-center justify-center'>
+        <Spinner
+          label='로딩중!'
+          color='primary'
+          size='lg'
+          labelColor='primary'
+        />
+      </div>
+    );
 
   return (
     <div className='flex w-full flex-col'>
@@ -48,14 +54,14 @@ const MyTabs = () => {
         aria-label='Options'
         color='primary'
         className='w-full flex justify-center'
-        size='lg'
+        size={isMobile ? 'sm' : 'lg'}
         variant='underlined'
       >
-        <Tab key='bookmarked' title='내가 북마크한 장소'>
+        <Tab key='bookmarked' title='북마크한 장소'>
           <Card>
             <CardBody>
               {bookmarkedPlaces?.length !== 0 ? (
-                <div className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-12'>
+                <div className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-3 gap-12'>
                   {bookmarkedPlaces?.map((place, idx) => (
                     <PlaceCard key={idx} place={place} />
                   ))}
@@ -68,7 +74,7 @@ const MyTabs = () => {
             </CardBody>
           </Card>
         </Tab>
-        <Tab key='liked' title='내가 좋아요한 리뷰'>
+        <Tab key='liked' title='좋아요한 리뷰'>
           <Card>
             <CardBody>
               {likedReviews?.length === 0 && (
@@ -94,7 +100,7 @@ const MyTabs = () => {
           </Card>
         </Tab>
 
-        <Tab key='written' title='내가 작성한 리뷰'>
+        <Tab key='written' title='작성한 리뷰'>
           <Card>
             <CardBody>
               {writtenReviews?.length === 0 && (

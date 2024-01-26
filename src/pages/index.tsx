@@ -8,7 +8,7 @@ import MostBookmarks from '@/components/home/MostBookmarks';
 import { Button, Spacer } from '@nextui-org/react';
 import Carousel from '@/components/common/Carousel';
 import { getTopBookmarkedPlaces, getTopReviewedPlaces } from '@/apis/places';
-import { PlacesForPlaceCard } from '@/types/types';
+import { PlacesForPlaceCard, PlacesForSearch } from '@/types/types';
 import TopButton from '@/components/common/TopButton';
 import Image from 'next/image';
 import MainWrapper from '@/components/layout/MainWrapper';
@@ -22,8 +22,8 @@ const imgList = [
 ];
 
 interface Props {
-  topBookmarked: PlacesForPlaceCard[];
-  topReviewed: PlacesForPlaceCard[];
+  topBookmarked: PlacesForSearch[];
+  topReviewed: PlacesForSearch[];
 }
 
 const Home = ({ topBookmarked, topReviewed }: Props) => {
@@ -57,7 +57,7 @@ const Home = ({ topBookmarked, topReviewed }: Props) => {
             // onClick={handleClickSearch}
           >
             <Image
-              src='/images/icons/search.svg'
+              src='/images/icons/search_white.svg'
               width={24}
               height={24}
               alt='search_icon'

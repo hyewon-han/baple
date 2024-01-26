@@ -67,6 +67,38 @@ module.exports = {
             },
           },
         },
+        color_blind: {
+          extend: 'dark',
+
+          colors: {
+            background: 'black',
+            foreground: 'white',
+            primary: {
+              DEFAULT: '#66b6ff',
+              foreground: 'white',
+            },
+
+            secondary: {
+              DEFAULT: '#FF518F',
+              foreground: 'black',
+            },
+
+            focus: '#FFB629',
+          },
+          layout: {
+            disabledOpacity: '0.3',
+            radius: {
+              small: '4px',
+              medium: '6px',
+              large: '8px',
+            },
+            borderWidth: {
+              small: '1px',
+              medium: '2px',
+              large: '3px',
+            },
+          },
+        },
       },
     }),
   ],

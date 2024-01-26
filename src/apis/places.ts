@@ -1,5 +1,5 @@
 import { supabase } from '@/libs/supabase';
-import { PlacesForPlaceCard } from '@/types/types';
+import { PlacesForPlaceCard, PlacesForSearch } from '@/types/types';
 import { QueryFunction } from '@tanstack/react-query';
 
 export const getPlaceInfo = async (id: string) => {
@@ -73,15 +73,15 @@ export const fetchPlacesData = async ({
 };
 */
 export const getMyBookmarkedPlaces = async (userId: string) => {
-  const { data, error } = await supabase.rpc('get_bookmarked_places2', {
+  const { data, error } = await supabase.rpc('get_bookmarked_places', {
     p_user_id: userId,
   });
 
   if (error) {
     throw error;
   }
-
-  return data as PlacesForPlaceCard[];
+  console.log('북마크데이터', data);
+  return data as PlacesForSearch[];
 };
 
 export const getTopReviewedPlaces = async () => {
@@ -90,8 +90,8 @@ export const getTopReviewedPlaces = async () => {
   if (error) {
     throw error;
   }
-
-  return data as PlacesForPlaceCard[];
+  console.log('탑리뷰장소', data);
+  return data as PlacesForSearch[];
 };
 export const getTopBookmarkedPlaces = async () => {
   const { data, error } = await supabase.rpc('get_top_bookmarked_places');
@@ -99,6 +99,6 @@ export const getTopBookmarkedPlaces = async () => {
   if (error) {
     throw error;
   }
-
-  return data as PlacesForPlaceCard[];
+  console.log('탑북마크장소', data);
+  return data as PlacesForSearch[];
 };

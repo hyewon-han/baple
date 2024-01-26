@@ -1,7 +1,7 @@
 import React from 'react';
 import { getUserDataById } from '@/apis/users';
 import { useQuery } from '@tanstack/react-query';
-import { Avatar } from '@nextui-org/react';
+import { Avatar, Spinner } from '@nextui-org/react';
 import Seo from '@/components/layout/Seo';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
@@ -21,8 +21,17 @@ const UserPage = () => {
     enabled: !!userId,
   });
 
-  // if (isLoading) return <div>로딩중...</div>;
-  // if (error) return <div>에러 발생!</div>;
+  if (isLoading)
+    return (
+      <div className='w-[100%] h-[90vh] flex items-center justify-center'>
+        <Spinner
+          label='로딩중!'
+          color='primary'
+          size='lg'
+          labelColor='primary'
+        />
+      </div>
+    );
   return (
     <div className='flex m-8 flex-col justify-center items-center'>
       <Seo title={`${user?.user_name}님의 페이지`} />

@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import { toastError, toastSuccess, toastWarn } from '@/libs/toastifyAlert';
 import { validateUsername } from '@/utils/validationUtils';
+import Image from 'next/image';
 
 interface FormValues {
   email: string;
@@ -67,19 +68,24 @@ const SignupPage = () => {
     <>
       <Seo title='SignUp' />
       <div className='h-screen flex flex-col justify-center items-center'>
-        <Link href='/' className='text-3xl font-black'>
-          BAPLE
+        <Link href='/' className='text-3xl font-black mb-5'>
+          <Image
+            src='/images/icons/basic-logo.svg'
+            alt='main logo'
+            width={100}
+            height={50}
+          />
         </Link>
         <form
           onSubmit={handleSubmit(signUpHandler)}
-          className='flex flex-col gap-2'
+          className='flex flex-col gap-2 items-center'
         >
           <Input
             type='email'
             label='이메일'
             variant='bordered'
             placeholder='이메일 아이디를 입력해주세요'
-            className='w-96'
+            className='w-72 sm:w-96 '
             {...register('email', {
               required: '이메일을 입력하세요',
               pattern: {
@@ -111,7 +117,7 @@ const SignupPage = () => {
               </button>
             }
             type={isVisible1 ? 'text' : 'password'}
-            className='w-96'
+            className='w-72 sm:w-96'
             {...register('password', {
               required: '비밀번호를 입력해주세요',
               pattern: {
@@ -143,7 +149,7 @@ const SignupPage = () => {
               </button>
             }
             type={isVisible2 ? 'text' : 'password'}
-            className='w-96'
+            className='w-72 sm:w-96'
             {...register('confirmPassword', {
               required: '비밀번호를 입력해주세요',
               validate: (value) => value === watchPassword,
@@ -166,7 +172,7 @@ const SignupPage = () => {
               label='닉네임'
               variant='bordered'
               placeholder='닉네임을 입력해주세요 '
-              className=''
+              className='w-48 sm:w-72'
               {...register('username', {
                 required: '닉네임을 입력해주세요',
                 maxLength: {
@@ -196,6 +202,7 @@ const SignupPage = () => {
           )}
           <Button
             color='primary'
+            className='w-full'
             type='submit'
             isDisabled={
               !watchEmail ||

@@ -3,7 +3,7 @@ import MainWrapper from '@/components/layout/MainWrapper';
 import { toastWarn } from '@/libs/toastifyAlert';
 import { RootState } from '@/redux/config/configStore';
 import { formatDate } from '@/utils/dateFormatter';
-import { Button, Divider, Spacer } from '@nextui-org/react';
+import { Button, Divider, Spacer, Spinner } from '@nextui-org/react';
 import { Pagination } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
@@ -43,7 +43,16 @@ const BoardPage = () => {
   }, [page, recentOrder]);
 
   if (isLoading) {
-    return <p>로딩중...</p>;
+    return (
+      <div className='w-[100%] h-[90vh] flex items-center justify-center'>
+        <Spinner
+          label='로딩중!'
+          color='primary'
+          size='lg'
+          labelColor='primary'
+        />
+      </div>
+    );
   }
 
   return (

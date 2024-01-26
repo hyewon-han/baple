@@ -6,7 +6,7 @@ import ReviewBody from '@/components/review_details/ReviewBody';
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { getReviewById } from '@/apis/reviews';
-import { Spacer } from '@nextui-org/react';
+import { Spacer, Spinner } from '@nextui-org/react';
 import Seo from '@/components/layout/Seo';
 import { useRouter } from 'next/router';
 import ReviewLikes from '@/components/review_details/ReviewLikes';
@@ -44,7 +44,16 @@ const ReviewPage = () => {
   const placeId = review?.place_id;
 
   if (isLoading) {
-    return <p>리뷰 데이터 로딩중...</p>;
+    return (
+      <div className='w-[100%] h-[90vh] flex items-center justify-center'>
+        <Spinner
+          label='로딩중!'
+          color='primary'
+          size='lg'
+          labelColor='primary'
+        />
+      </div>
+    );
   }
 
   if (error) {

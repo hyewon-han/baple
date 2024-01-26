@@ -9,14 +9,15 @@ import 'swiper/css/effect-fade';
 import { Spacer } from '@nextui-org/react';
 import { useViewport } from '@/hooks/useViewport';
 
-import type { PlacesForPlaceCard } from '@/types/types';
+import type { PlacesForPlaceCard, PlacesForSearch } from '@/types/types';
+import PlaceCard3 from '../common/PlaceCard3';
 
 interface Props {
-  initialData: PlacesForPlaceCard[];
+  initialData: PlacesForSearch[];
 }
 
 const MostBookmarks = ({ initialData }: Props) => {
-  const { isMobile } = useViewport();
+  const { isMobile, isTablet } = useViewport();
   const { data: topBookmarkedPlacesList, isLoading: placesListLoading } =
     useQuery({
       queryKey: ['topBookmarkedPlacesList'],
@@ -29,7 +30,7 @@ const MostBookmarks = ({ initialData }: Props) => {
   }
 
   return (
-    <div className='w-[90%] p-1'>
+    <div className='w-full'>
       <div className='flex flex-col gap-2'>
         <span className='text-2xl text-primary font-bold'>
           많은 사람들이 즐겨 찾는 장소
@@ -39,8 +40,8 @@ const MostBookmarks = ({ initialData }: Props) => {
       <Spacer y={4} />
       <Swiper
         loop={true} // 슬라이드 루프
-        spaceBetween={20}
-        slidesPerView={isMobile ? 1 : 4}
+        spaceBetween={5}
+        slidesPerView={isMobile ? 1 : isTablet ? 2 : 4}
         navigation={true} // prev, next button
         modules={[Navigation, Autoplay]}
         autoplay={true}
@@ -49,7 +50,7 @@ const MostBookmarks = ({ initialData }: Props) => {
         {topBookmarkedPlacesList?.map((place) => {
           return (
             <SwiperSlide key={place.unique_place_id}>
-              <PlaceCard key={place.unique_place_id} place={place} />
+              <PlaceCard3 key={place.unique_place_id} place={place} />
             </SwiperSlide>
           );
         })}

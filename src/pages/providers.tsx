@@ -36,7 +36,7 @@ const Providers = ({ children }: Props) => {
           attribute='class'
           defaultTheme='baple'
           //TODO: light, dark 대신 low-vision 이나 high-contrast 같은 theme 만들기
-          themes={['light', 'dark', 'baple']}
+          themes={['light', 'dark', 'baple', 'color_blind']}
         >
           <Provider store={store}>
             {children}

@@ -27,7 +27,7 @@ const ReviewCard = ({ review }: Props) => {
     queryFn: () => getCommentsByReviewId(review.id),
   });
 
-  const { data: user, isLoading } = useQuery({
+  const { data: user } = useQuery({
     queryKey: ['user', review.user_id],
     queryFn: () => getUserDataById(review.user_id),
   });
