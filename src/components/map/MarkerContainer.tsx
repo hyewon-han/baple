@@ -2,6 +2,9 @@ import { Tables } from '@/types/supabase';
 import { useEffect, useRef, useState } from 'react';
 import { CustomOverlayMap, MapMarker, useMap } from 'react-kakao-maps-sdk';
 import PlaceCard2 from '../common/PlaceCard2';
+import PlaceCard3 from '../common/PlaceCard3';
+import PlaceCard from '../common/PlaceCard';
+import { useTheme } from 'next-themes';
 
 const EventMarkerContainer = ({ place }: { place: Tables<'places'> }) => {
   const map = useMap();
@@ -22,6 +25,8 @@ const EventMarkerContainer = ({ place }: { place: Tables<'places'> }) => {
     };
   }, [isVisible]);
 
+  const { theme } = useTheme();
+
   return (
     <>
       <MapMarker
@@ -31,7 +36,9 @@ const EventMarkerContainer = ({ place }: { place: Tables<'places'> }) => {
           setIsVisible(true);
         }}
         image={{
-          src: '/images/icons/marker.svg', // 마커이미지의 주소입니다
+          src: `/images/icons/${
+            theme === 'baple' ? 'marker.svg' : 'CBicons/CBmarker.svg'
+          }`, // 마커이미지의 주소입니다
           size: {
             width: 44,
             height: 40,
@@ -40,16 +47,17 @@ const EventMarkerContainer = ({ place }: { place: Tables<'places'> }) => {
       />
 
       {isVisible && (
-        <div ref={overlayRef}>
-          <CustomOverlayMap
-            position={{ lat: place.lat, lng: place.lng }}
-            key={place.id}
-            yAnchor={1.15}
-            zIndex={2}
-          >
+        <CustomOverlayMap
+          position={{ lat: place.lat, lng: place.lng }}
+          key={place.id}
+          yAnchor={1.3}
+          zIndex={2}
+        >
+          <div ref={overlayRef}>
             <PlaceCard2 place={place} />
-          </CustomOverlayMap>
-        </div>
+          </div>
+          {/* <PlaceCard place={place} /> */}
+        </CustomOverlayMap>
       )}
     </>
   );

@@ -24,12 +24,15 @@ import { toastSuccess, toastWarn } from '@/libs/toastifyAlert';
 import PlaceDetailHeader from '@/components/place_detail/PlaceDetailHeader';
 import { getBookmark } from '@/apis/bookmarks';
 import { useBookmarks } from '@/hooks/useBookmarks';
+import { useTheme } from 'next-themes';
 
 export type ToggleBookmarkType = () => void;
 export type ShowAlertType = () => void;
 
 const PlacePage = () => {
   const router = useRouter();
+  const { theme } = useTheme();
+
   const placeId: string = router.query.placeId as string;
   const [toggle, setToggle] = useState('map');
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
@@ -106,7 +109,7 @@ const PlacePage = () => {
 
   return (
     <MainWrapper>
-      <Seo title={placeInfo.place_name} />
+      <Seo title={`${placeInfo.place_name} | `} />
       <div className='flex items-center justify-between w-full mb-[20px] sm:hidden'>
         <PlaceDetailHeader
           placeId={placeId}
@@ -118,14 +121,16 @@ const PlacePage = () => {
         />
       </div>
       {/* 이미지 캐러셀 */}
-      <div className='flex flex-col items-center justify-start h-auto sm:h-[500px] mb-[50px] mt-[10px] sm:mt-[80px] sm:flex-row sm:justify-between'>
+      <div className='flex flex-col items-center justify-start h-auto md:h-[500px] mb-[50px] mt-[10px] md:mt-[80px] md:flex-row md:justify-between'>
         {imgList && (
-          <div className='w-full mb-[20px] sm:w-[48%]'>
+          <div className='w-full mb-[30px] md:mb-0 md:mr-[30px] md:w-[40%]'>
             <CarouselThumb
               slideData={
                 imgList.length !== 0
                   ? imgList
-                  : ['https://dummyimage.com/600x400/000/fff.png&text=baple']
+                  : [
+                      'https://velog.velcdn.com/images/jetiiin/post/6cd59108-3d13-449c-814b-4ee50af9fc9f/image.png',
+                    ]
               } // imgList가 없으면 빈배열
             />
           </div>
@@ -146,20 +151,24 @@ const PlacePage = () => {
         <Map
           center={placePosition}
           draggable={false}
-          zoomable={true}
+          // zoomable={true}
+          scrollwheel={false}
+          keyboardShortcuts={true}
           style={{
             // 지도의 크기
             width: '100%',
-            height: '500px',
+            height: '300px',
             display: toggle === 'map' ? 'block' : 'none',
           }}
-          level={8}
+          level={4}
           minLevel={8}
         >
           <MapMarker
             position={placePosition}
             image={{
-              src: '/images/icons/marker.svg', // 마커이미지의 주소입니다
+              src: `/images/icons/${
+                theme === 'baple' ? 'marker.svg' : 'CBicons/CBmarker.svg'
+              }`, // 마커이미지의 주소입니다
               size: {
                 width: 44,
                 height: 40,
@@ -186,7 +195,7 @@ const PlacePage = () => {
           style={{
             display: toggle === 'roadview' ? 'block' : 'none',
             width: '100%',
-            height: '500px',
+            height: '300px',
           }}
         >
           <RoadviewMarker position={placePosition} />
@@ -223,7 +232,8 @@ const PlacePage = () => {
             </Button>
           ) : (
             <Button
-              className='bg-primary px-8 py-2 rounded-full text-black'
+              color='primary'
+              className='px-8 py-2 rounded-full text-sm sm:text-md'
               onClick={() => toastWarn('로그인 후 이용해주세요')}
             >
               리뷰 작성하기

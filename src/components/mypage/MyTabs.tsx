@@ -6,12 +6,12 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, CardBody, Tabs, Tab, Spinner } from '@nextui-org/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
-import CardProfile from './MyProfile';
 import { getMyBookmarkedPlaces } from '@/apis/places';
 import PlaceCard from '../common/PlaceCard';
 import ReviewCardMobile from '../common/ReviewCardMobile';
 import { useViewport } from '@/hooks/useViewport';
 import PlaceCard3 from '../common/PlaceCard3';
+import Image from 'next/image';
 
 const MyTabs = () => {
   const { userId } = useSelector((state: RootState) => state.auth);
@@ -61,14 +61,22 @@ const MyTabs = () => {
           <Card>
             <CardBody>
               {bookmarkedPlaces?.length !== 0 ? (
-                <div className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-3 gap-12'>
+                <div className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 places-items-center '>
                   {bookmarkedPlaces?.map((place, idx) => (
                     <PlaceCard key={idx} place={place} />
                   ))}
                 </div>
               ) : (
-                <div className='flex justify-center w-full '>
-                  북마크한 장소가 없습니다 😢
+                <div className='flex flex-col items-center gap-3 justify-center w-full my-5'>
+                  <Image
+                    src='/images/icons/character.svg'
+                    alt='main_character'
+                    width={100}
+                    height={100}
+                  />
+                  <span className='font-bold'>
+                    북마크한 장소가 없습니다. 😢
+                  </span>
                 </div>
               )}
             </CardBody>
@@ -78,8 +86,16 @@ const MyTabs = () => {
           <Card>
             <CardBody>
               {likedReviews?.length === 0 && (
-                <div className='flex justify-center w-full'>
-                  좋아요한 리뷰가 없습니다. 😢
+                <div className='flex flex-col items-center gap-3 justify-center w-full my-5'>
+                  <Image
+                    src='/images/icons/character.svg'
+                    alt='main_character'
+                    width={100}
+                    height={100}
+                  />
+                  <span className='font-bold'>
+                    좋아요한 리뷰가 없습니다. 😢
+                  </span>
                 </div>
               )}
               {!isMobile && (
@@ -104,8 +120,14 @@ const MyTabs = () => {
           <Card>
             <CardBody>
               {writtenReviews?.length === 0 && (
-                <div className='flex justify-center w-full'>
-                  작성한 리뷰가 없습니다. 😢
+                <div className='flex flex-col items-center gap-3 justify-center w-full my-5'>
+                  <Image
+                    src='/images/icons/character.svg'
+                    alt='main_character'
+                    width={100}
+                    height={100}
+                  />
+                  <span className='font-bold'>작성한 리뷰가 없습니다. 😢</span>
                 </div>
               )}
               {!isMobile && (

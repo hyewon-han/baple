@@ -11,6 +11,7 @@ import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import { useViewport } from '@/hooks/useViewport';
+import Seo from '@/components/layout/Seo';
 
 const BoardPage = () => {
   const router = useRouter();
@@ -57,11 +58,12 @@ const BoardPage = () => {
 
   return (
     <MainWrapper>
+      <Seo />
       <header className='flex mt-[50px] mb-3 sm:mb-6 justify-between'>
         <h2 className='text-2xl sm:text-3xl font-bold'>게시판</h2>
       </header>
 
-      <Divider className='bg-primary h-0.5 mb-[18px]' />
+      <Divider className='h-0.5 mb-[18px]' />
       <table className='w-[96%] m-auto h-auto'>
         <thead>
           <tr className='text-lg sm:text-xl'>
@@ -115,7 +117,7 @@ const BoardPage = () => {
         />
       </div>
       <Spacer y={8} />
-      <Divider className='bg-primary h-0.5 mb-[18px]' />
+      <Divider className='h-0.5 mb-[18px]' />
       <div className='text-right mb-6 sm:mb-0'>
         {userInfo.userId ? (
           <Button

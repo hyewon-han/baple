@@ -114,4 +114,5 @@ export interface PlacesForSearch extends PlacesForPlaceCard {
   is_audio_guide: boolean;
   is_disabled_toilet: boolean;
   is_disabled_parking: boolean;
+  [key: string]: string;
 }

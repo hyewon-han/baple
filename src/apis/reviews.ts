@@ -1,6 +1,7 @@
 import { supabase } from '@/libs/supabase';
 
 import type {
+  Json,
   ReviewUpdateParams,
   ReviewWithPlaceAndUser,
   ReviewsFromRPC,
@@ -106,10 +107,29 @@ export const getPlacesByReviewCount = async () => {
 };
 
 //리뷰 삭제
-export const deleteReview = async (reviewId: string) => {
+export const deleteReview = async ({
+  reviewId,
+  imagesUrl,
+}: {
+  reviewId: string;
+  imagesUrl?: string[];
+}) => {
+  // 테이블 삭제
   const { error } = await supabase.from('reviews').delete().eq('id', reviewId);
   if (error) {
     throw error;
+  }
+  // 스토리지 (이미지) 삭제
+  if (imagesUrl) {
+    const fileNames = imagesUrl.map((url) =>
+      url.substring(url.lastIndexOf('/') + 1),
+    );
+    fileNames.forEach(async (fileName) => {
+      const { data, error } = await supabase.storage
+        .from('review_images')
+        .remove([`${fileName}`]);
+      if (error) throw error;
+    });
   }
 };
 

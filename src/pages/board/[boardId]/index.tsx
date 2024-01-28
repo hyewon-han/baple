@@ -1,5 +1,6 @@
 import { getPost } from '@/apis/boards';
 import MainWrapper from '@/components/layout/MainWrapper';
+import Seo from '@/components/layout/Seo';
 import { useBoards } from '@/hooks/useBoards';
 import { toastSuccess } from '@/libs/toastifyAlert';
 import { RootState } from '@/redux/config/configStore';
@@ -53,6 +54,7 @@ const BoardPostPage = () => {
 
   return (
     <MainWrapper>
+      <Seo />
       <header className='flex flex-col sm:flex-row mt-[50px] mb-3 sm:mb-6 items-start sm:items-center'>
         <h2 className='text-2xl mr-3 sm:mr-5 sm:text-3xl font-bold order-2 sm:order-1'>
           {post.title}
@@ -62,7 +64,7 @@ const BoardPostPage = () => {
         </span>
       </header>
 
-      <Divider className='bg-primary h-0.5' />
+      <Divider className='h-0.5' />
 
       <Spacer y={8} />
       <div className='flex justify-between px-4'>
@@ -86,7 +88,7 @@ const BoardPostPage = () => {
         <p className='break-all whitespace-pre-wrap'>{post.content}</p>
       </div>
       <Spacer y={5} />
-      <Divider className='bg-primary h-0.5' />
+      <Divider className='h-0.5' />
       <Spacer y={5} />
       {userInfo.userId === post.user_id ? (
         <div className='flex justify-end gap-5 mb-6 sm:md-0'>

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import MapPlaceCard from './MapPlaceCard';
 import PagiNation from './PagiNation';
 import Link from 'next/link';
+import { useTheme } from 'next-themes';
 
 const PlacesModal = ({
   regionName,
@@ -33,6 +34,7 @@ const PlacesModal = ({
     // 전체데이터가 변할 때마다 게시물 수 업데이트
     setPage(1);
   }, [places]);
+  const { theme } = useTheme();
   return (
     <div className={`absolute  w-[100%] h-[100%]`}>
       <div
@@ -41,13 +43,15 @@ const PlacesModal = ({
         }`}
       >
         <button
-          className='flex absolute sm:w-[50px] w-[60px] h-[60px] z-10 top-[50%] left-[-60px] sm:left-[-50px] bg-white bg-opacity-70 text-primary sm:text-2xl text-2xl font-black items-center justify-center rounded-l-[20px]'
+          className='flex absolute sm:w-[50px] w-[40px] h-[60px] z-10 top-[50%] left-[-40px] sm:left-[-50px] bg-white bg-opacity-70 text-primary sm:text-2xl text-2xl font-black items-center justify-center rounded-l-[20px]'
           onClick={() => setIsModalVisible(!isModalVisible)}
         >
           {isModalVisible ? '>' : '<'}
         </button>
-        <div className='h-[50px] w-[20rem] flex justify-center items-center text-[15px]  bg-white  rounded-l-[20px] shadow-xl'>
-          <p className='font-bold text-[18px]'>
+        <div
+          className={`h-[50px] w-[20rem] flex justify-center items-center text-[15px] bg-white text-[#1e1e1e]  rounded-l-[20px] shadow-xl`}
+        >
+          <p className='font-bold text-[18px] text-[#1e1e1e]'>
             {cityName}&nbsp;
             {regionName}
           </p>

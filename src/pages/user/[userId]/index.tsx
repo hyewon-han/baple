@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { getUserDataById } from '@/apis/users';
 import { useQuery } from '@tanstack/react-query';
-import { Avatar, Spinner } from '@nextui-org/react';
+import { Spinner } from '@nextui-org/react';
 import Seo from '@/components/layout/Seo';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
@@ -9,7 +9,12 @@ import MyTabs from '@/components/mypage/MyTabs';
 import MyProfile from '@/components/mypage/MyProfile';
 
 const UserPage = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
   const { userId } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   const {
     data: user,
@@ -33,11 +38,15 @@ const UserPage = () => {
       </div>
     );
   return (
-    <div className='flex m-8 flex-col justify-center items-center'>
-      <Seo title={`${user?.user_name}님의 페이지`} />
-      <MyProfile />
-      <MyTabs />
-    </div>
+    <>
+      {isLoaded ? (
+        <div className='flex m-8 flex-col justify-center items-center'>
+          <Seo title={`${user?.user_name}님의 페이지 | `} />
+          <MyProfile />
+          <MyTabs />
+        </div>
+      ) : null}
+    </>
   );
 };
 

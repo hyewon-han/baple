@@ -172,7 +172,7 @@ const Editor = ({ isEdit }: Props) => {
           onChange={inputChange}
         />
         <Spacer y={6} />
-        <Divider className='bg-primary h-0.5 mb-[30px]' />
+        <Divider className='h-0.5 mb-[30px]' />
 
         <div className='text-right mb-6 sm:mb-0'>
           <Button

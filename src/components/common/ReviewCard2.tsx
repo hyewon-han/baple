@@ -76,7 +76,11 @@ const ReviewCard2 = ({ review }: Props) => {
             <div className='flex justify-end gap-3'>
               <span className='flex gap-1'>
                 <Image
-                  src='/images/icons/comment_select.svg'
+                  src={`/images/icons/${
+                    theme === 'baple'
+                      ? 'comment_select.svg'
+                      : 'CBicons/CBcomment_select.svg'
+                  }`}
                   width={20}
                   height={20}
                   alt='comment icon'
@@ -85,7 +89,11 @@ const ReviewCard2 = ({ review }: Props) => {
               </span>
               <span className='flex gap-1'>
                 <Image
-                  src='/images/icons/heart_select.svg'
+                  src={`/images/icons/${
+                    theme === 'baple'
+                      ? 'heart_select.svg'
+                      : 'CBicons/CBfilled-heart.svg'
+                  }`}
                   width={20}
                   height={20}
                   alt='likes icon'

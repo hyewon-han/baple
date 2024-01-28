@@ -5,22 +5,29 @@ import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
 import { useRouter } from 'next/router';
+import ThemeSwitcher from './ThemeSwitcher';
+import { useTheme } from 'next-themes';
 
 const SideBar = () => {
   const [isSidebarOpened, setIsSidebarOpened] = useState(false);
   const { userId, isLoggedIn } = useSelector((state: RootState) => state.auth);
   const [isLoaded, setIsLoaded] = useState(false);
   const router = useRouter();
+  const { theme } = useTheme();
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
 
+  useEffect(() => {
+    setIsSidebarOpened(false);
+  }, [router.pathname]);
+
   return (
     <>
       {isLoaded && (
         <div className='z-50 fixed top-0 left-0 right-0'>
-          <div className='z-50 absolute md:hidden bg-yellow'>
+          <div className='z-50 absolute md:hidden'>
             <RxHamburgerMenu
               className={`cursor-pointer ${
                 isSidebarOpened ? 'hidden' : 'block'
@@ -43,7 +50,9 @@ const SideBar = () => {
             />
           )}
           <div
-            className={`bg-gray-200 bg-opacity-90 h-screen w-[300px] md:hidden fixed top-0 left-0 transition-transform transform ${
+            className={`${
+              theme === 'baple' ? 'bg-gray-200' : 'bg-gray-900'
+            } bg-opacity-90 h-screen w-[300px] md:hidden fixed top-0 left-0 transition-transform transform ${
               isSidebarOpened ? 'translate-x-0' : '-translate-x-full'
             } ease-in-out duration-300 z-40`}
           >
@@ -55,7 +64,7 @@ const SideBar = () => {
                   router.pathname === '/nearby' ? 'text-primary' : ''
                 }`}
               >
-                주변 장소
+                내 주변 장소
               </Link>
               <Link
                 href='/places'
@@ -102,6 +111,10 @@ const SideBar = () => {
                   </Link>
                 </>
               )}
+              <div className='flex items-center gap-2'>
+                <span>색약 모드</span>
+                <ThemeSwitcher />
+              </div>
             </div>
           </div>
         </div>

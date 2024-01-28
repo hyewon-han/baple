@@ -1,75 +1,94 @@
+// src/pages/places/index.tsx
 import PlaceCard from '@/components/common/PlaceCard';
-import PlaceCard2 from '@/components/common/PlaceCard2';
 import TopButton from '@/components/common/TopButton';
 import MainWrapper from '@/components/layout/MainWrapper';
+import Seo from '@/components/layout/Seo';
 import { supabase } from '@/libs/supabase';
-import { Tables } from '@/types/supabase';
 import { PlacesForSearch } from '@/types/types';
-import { Button, Input, Spacer } from '@nextui-org/react';
-import { useQueryClient } from '@tanstack/react-query';
+import { Button } from '@nextui-org/react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { RootState } from '@/redux/config/configStore';
+import { setSearchValue } from '@/redux/modules/searchValueSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const PlacesPage = () => {
   const [selected, setSelected] = useState<string[]>([]);
-  const [checkboxChanged, setCheckboxChanged] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
   const [searchedPlaces, setSearchedPlaces] = useState<PlacesForSearch[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [loading, setLoading] = useState(false);
-  const pageSize = 20;
+  const pageSize = 21;
+  const searchValue = useSelector((state: RootState) => state.searchValue);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    handleSearch();
-  }, [selected]);
-
-  useEffect(() => {
-    if (checkboxChanged) {
-      loadMoreData();
-      setCheckboxChanged(false);
-    }
-  }, [checkboxChanged, selected]);
-
-  const handleSearch = () => {
-    setSearchedPlaces([]);
-    setCurrentPage(1);
-    setCheckboxChanged(true);
-  };
-
-  const handleClickSearch = () => {
-    handleSearch();
-    loadMoreData();
-  };
-
-  const loadMoreData = async () => {
-    setLoading(true);
-
-    try {
+    const fetchFilteredData = async () => {
+      setSearchedPlaces((prev) => []);
+      setCurrentPage(1);
       let query = supabase.rpc('search_places', {
         p_search_value: searchValue,
       });
-
       if (selected.length > 0) {
         selected.forEach((checkbox) => {
           query = query.in(checkbox, [true]);
         });
       }
+      console.log('Query:', query);
 
       const { data, error } = await query.range(
         (currentPage - 1) * pageSize,
         currentPage * pageSize - 1,
       );
+      setSearchedPlaces([...data]);
+    };
+    fetchFilteredData();
+  }, [selected]);
 
-      if (!error) {
-        if (data.length === 0) {
-          return;
-        }
-        setSearchedPlaces([...searchedPlaces, ...data]);
-        setCurrentPage((prev) => prev + 1);
+  useEffect(() => {
+    //클린업함수 -> 언마운트 될때 redux state 빈 스트링으로 초기화
+    return () => {
+      dispatch(setSearchValue(''));
+    };
+  }, [dispatch]);
+
+  const handleClickSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSearchedPlaces((prev) => prev);
+    setCurrentPage(1);
+    let query = supabase.rpc('search_places', {
+      p_search_value: searchValue,
+    });
+    if (selected.length > 0) {
+      selected.forEach((checkbox) => {
+        query = query.in(checkbox, [true]);
+      });
+    }
+    const { data, error } = await query.range(
+      (currentPage - 1) * pageSize,
+      currentPage * pageSize - 1,
+    );
+    setSearchedPlaces([...data]);
+  };
+
+  const loadMoreData = async () => {
+    let query = supabase.rpc('search_places', {
+      p_search_value: searchValue,
+    });
+    if (selected.length > 0) {
+      selected.forEach((checkbox) => {
+        query = query.in(checkbox, [true]);
+      });
+    }
+    const { data, error } = await query.range(
+      (currentPage - 1) * pageSize,
+      currentPage * pageSize - 1,
+    );
+    if (!error) {
+      if (data.length === 0) {
+        return;
       }
-    } finally {
-      setLoading(false);
+      setSearchedPlaces([...searchedPlaces, ...data]);
+      setCurrentPage((prev) => prev + 1);
     }
   };
 
@@ -87,9 +106,8 @@ const PlacesPage = () => {
         ? prevSelected.filter((item) => item !== value)
         : [...prevSelected, value],
     );
-    setCheckboxChanged(true);
   };
-
+  console.log('selected', selected);
   const checkboxButton = (value: string, label: string) => (
     <Button
       key={value}
@@ -105,19 +123,23 @@ const PlacesPage = () => {
 
   return (
     <MainWrapper>
-      <div className='flex justify-center w-full sm:w-[60%] m-auto mt-10 mb-4 sm:mb-8 bg-primary p-[2px] rounded-full overflow-hidden'>
-        {/* 검색창 */}
+      <Seo />
+      <form
+        onSubmit={handleClickSearch}
+        className='flex justify-center w-full sm:w-[60%] m-auto mt-10 mb-4 sm:mb-8 bg-primary p-[2px] rounded-full overflow-hidden'
+      >
         <input
           placeholder='장소이름을 검색하세요'
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => dispatch(setSearchValue(e.target.value))}
           className='rounded-full w-[80%] sm:w-full p-2 px-4 placeholder:text-md focus:outline-none'
+          autoFocus
         />
         <Button
           color='primary'
           type='submit'
           className='h-auto w-[20%] rounded-r-full'
-          onClick={handleClickSearch}
+          // onClick={handleClickSearch}
         >
           <Image
             src='/images/icons/search_white.svg'
@@ -126,7 +148,7 @@ const PlacesPage = () => {
             alt='search_icon'
           />
         </Button>
-      </div>
+      </form>
       <div className='flex gap-6 flex-col md:flex md:flex-row'>
         {/* 태그 */}
         <div className='grid grid-cols-2 sm:grid-cols-3 place-items-center md:w-36 md:flex md:flex-col gap-4'>
@@ -141,7 +163,7 @@ const PlacesPage = () => {
         </div>
         {/* 카드 */}
         <div className='flex justify-center'>
-          <div className='grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-3 places-items-center md:w-[100%] '>
+          <div className='grid grid-cols-2 lg:grid-cols-3 md:grid-cols-2 gap-3 places-items-center md:w-full'>
             {searchedPlaces.map((place, idx) => (
               <PlaceCard key={idx} place={place} />
             ))}

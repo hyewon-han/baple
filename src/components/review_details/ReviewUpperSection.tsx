@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Swal from 'sweetalert2';
 import { useReviews } from '@/hooks/useReviews';
-import { formatDate } from '@/utils/dateFormatter';
+import ReviewLikes from './ReviewLikes';
 
 interface Props {
   review: ReviewWithPlaceAndUser;
@@ -41,16 +41,20 @@ const ReviewUpperSection = ({
       confirmButtonColor: '#7b4cff',
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteReview(review.id);
+        deleteReview({
+          reviewId: review.id,
+          imagesUrl: review.images_url as string[],
+        });
         router.back();
         toastSuccess('삭제 완료');
       }
     });
   };
-
+  console.log('리뷰!', review);
   return (
     <>
       <Spacer y={10} />
+      <ReviewLikes review={review} />
       <Link href={`/place/${review.place_id}`}>
         <strong className='text-2xl'>{review.places.place_name}</strong>
       </Link>
@@ -64,14 +68,7 @@ const ReviewUpperSection = ({
             showFallback
             src={review.users.avatar_url || undefined}
           />
-          <div className='flex flex-col'>
-            <p className='sm:text-[25px] text-[18px]'>
-              {review.users.user_name}
-            </p>
-            <span className='text-gray-500'>
-              {formatDate(review.created_at)}
-            </span>
-          </div>
+          <p className='sm:text-[25px] text-[18px]'>{review.users.user_name}</p>
         </div>
         <div
           className={`flex sm:gap-5 gap-2 ${showDelEditBtn ? '' : 'hidden'}`}

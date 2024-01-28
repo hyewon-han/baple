@@ -15,6 +15,7 @@ import { toastSuccess, toastWarn } from '@/libs/toastifyAlert';
 import { shareKakao } from '@/utils/shareKaKao';
 import Image from 'next/image';
 import { useLikes } from '@/hooks/useLikes';
+import { useTheme } from 'next-themes';
 
 interface Props {
   review: Tables<'reviews'>;
@@ -88,15 +89,16 @@ const ReviewLikes = ({ review }: Props) => {
 
   // 클립보드 url 복사
   const copyClipboard = () => {
-    const baseUrl = 'http://localhost:3000';
+    const baseUrl = `${process.env.NEXT_PUBLIC_BASEURL}`;
     const currentPath = router.asPath;
     navigator.clipboard.writeText(`${baseUrl}${currentPath}`);
     showCopyAlert();
   };
+  const { theme } = useTheme();
 
   return (
     <div className='relative'>
-      <div className='absolute right-[100px] top-[20px] xl:left-[-90px] z-10'>
+      <div className='absolute right-[100px] top-[245px] xl:left-[-90px] z-10'>
         {/* 좋아요 */}
         <div className='flex xl:flex-col justify-center items-center absolute xl:fixed top-[-250px] xl:top-[120px] w-[100px] xl:w-auto h-[40px] xl:h-auto p-3 rounded-full border border-gray-200 shadow-sm'>
           {isLoggedIn ? (
@@ -104,7 +106,11 @@ const ReviewLikes = ({ review }: Props) => {
               <div className='flex xl:flex-col xl:items-center'>
                 <div className='w-[24px] h-[24px] mr-[6px] xl:mr-0 xl:w-[34px] xl:h-[34px] xl:mb-[4px]'>
                   <Image
-                    src='/images/icons/filled-heart.svg'
+                    src={`/images/icons/${
+                      theme === 'baple'
+                        ? 'filled-heart.svg'
+                        : 'CBicons/CBfilled-heart.svg'
+                    }`}
                     alt=''
                     width={34}
                     height={34}
@@ -157,7 +163,11 @@ const ReviewLikes = ({ review }: Props) => {
           <div>
             <div className='w-[24px] h-[24px] mr-[4px] xl:mr-0 xl:w-[34px] xl:h-[34px]'>
               <Image
-                src='/images/icons/share_select.svg'
+                src={`/images/icons/${
+                  theme === 'baple'
+                    ? 'share_select.svg'
+                    : 'CBicons/CBshare_select.svg'
+                }`}
                 alt='share button'
                 width={34}
                 height={34}

@@ -17,7 +17,7 @@ export const getAllComments = async (id: string) => {
     )
     .eq('review_id', id);
 
-  return comments?.reverse() as CommentsWithUser[];
+  return comments as CommentsWithUser[];
 };
 
 export const insertNewComment = async (comment: newComment) => {

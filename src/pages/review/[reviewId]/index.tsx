@@ -9,12 +9,12 @@ import { getReviewById } from '@/apis/reviews';
 import { Spacer, Spinner } from '@nextui-org/react';
 import Seo from '@/components/layout/Seo';
 import { useRouter } from 'next/router';
-import ReviewLikes from '@/components/review_details/ReviewLikes';
 import ReviewUpperSection from '@/components/review_details/ReviewUpperSection';
 import { getAllComments } from '@/apis/comments';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
 import { useViewport } from '@/hooks/useViewport';
+import _ from 'lodash';
 
 const ReviewPage = () => {
   const router = useRouter();
@@ -30,6 +30,10 @@ const ReviewPage = () => {
   const { data: comments } = useQuery({
     queryKey: ['comments', reviewId],
     queryFn: () => getAllComments(reviewId),
+    select: (data) => {
+      const descComments = _.orderBy(data, 'created_at', 'desc');
+      return { descComments };
+    },
   });
 
   const {
@@ -62,21 +66,18 @@ const ReviewPage = () => {
 
   if (review) {
     const imgUrl = review.images_url as string[];
-    const commentsCount = comments?.length;
+    const commentsCount = comments?.descComments.length;
     console.log('commentsCount', commentsCount);
     return (
       <>
         <MainWrapper>
-          <Seo title='리뷰' />
+          <Seo />
           <ReviewUpperSection
             review={review}
             setIsEditing={setIsEditing}
             isEditing={isEditing}
             currentUserId={currentUserId}
           />
-
-          <Seo title='Review' />
-          <ReviewLikes review={review} />
           {review?.images_url && (
             <Carousel
               slideData={imgUrl}
@@ -99,7 +100,7 @@ const ReviewPage = () => {
           <Spacer y={1} />
 
           <div className='flex flex-col'>
-            <CommentList comments={comments} />
+            <CommentList comments={comments?.descComments} />
           </div>
         </MainWrapper>
       </>

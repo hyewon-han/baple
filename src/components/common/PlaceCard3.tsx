@@ -13,6 +13,7 @@ import type { PlacesForPlaceCard, PlacesForSearch } from '@/types/types';
 import NextImage from 'next/image'; // 모듈명 변경
 import { MdPhotoCameraBack } from 'react-icons/md';
 import Link from 'next/link';
+import { useTheme } from 'next-themes';
 
 interface Props {
   place: PlacesForSearch;
@@ -40,7 +41,9 @@ const PlaceCard3 = ({ place }: Props) => {
   const imgURL =
     image_url !== null
       ? image_url
-      : 'https://dummyimage.com/600x400/cccccc/000000&text=baple';
+      : 'https://velog.velcdn.com/images/jetiiin/post/6cd59108-3d13-449c-814b-4ee50af9fc9f/image.png';
+
+  const { theme } = useTheme();
 
   return (
     <div className='m-1'>
@@ -49,26 +52,32 @@ const PlaceCard3 = ({ place }: Props) => {
         isPressable
         isHoverable
         onPress={() => router.push(`/place/${unique_place_id}`)}
-        className='w-[19rem] h-[24.5rem] flex flex-col items-center rounded-3xl aspect-auto '
+        className='w-[9.5rem] h-[16rem] sm:w-[19rem] sm:h-[24.5rem] flex flex-col items-center rounded-3xl aspect-auto '
       >
         <CardBody className='overflow-visible rounded-3xl flex items-center'>
           <Image
             width='16.5rem'
             height='16.5rem'
             alt={place_name}
-            className='object-cover rounded-3xl shadow-xl w-[16.5rem] h-[16.5rem]'
+            className='object-cover rounded-3xl shadow-xl w-[8.25rem] h-[8.25rem] sm:w-[16.5rem] sm:h-[16.5rem]'
             src={imgURL}
           />
         </CardBody>
         <CardFooter className='flex flex-col w-full'>
           <div className='flex flex-col items-start w-full'>
-            <span className='text-sm'>{city}</span>
-            <span className='text-base font-bold'>{place_name}</span>
+            <span className='text-xs sm:text-sm'>{city}</span>
+            <span className='text-sm sm:text-base font-bold whitespace-nowrap text-ellipsis overflow-hidden'>
+              {place_name}
+            </span>
           </div>
           <div className='flex gap-2 w-full justify-end'>
             <span className='flex gap-1 items-center justify-center'>
               <NextImage
-                src='/images/icons/write_select.svg'
+                src={`/images/icons/${
+                  theme === 'baple'
+                    ? 'write_select.svg'
+                    : 'CBicons/CBwrite_select.svg'
+                }`}
                 width={20}
                 height={20}
                 alt='write_icon'
@@ -78,7 +87,11 @@ const PlaceCard3 = ({ place }: Props) => {
             </span>
             <span className='flex gap-2 items-center justify-center'>
               <NextImage
-                src='/images/icons/bookmark_select_.svg'
+                src={`/images/icons/${
+                  theme === 'baple'
+                    ? 'bookmark_select.svg'
+                    : 'CBicons/CBbookmark_select_.svg'
+                }`}
                 width={20}
                 height={20}
                 alt='bookmark_icon'

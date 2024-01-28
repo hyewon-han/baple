@@ -2,6 +2,7 @@ import { Tables } from '@/types/supabase';
 import { Chip } from '@nextui-org/react';
 import { ShowAlertType, ToggleBookmarkType } from '@/pages/place/[placeId]';
 import PlaceDetailHeader from './PlaceDetailHeader';
+import Image from 'next/image';
 
 export interface PlaceInfoAllData {
   placeId: string;
@@ -34,20 +35,20 @@ const PlaceDetail = ({
   ];
 
   const infoDetails = [
-    '오디오 가이드',
-    '점자 가이드',
-    '장애인 주차장',
-    '장애인 화장실',
-    '장애인용 출입문',
-    '안내견 동반',
-    '입장료',
-    '휠체어 대여',
+    { icon: 'filled-heart', label: '오디오 가이드' },
+    { icon: 'filled-heart', label: '점자 가이드' },
+    { icon: 'filled-heart', label: '장애인 주차장' },
+    { icon: 'filled-heart', label: '장애인 화장실' },
+    { icon: 'filled-heart', label: '장애인용 출입문' },
+    { icon: 'filled-heart', label: '안내견 동반' },
+    { icon: 'filled-heart', label: '입장료' },
+    { icon: 'filled-heart', label: '휠체어 대여' },
   ];
 
   return (
-    <section className='flex flex-col justify-between w-full h-auto sm:h-[500px] sm:w-[48%] '>
+    <section className='flex flex-col justify-between w-full h-auto md:h-[500px] md:w-[60%] '>
       <div>
-        <div className='justify-between w-full hidden sm:inline-flex sm:mb-[20px]'>
+        <div className='justify-between w-full hidden md:inline-flex md:mb-[20px]'>
           <PlaceDetailHeader
             placeId={placeId}
             placeInfo={placeInfo}
@@ -57,32 +58,55 @@ const PlaceDetail = ({
             showAlert={showAlert}
           />
         </div>
-        <div className='mb-[30px] sm:mb-0'>
-          <p className='text-md sm:text-xl'>주소 : {address}</p>
-          <p className='text-md sm:text-xl'>
-            전화 : {tel === '' ? '정보없음' : tel}
-          </p>
-          <p className='text-md sm:text-xl'>
-            운영시간 : {working_hours === 'null' ? '정보없음' : working_hours}
-          </p>
-          <p className='text-md sm:text-xl'>
-            휴무일 : {holidays === 'null' ? '정보없음' : holidays}
-          </p>
+        <div className='flex'>
+          <div className='mb-[30px] md:mb-0 w-1/4'>
+            <p className='md:text-xl font-bold mb-1 md:mb-2'>주소</p>
+            <p className='md:text-xl font-bold mb-1 md:mb-2'>전화</p>
+            <p className='md:text-xl font-bold mb-1 md:mb-2'>운영시간</p>
+            <p className='md:text-xl font-bold mb-1 md:mb-2'>휴무일</p>
+          </div>
+          <div className='mb-[30px] md:mb-0 w-3/4'>
+            <p className='md:text-xl mb-1 md:mb-2'>{address}</p>
+            <p className='md:text-xl mb-1 md:mb-2'>
+              {tel === '' ? '정보없음' : tel}
+            </p>
+            <p className='md:text-xl mb-1 md:mb-2'>
+              {working_hours === 'null' ? '정보없음' : working_hours}
+            </p>
+            <p className='md:text-xl mb-1 md:mb-2'>
+              {holidays === 'null' ? '정보없음' : holidays}
+            </p>
+          </div>
         </div>
       </div>
       <div className='flex gap-2 flex-wrap w-full'>
         {isInfoArray.map((item, index) => (
           <div key={index} className='w-[48%] lg:w-[32%]'>
             {item ? (
-              <Chip
-                className='bg-primary rounded-full text-md sm:text-base w-full max-w-full text-center'
-                color='primary'
-              >
-                {infoDetails[index]}
+              <Chip className='bg-primary text-white rounded-full text-md sm:text-base w-full max-w-full text-center'>
+                <div className='flex justify-center'>
+                  <Image
+                    src={`/images/icons/${infoDetails[index].icon}.svg`}
+                    alt='icon'
+                    width={18}
+                    height={18}
+                    className='bg-white mr-2'
+                  />
+                  {infoDetails[index].label}
+                </div>
               </Chip>
             ) : (
-              <Chip className='rounded-xl text-md sm:text-base w-full max-w-full max-w text-center'>
-                {infoDetails[index]}
+              <Chip className='rounded-full text-md sm:text-base w-full max-w-full text-center'>
+                <div className='flex justify-center'>
+                  <Image
+                    src={`/images/icons/${infoDetails[index].icon}.svg`}
+                    alt='icon'
+                    width={18}
+                    height={18}
+                    className='mr-2'
+                  />
+                  {infoDetails[index].label}
+                </div>
               </Chip>
             )}
           </div>

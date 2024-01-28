@@ -2,13 +2,13 @@ import Head from 'next/head';
 import React from 'react';
 
 type Props = {
-  title: string;
+  title?: string;
 };
 
 const Seo = ({ title }: Props) => {
   return (
     <Head>
-      <title>{title} | BAPLE</title>
+      <title>{title} BAPLE</title>
       <meta property='og:title' content='Baple' />
       <meta
         property='og:description'

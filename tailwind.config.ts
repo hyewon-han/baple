@@ -79,7 +79,7 @@ module.exports = {
             },
 
             secondary: {
-              DEFAULT: '#FF518F',
+              DEFAULT: '#1E1E1E',
               foreground: 'black',
             },
 

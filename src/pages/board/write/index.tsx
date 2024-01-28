@@ -15,7 +15,7 @@ const BoardWritePage = () => {
           {isEdit ? '게시글 수정' : '게시글 작성'}
         </h2>
       </header>
-      <Divider className='bg-primary h-0.5' />
+      <Divider className='h-0.5' />
       <Spacer y={6} />
       <Editor isEdit={isEdit} />
     </MainWrapper>

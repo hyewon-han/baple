@@ -66,7 +66,7 @@ const SignupPage = () => {
 
   return (
     <>
-      <Seo title='SignUp' />
+      <Seo />
       <div className='h-screen flex flex-col justify-center items-center'>
         <Link href='/' className='text-3xl font-black mb-5'>
           <Image

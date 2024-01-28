@@ -5,6 +5,7 @@ import type { ReviewsFromRPC } from '@/types/types';
 // import Image from 'next/image';
 import { formatDate } from '@/utils/dateFormatter';
 import { Image } from '@nextui-org/react';
+import { useTheme } from 'next-themes';
 
 interface Props {
   review: ReviewsFromRPC;
@@ -24,6 +25,8 @@ const ReviewCardMobile = ({ review }: Props) => {
     user_name,
     user_avatar_url,
   } = review;
+
+  const { theme } = useTheme();
 
   return (
     <Link className='w-full' href={`/review/${unique_review_id}`}>
@@ -50,12 +53,13 @@ const ReviewCardMobile = ({ review }: Props) => {
         </section>
         <section>
           <div className='flex justify-end gap-3'>
-            <span className='text-sm text-gray-500'>
-              {formatDate(review.created_at)}
-            </span>
-            <span className='flex justify-between gap-1'>
+            <span className='flex gap-1'>
               <Image
-                src='/images/icons/comment_select.svg'
+                src={`/images/icons/${
+                  theme === 'baple'
+                    ? 'comment_select.svg'
+                    : 'CBicons/CBcomment_select.svg'
+                }`}
                 width={20}
                 height={20}
                 alt='comment icon'
@@ -64,11 +68,16 @@ const ReviewCardMobile = ({ review }: Props) => {
             </span>
             <span className='flex gap-1'>
               <Image
-                src='/images/icons/heart_select.svg'
+                src={`/images/icons/${
+                  theme === 'baple'
+                    ? 'heart_select.svg'
+                    : 'CBicons/CBfilled-heart.svg'
+                }`}
                 width={20}
                 height={20}
                 alt='likes icon'
               />
+
               {likes_count}
             </span>
           </div>

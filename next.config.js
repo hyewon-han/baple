@@ -43,6 +43,12 @@ module.exports = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'velog.velcdn.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   async rewrites() {

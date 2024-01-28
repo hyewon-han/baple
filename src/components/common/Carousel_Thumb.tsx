@@ -42,10 +42,11 @@ const CarouselThumb = ({ slideData }: { slideData: string[] }) => {
             <div className={`bg-slate-400 h-[350px] sm:h-[400px]`}>
               <Image
                 src={slide}
-                width={200}
+                width={510}
                 height={300}
                 className='object-fill w-full h-full'
                 alt='img'
+                loading='lazy'
               />
             </div>
           </SwiperSlide>

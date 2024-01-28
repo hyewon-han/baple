@@ -50,10 +50,11 @@ const Carousel = ({
             <div className={`h-[${slideHeight}]`}>
               <Image
                 src={slide}
-                width={200}
-                height={500}
-                className='object-fill w-full h-full'
+                width={1920}
+                height={400}
+                className='object-cover w-full h-full'
                 alt='img'
+                loading='lazy'
               />
             </div>
           </SwiperSlide>
