@@ -40,9 +40,14 @@ body {
   color: #fff;
 }
 
-.swiper-button-next::after,
-.swiper-button-prev::after {
+#baple .swiper-button-next::after,
+#baple .swiper-button-prev::after {
   color: #7b4cff;
+}
+
+#color_blind .swiper-button-next::after,
+#color_blind .swiper-button-prev::after {
+  color: #66b6ff;
 }
 
 /* .swiper-scrollbar {

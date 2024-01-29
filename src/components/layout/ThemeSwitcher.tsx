@@ -11,16 +11,16 @@ const ThemeSwitcher = () => {
     setMounted(true);
     const currentTheme = localStorage.getItem('theme');
     if (currentTheme === 'baple') {
-      setIsSelected(true);
-    } else {
       setIsSelected(false);
+    } else {
+      setIsSelected(true);
     }
   }, []);
   const themeToggleHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      setTheme('baple');
-    } else {
       setTheme('color_blind');
+    } else {
+      setTheme('baple');
     }
   };
   if (!mounted) return null;

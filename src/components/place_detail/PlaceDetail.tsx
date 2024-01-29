@@ -3,6 +3,7 @@ import { Chip } from '@nextui-org/react';
 import { ShowAlertType, ToggleBookmarkType } from '@/pages/place/[placeId]';
 import PlaceDetailHeader from './PlaceDetailHeader';
 import Image from 'next/image';
+import { useTheme } from 'next-themes';
 
 export interface PlaceInfoAllData {
   placeId: string;
@@ -44,7 +45,7 @@ const PlaceDetail = ({
     { icon: '입장료', label: '입장료' },
     { icon: '휠체어대여가능', label: '휠체어 대여' },
   ];
-
+  const { theme } = useTheme();
   return (
     <section className='flex flex-col justify-between w-full h-auto md:h-[500px] md:w-[60%] '>
       <div>
@@ -83,10 +84,16 @@ const PlaceDetail = ({
         {isInfoArray.map((item, index) => (
           <div key={index} className='w-[48%] lg:w-[32%]'>
             {item ? (
-              <Chip className='bg-primary text-white rounded-full text-md sm:text-base w-full max-w-full text-center'>
+              <Chip
+                className={`bg-primary text-${
+                  theme === 'baple' ? 'white' : 'black'
+                } rounded-full text-md sm:text-base w-full max-w-full text-center`}
+              >
                 <div className='flex justify-center'>
                   <Image
-                    src={`/images/icons/place_icons/${infoDetails[index].icon}_white.svg`}
+                    src={`/images/icons/place_icons/${
+                      infoDetails[index].icon
+                    }_${theme === 'baple' ? 'white' : 'black'}.svg`}
                     alt='icon'
                     width={18}
                     height={18}
@@ -99,7 +106,9 @@ const PlaceDetail = ({
               <Chip className='rounded-full text-md sm:text-base w-full max-w-full text-center'>
                 <div className='flex justify-center'>
                   <Image
-                    src={`/images/icons/place_icons/${infoDetails[index].icon}_black.svg`}
+                    src={`/images/icons/place_icons/${
+                      infoDetails[index].icon
+                    }_${theme === 'baple' ? 'black' : 'white'}.svg`}
                     alt='icon'
                     width={18}
                     height={18}
