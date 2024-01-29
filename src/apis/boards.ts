@@ -12,7 +12,7 @@ export const insertNewPost = async (formData: EditValueProps) => {
       place_name: placeName,
     },
   ]);
-  console.log('post 추가 성공', data);
+  // console.log('post 추가 성공', data);
   if (error) throw error;
 };
 
@@ -66,7 +66,7 @@ export const deletePost = async ({
   if (error) {
     console.log(error);
   }
-  console.log('게시글 삭제');
+  // console.log('게시글 삭제');
 };
 
 interface EditValueProps {

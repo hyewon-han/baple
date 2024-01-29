@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import MapPlaceCard from './MapPlaceCard';
 import PagiNation from './PagiNation';
 import Link from 'next/link';
-import { useTheme } from 'next-themes';
 
 const PlacesModal = ({
   regionName,
@@ -34,7 +33,6 @@ const PlacesModal = ({
     // 전체데이터가 변할 때마다 게시물 수 업데이트
     setPage(1);
   }, [places]);
-  const { theme } = useTheme();
   return (
     <div className={`absolute  w-[100%] h-[100%]`}>
       <div

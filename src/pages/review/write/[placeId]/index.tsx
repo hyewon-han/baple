@@ -11,10 +11,11 @@ import {
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { supabase } from '@/libs/supabase';
-import { toastSuccess, toastWarn } from '@/libs/toastifyAlert';
+import { toastError, toastSuccess, toastWarn } from '@/libs/toastifyAlert';
 import { getPlaceInfo, updatePlaceImage } from '@/apis/places';
 import Seo from '@/components/layout/Seo';
 import { useReviews } from '@/hooks/useReviews';
+import imageCompression from 'browser-image-compression';
 
 const ReviewWritePage = () => {
   const [reviewText, setReviewText] = useState('');
@@ -33,25 +34,60 @@ const ReviewWritePage = () => {
     enabled: placeId !== undefined,
   });
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  // const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const files = e.target.files;
+  //   const selectedImageArray = [...selectedImages];
+  //   const selectedFileArray = [...selectedFiles];
+  //   if (files) {
+  //     for (let i = 0; i < files.length; i++) {
+  //       const file = files[i];
+  //       if (file.size > 1024 * 1024) {
+  //         return toastWarn('최대 1MB까지 업로드 가능합니다.');
+  //       }
+  //       const imageUrl = URL.createObjectURL(file);
+
+  //       if (selectedImageArray.length < 3) {
+  //         selectedImageArray.push({ file, imageUrl });
+  //         selectedFileArray.push(file);
+  //       } else {
+  //         toastWarn('이미지는 최대 3장만 업로드 가능합니다.');
+  //       }
+  //     }
+  //     setSelectedImages(selectedImageArray);
+  //     setSelectedFiles(selectedFileArray);
+  //   }
+  // };
+  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     const selectedImageArray = [...selectedImages];
     const selectedFileArray = [...selectedFiles];
+
     if (files) {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        if (file.size > 1024 * 1024) {
-          return toastWarn('최대 1MB까지 업로드 가능합니다.');
-        }
-        const imageUrl = URL.createObjectURL(file);
 
-        if (selectedImageArray.length < 3) {
-          selectedImageArray.push({ file, imageUrl });
-          selectedFileArray.push(file);
-        } else {
-          toastWarn('이미지는 최대 3장만 업로드 가능합니다.');
+        try {
+          const options = {
+            maxSizeMB: 1, //storage 에 들어가는 사진은 절대로 1mb를 넘지 않음(확인완료)
+            maxWidthOrHeight: 1920,
+            useWebWorker: true, // 멀티쓰레드 사용 여부. 사용못할시 자동으로 싱글쓰레드로 동작
+          };
+
+          const compressedFile = await imageCompression(file, options);
+          const imageUrl = URL.createObjectURL(compressedFile);
+
+          if (selectedImageArray.length < 3) {
+            selectedImageArray.push({ file: compressedFile, imageUrl });
+            selectedFileArray.push(compressedFile);
+          } else {
+            toastWarn('이미지는 최대 3장만 업로드 가능합니다.');
+          }
+        } catch (error) {
+          console.error('Error compressing image:', error);
+          toastError('이미지 압축 중 오류가 발생했습니다.');
         }
       }
+
       setSelectedImages(selectedImageArray);
       setSelectedFiles(selectedFileArray);
     }

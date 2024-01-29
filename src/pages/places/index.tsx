@@ -33,7 +33,7 @@ const PlacesPage = () => {
           query = query.in(checkbox, [true]);
         });
       }
-      console.log('Query:', query);
+      // console.log('Query:', query);
 
       const { data, error } = await query.range(
         (currentPage - 1) * pageSize,
@@ -107,7 +107,7 @@ const PlacesPage = () => {
         : [...prevSelected, value],
     );
   };
-  console.log('selected', selected);
+  // console.log('selected', selected);
   const checkboxButton = (value: string, label: string) => (
     <Button
       key={value}
@@ -162,8 +162,8 @@ const PlacesPage = () => {
           {checkboxButton('is_disabled_parking', '장애인용 주차장')}
         </div>
         {/* 카드 */}
-        <div className='flex justify-center'>
-          <div className='grid grid-cols-2 lg:grid-cols-3 md:grid-cols-2 gap-3 places-items-center md:w-full'>
+        <div className='flex justify-center w-full'>
+          <div className='grid grid-cols-2 lg:grid-cols-3 md:grid-cols-2 sm:gap-3 places-items-center w-full md:w-full'>
             {searchedPlaces.map((place, idx) => (
               <PlaceCard key={idx} place={place} />
             ))}

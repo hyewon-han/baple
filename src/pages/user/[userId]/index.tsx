@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
 import MyTabs from '@/components/mypage/MyTabs';
 import MyProfile from '@/components/mypage/MyProfile';
+import MainWrapper from '@/components/layout/MainWrapper';
 
 const UserPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -38,7 +39,7 @@ const UserPage = () => {
       </div>
     );
   return (
-    <>
+    <MainWrapper>
       {isLoaded ? (
         <div className='flex m-8 flex-col justify-center items-center'>
           <Seo title={`${user?.user_name}님의 페이지 | `} />
@@ -46,7 +47,7 @@ const UserPage = () => {
           <MyTabs />
         </div>
       ) : null}
-    </>
+    </MainWrapper>
   );
 };
 

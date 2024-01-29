@@ -80,7 +80,6 @@ export const getMyBookmarkedPlaces = async (userId: string) => {
   if (error) {
     throw error;
   }
-  console.log('북마크데이터', data);
   return data as PlacesForSearch[];
 };
 
@@ -90,7 +89,6 @@ export const getTopReviewedPlaces = async () => {
   if (error) {
     throw error;
   }
-  console.log('탑리뷰장소', data);
   return data as PlacesForSearch[];
 };
 export const getTopBookmarkedPlaces = async () => {
@@ -99,6 +97,5 @@ export const getTopBookmarkedPlaces = async () => {
   if (error) {
     throw error;
   }
-  console.log('탑북마크장소', data);
   return data as PlacesForSearch[];
 };

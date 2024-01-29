@@ -35,14 +35,14 @@ const PlaceDetail = ({
   ];
 
   const infoDetails = [
-    { icon: 'filled-heart', label: '오디오 가이드' },
-    { icon: 'filled-heart', label: '점자 가이드' },
-    { icon: 'filled-heart', label: '장애인 주차장' },
-    { icon: 'filled-heart', label: '장애인 화장실' },
-    { icon: 'filled-heart', label: '장애인용 출입문' },
-    { icon: 'filled-heart', label: '안내견 동반' },
-    { icon: 'filled-heart', label: '입장료' },
-    { icon: 'filled-heart', label: '휠체어 대여' },
+    { icon: '오디오가이드', label: '오디오 가이드' },
+    { icon: '점자안내', label: '점자 가이드' },
+    { icon: '장애인주차장', label: '장애인 주차장' },
+    { icon: '장애인화장실', label: '장애인 화장실' },
+    { icon: '장애인출입문', label: '장애인용 출입문' },
+    { icon: '안내견동반', label: '안내견 동반' },
+    { icon: '입장료', label: '입장료' },
+    { icon: '휠체어대여가능', label: '휠체어 대여' },
   ];
 
   return (
@@ -86,11 +86,11 @@ const PlaceDetail = ({
               <Chip className='bg-primary text-white rounded-full text-md sm:text-base w-full max-w-full text-center'>
                 <div className='flex justify-center'>
                   <Image
-                    src={`/images/icons/${infoDetails[index].icon}.svg`}
+                    src={`/images/icons/place_icons/${infoDetails[index].icon}_white.svg`}
                     alt='icon'
                     width={18}
                     height={18}
-                    className='bg-white mr-2'
+                    className='mr-2'
                   />
                   {infoDetails[index].label}
                 </div>
@@ -99,7 +99,7 @@ const PlaceDetail = ({
               <Chip className='rounded-full text-md sm:text-base w-full max-w-full text-center'>
                 <div className='flex justify-center'>
                   <Image
-                    src={`/images/icons/${infoDetails[index].icon}.svg`}
+                    src={`/images/icons/place_icons/${infoDetails[index].icon}_black.svg`}
                     alt='icon'
                     width={18}
                     height={18}

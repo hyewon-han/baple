@@ -52,7 +52,7 @@ const SignupPage = () => {
         },
       },
     });
-    console.log('data', data);
+    // console.log('data', data);
 
     if (error) {
       console.error('error.message', error.message);

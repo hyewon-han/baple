@@ -13,7 +13,7 @@ export const getReviewById = async (id: string) => {
     .from('reviews')
     .select(
       `*,
-      places(place_name),
+      places(place_name,image_url),
       users(avatar_url,user_name)
       `,
     )

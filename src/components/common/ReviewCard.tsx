@@ -15,7 +15,7 @@ type Props = {
 
 const ReviewCard = ({ review }: Props) => {
   const router = useRouter();
-  console.log('reviewProps! >> ', review);
+  // console.log('reviewProps! >> ', review);
 
   const { data: likes } = useQuery({
     queryKey: ['like', review.id],
@@ -32,9 +32,9 @@ const ReviewCard = ({ review }: Props) => {
     queryFn: () => getUserDataById(review.user_id),
   });
 
-  console.log('likesCount길이', likes?.length);
-  console.log('comments길이', comments?.length);
-  console.log('user data', user);
+  // console.log('likesCount길이', likes?.length);
+  // console.log('comments길이', comments?.length);
+  // console.log('user data', user);
 
   return (
     <Card

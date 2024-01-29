@@ -301,7 +301,7 @@ export interface Database {
           content: string;
           created_at: string;
           id: string;
-          images_url: Json | null;
+          images_url: string[] | null;
           place_id: string;
           user_id: string | null;
         };

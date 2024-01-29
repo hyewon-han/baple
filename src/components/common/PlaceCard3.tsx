@@ -6,7 +6,6 @@ import {
   CardFooter,
   CardHeader,
   Chip,
-  Image,
 } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import type { PlacesForPlaceCard, PlacesForSearch } from '@/types/types';
@@ -14,6 +13,7 @@ import NextImage from 'next/image'; // 모듈명 변경
 import { MdPhotoCameraBack } from 'react-icons/md';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
+import Image from 'next/image';
 
 interface Props {
   place: PlacesForSearch;
@@ -46,20 +46,20 @@ const PlaceCard3 = ({ place }: Props) => {
   const { theme } = useTheme();
 
   return (
-    <div className='m-1'>
+    <div className='m-1 flex'>
       <Card
         shadow='sm'
         isPressable
         isHoverable
         onPress={() => router.push(`/place/${unique_place_id}`)}
-        className='w-[9.5rem] h-[16rem] sm:w-[19rem] sm:h-[24.5rem] flex flex-col items-center rounded-3xl aspect-auto '
+        className='w-full h-auto sm:w-full sm:h-auto flex flex-col items-center rounded-3xl aspect-auto'
       >
-        <CardBody className='overflow-visible rounded-3xl flex items-center'>
+        <CardBody className='overflow-visible rounded-3xl w-full flex items-center'>
           <Image
-            width='16.5rem'
-            height='16.5rem'
+            width={300}
+            height={300}
             alt={place_name}
-            className='object-cover rounded-3xl shadow-xl w-[8.25rem] h-[8.25rem] sm:w-[16.5rem] sm:h-[16.5rem]'
+            className='object-cover object-center rounded-3xl shadow-xl w-full h-[8.25rem] sm:w-full sm:h-[16.5rem]'
             src={imgURL}
           />
         </CardBody>

@@ -55,6 +55,10 @@ const Editor = ({ isEdit }: Props) => {
       toastWarn('모든 정보를 입력해주세요');
       return false;
     }
+    if (inputs.content.trim().length < 5) {
+      toastWarn('내용은 5자 이상 입력해주세요');
+      return;
+    }
     return true; // 조건을 만족할 때만 true 반환
   };
 
@@ -165,7 +169,7 @@ const Editor = ({ isEdit }: Props) => {
           type='text'
           variant='bordered'
           minRows={10}
-          label='내용'
+          label='내용 (5글자 이상)'
           aria-label='내용'
           name='content'
           value={inputs.content}

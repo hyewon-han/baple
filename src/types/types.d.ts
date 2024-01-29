@@ -71,6 +71,7 @@ export interface PlacesWithBookmarksReviews extends Tables<'places'> {
 export interface ReviewWithPlaceAndUser extends Tables<'reviews'> {
   places: {
     place_name: string;
+    image_url: string;
   };
   users: {
     avatar_url: string | null;

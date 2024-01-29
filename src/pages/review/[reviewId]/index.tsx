@@ -67,7 +67,7 @@ const ReviewPage = () => {
   if (review) {
     const imgUrl = review.images_url as string[];
     const commentsCount = comments?.descComments.length;
-    console.log('commentsCount', commentsCount);
+    // console.log('commentsCount', commentsCount);
     return (
       <>
         <MainWrapper>

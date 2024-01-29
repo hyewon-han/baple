@@ -12,6 +12,7 @@ import ReviewCardMobile from '../common/ReviewCardMobile';
 import { useViewport } from '@/hooks/useViewport';
 import PlaceCard3 from '../common/PlaceCard3';
 import Image from 'next/image';
+import _ from 'lodash';
 
 const MyTabs = () => {
   const { userId } = useSelector((state: RootState) => state.auth);
@@ -25,12 +26,20 @@ const MyTabs = () => {
   const { data: likedReviews, isLoading: isLikesLoading } = useQuery({
     queryKey: ['likes', userId],
     queryFn: () => getLikedReviews(userId),
+    select: (data) => {
+      const recentOrderLiked = _.orderBy(data, 'created_at', 'desc');
+      return { recentOrderLiked };
+    },
   });
 
   const { data: writtenReviews, isLoading: isWrittenReviewsLoading } = useQuery(
     {
       queryKey: ['reviews', userId],
       queryFn: () => getReviewsByUserIdrpc(userId),
+      select: (data) => {
+        const recentOrderWritten = _.orderBy(data, 'created_at', 'desc');
+        return { recentOrderWritten };
+      },
     },
   );
 
@@ -85,7 +94,7 @@ const MyTabs = () => {
         <Tab key='liked' title='좋아요한 리뷰'>
           <Card>
             <CardBody>
-              {likedReviews?.length === 0 && (
+              {likedReviews?.recentOrderLiked.length === 0 && (
                 <div className='flex flex-col items-center gap-3 justify-center w-full my-5'>
                   <Image
                     src='/images/icons/character.svg'
@@ -100,14 +109,14 @@ const MyTabs = () => {
               )}
               {!isMobile && (
                 <div className='flex flex-col gap-1'>
-                  {likedReviews?.map((review, idx) => (
+                  {likedReviews?.recentOrderLiked.map((review, idx) => (
                     <ReviewCard2 review={review} key={idx} />
                   ))}
                 </div>
               )}
               {isMobile && (
                 <div className='flex flex-col gap-1'>
-                  {likedReviews?.map((review, idx) => (
+                  {likedReviews?.recentOrderLiked.map((review, idx) => (
                     <ReviewCardMobile review={review} key={idx} />
                   ))}
                 </div>
@@ -119,7 +128,7 @@ const MyTabs = () => {
         <Tab key='written' title='작성한 리뷰'>
           <Card>
             <CardBody>
-              {writtenReviews?.length === 0 && (
+              {writtenReviews?.recentOrderWritten.length === 0 && (
                 <div className='flex flex-col items-center gap-3 justify-center w-full my-5'>
                   <Image
                     src='/images/icons/character.svg'
@@ -132,14 +141,14 @@ const MyTabs = () => {
               )}
               {!isMobile && (
                 <div className='flex flex-col gap-1'>
-                  {writtenReviews?.map((review, idx) => (
+                  {writtenReviews?.recentOrderWritten.map((review, idx) => (
                     <ReviewCard2 review={review} key={idx} />
                   ))}
                 </div>
               )}
               {isMobile && (
                 <div className='flex flex-col gap-1'>
-                  {writtenReviews?.map((review, idx) => (
+                  {writtenReviews?.recentOrderWritten.map((review, idx) => (
                     <ReviewCardMobile review={review} key={idx} />
                   ))}
                 </div>

@@ -35,8 +35,7 @@ const Providers = ({ children }: Props) => {
         <NextThemesProvider
           attribute='class'
           defaultTheme='baple'
-          //TODO: light, dark 대신 low-vision 이나 high-contrast 같은 theme 만들기
-          themes={['light', 'dark', 'baple', 'color_blind']}
+          themes={['baple', 'color_blind']}
         >
           <Provider store={store}>
             {children}

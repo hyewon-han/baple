@@ -36,7 +36,7 @@ const PlaceCard = ({ place }: Props) => {
   const { theme } = useTheme();
 
   return (
-    <div className='m-1'>
+    <div className='my-2'>
       {/* <Card
         shadow='sm'
         // key={index}
@@ -180,7 +180,7 @@ const PlaceCard = ({ place }: Props) => {
         ) : null}
       </div> */}
       <Link href={`/place/${unique_place_id}`}>
-        <div className='relative w-[9.5rem] h-[7.25rem] mx-auto sm:w-[19rem] sm:h-[14.5rem] transition-all ring-2 ring-gray-100 rounded-3xl overflow-hidden shadow-md hover:ring-4 hover:ring-primary '>
+        <div className='relative w-[90%] h-[200px] mx-auto sm:w-full sm:h-[14.5rem] transition-all ring-2 ring-gray-100 rounded-3xl overflow-hidden shadow-md hover:ring-4 hover:ring-primary '>
           <NextImage
             src={imgURL}
             alt='place_image'

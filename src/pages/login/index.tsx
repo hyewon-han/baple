@@ -41,7 +41,7 @@ const LogInPage = () => {
       console.error('error', error);
       toastError('로그인에 실패하였습니다.');
     } else {
-      console.log('data', data);
+      // console.log('data', data);
       toastSuccess('로그인 되었습니다!');
       router.push('/');
     }
