@@ -175,6 +175,7 @@ export interface Database {
           place_name: string;
           tel: string | null;
           working_hours: string | null;
+          homepage: string | null;
         };
         Insert: {
           address?: string | null;
@@ -198,6 +199,7 @@ export interface Database {
           place_name?: string | null;
           tel?: string | null;
           working_hours?: string | null;
+          homepage: string | null;
         };
         Update: {
           address?: string | null;
@@ -221,6 +223,7 @@ export interface Database {
           place_name?: string | null;
           tel?: string | null;
           working_hours?: string | null;
+          homepage: string | null;
         };
         Relationships: [];
       };

@@ -17,10 +17,11 @@ type Props = {
 const PlaceCard2 = ({ place }: Props) => {
   const router = useRouter();
   // const imgURL = place.image_url;
+
   const imgURL =
-    place.image_url !== null
-      ? place.image_url
-      : 'https://velog.velcdn.com/images/jetiiin/post/6cd59108-3d13-449c-814b-4ee50af9fc9f/image.png';
+    (place?.image_url as string) !== ''
+      ? (place?.image_url as string)
+      : '/images/default_image2.png';
 
   const { data: bookmarksData, isLoading: isBookmarksLoading } = useQuery({
     queryKey: ['bookmarks', place.id],

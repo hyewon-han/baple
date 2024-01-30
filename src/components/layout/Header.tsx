@@ -185,7 +185,7 @@ const Header = () => {
                   </Dropdown>
                 </div>
               ) : (
-                <div className='hidden sm:flex gap-4 w-full justify-end'>
+                <div className='hidden sm:flex gap-4 w-full justify-end '>
                   {isMobile ? null : <ThemeSwitcher />}
                   <Link href='/login'>
                     <Button variant='solid' color='primary'>

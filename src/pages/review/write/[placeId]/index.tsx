@@ -26,6 +26,7 @@ const ReviewWritePage = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { userId } = useSelector((state: RootState) => state.auth);
+
   const router = useRouter();
 
   const { placeId } = router.query;
@@ -36,29 +37,6 @@ const ReviewWritePage = () => {
     enabled: placeId !== undefined,
   });
 
-  // const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const files = e.target.files;
-  //   const selectedImageArray = [...selectedImages];
-  //   const selectedFileArray = [...selectedFiles];
-  //   if (files) {
-  //     for (let i = 0; i < files.length; i++) {
-  //       const file = files[i];
-  //       if (file.size > 1024 * 1024) {
-  //         return toastWarn('최대 1MB까지 업로드 가능합니다.');
-  //       }
-  //       const imageUrl = URL.createObjectURL(file);
-
-  //       if (selectedImageArray.length < 3) {
-  //         selectedImageArray.push({ file, imageUrl });
-  //         selectedFileArray.push(file);
-  //       } else {
-  //         toastWarn('이미지는 최대 3장만 업로드 가능합니다.');
-  //       }
-  //     }
-  //     setSelectedImages(selectedImageArray);
-  //     setSelectedFiles(selectedFileArray);
-  //   }
-  // };
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     const selectedImageArray = [...selectedImages];
@@ -119,7 +97,7 @@ const ReviewWritePage = () => {
   };
 
   const onSubmitReview = async () => {
-    setModalOpen(true);
+    setModalOpen(true); // 스피너 모달 열기
     const publicUrlList: string[] = [];
     if (selectedFiles) {
       for (const file of selectedFiles) {
@@ -156,7 +134,7 @@ const ReviewWritePage = () => {
       publicUrlList,
     };
     insertReview(args);
-    setModalOpen(false);
+    setModalOpen(false); // 스피너 모달 닫기
     toastSuccess('리뷰가 등록되었습니다.');
     router.replace(`/place/${placeId}`);
   };

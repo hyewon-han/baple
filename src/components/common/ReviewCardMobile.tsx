@@ -2,9 +2,9 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import type { ReviewsFromRPC } from '@/types/types';
-// import Image from 'next/image';
 import { formatDate } from '@/utils/dateFormatter';
 import { Image } from '@nextui-org/react';
+import NextImage from 'next/image';
 import { useTheme } from 'next-themes';
 
 interface Props {
@@ -54,7 +54,7 @@ const ReviewCardMobile = ({ review }: Props) => {
         <section>
           <div className='flex justify-end gap-3'>
             <span className='flex gap-1'>
-              <Image
+              <NextImage
                 src={`/images/icons/${
                   theme === 'baple'
                     ? 'comment_select.svg'
@@ -67,7 +67,7 @@ const ReviewCardMobile = ({ review }: Props) => {
               {comments_count}
             </span>
             <span className='flex gap-1'>
-              <Image
+              <NextImage
                 src={`/images/icons/${
                   theme === 'baple'
                     ? 'heart_select.svg'

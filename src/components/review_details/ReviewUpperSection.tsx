@@ -80,6 +80,7 @@ const ReviewUpperSection = ({
             className='sm:w-[88px] sm:h-[88px] w-[45px] h-[45px]'
             showFallback
             src={review.users.avatar_url || undefined}
+            // onClick={() => router.push(`${review.user_id}`)}
           />
           <p className='sm:text-[25px] text-[18px]'>{review.users.user_name}</p>
         </div>

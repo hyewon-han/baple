@@ -22,7 +22,7 @@ const PlaceDetail = ({
   toggleBookmark,
   showAlert,
 }: PlaceInfoAllData) => {
-  const { tel, address, working_hours, holidays } = placeInfo;
+  const { tel, address, working_hours, holidays, homepage } = placeInfo;
 
   const isInfoArray = [
     placeInfo.is_audio_guide,
@@ -77,6 +77,7 @@ const PlaceDetail = ({
             <p className='md:text-xl mb-1 md:mb-2'>
               {holidays === 'null' ? '정보없음' : holidays}
             </p>
+            <p className='md:text-xl mb-1 md:mb-2'>{homepage}</p>
           </div>
         </div>
       </div>

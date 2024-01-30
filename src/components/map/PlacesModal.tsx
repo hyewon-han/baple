@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import MapPlaceCard from './MapPlaceCard';
 import PagiNation from './PagiNation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const PlacesModal = ({
   regionName,
@@ -40,12 +41,28 @@ const PlacesModal = ({
           isModalVisible ? '0' : '[-20rem]'
         }`}
       >
-        <button
+        {/* <button
           className='flex absolute sm:w-[50px] w-[40px] h-[60px] z-10 top-[50%] left-[-40px] sm:left-[-50px] bg-white bg-opacity-70 text-primary sm:text-2xl text-2xl font-black items-center justify-center rounded-l-[20px]'
           onClick={() => setIsModalVisible(!isModalVisible)}
         >
           {isModalVisible ? '>' : '<'}
-        </button>
+        </button> */}
+        <div
+          className='flex absolute sm:h-[80px] sm:w-[50px] w-[50px]  h-[60px] top-[50%] left-[-50px] sm:left-[-55px] bg-opacity-70 text-primary sm:text-2xl text-2xl font-black items-center justify-center rounded-l-[20px]'
+          onClick={() => setIsModalVisible(!isModalVisible)}
+        >
+          <Image
+            className='flex absolute  w-[40px] h-[40px] z-10 right-[-10px] sm:h-[60px]'
+            src={
+              isModalVisible
+                ? 'images/icons/button_내주변장소_오.svg'
+                : 'images/icons/button_내주변장소_왼.svg'
+            }
+            width={60}
+            height={60}
+            alt='버튼'
+          />
+        </div>
         <div
           className={`h-[50px] w-[20rem] flex justify-center items-center text-[15px] bg-white text-[#1e1e1e]  rounded-l-[20px] shadow-xl`}
         >

@@ -84,6 +84,8 @@ const MyProfile = () => {
     }
   };
 
+  if (error) console.error(error.message);
+
   return (
     <div className='flex gap-6 items-center justify-center my-6 w-fit'>
       {isEditing ? (
