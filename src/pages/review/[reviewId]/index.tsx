@@ -94,6 +94,7 @@ const ReviewPage = () => {
           <Spacer y={10} />
           <CommentInput
             reviewId={review.id}
+            reviewUserId={review.user_id}
             placeId={review.place_id}
             commentsCount={commentsCount}
           />

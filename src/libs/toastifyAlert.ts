@@ -35,7 +35,7 @@ export const toastInfo = (alertText: string) => {
 export const toastAlert = (alertText: string) => {
   toast(`${alertText}`, {
     position: 'top-center',
-    autoClose: 1300,
+    autoClose: 3000,
     hideProgressBar: true,
     closeOnClick: true,
     pauseOnHover: true,

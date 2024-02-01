@@ -8,7 +8,7 @@ import { getReviewsByPlaceId } from '@/apis/reviews';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Chip } from '@nextui-org/react';
-import { useTheme } from 'next-themes';
+import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
 type Props = {
   place: Tables<'places'>;
@@ -32,7 +32,8 @@ const PlaceCard2 = ({ place }: Props) => {
     queryKey: ['reviewsPC', place.id],
     queryFn: () => getReviewsByPlaceId(place.id),
   });
-  const { theme } = useTheme();
+  const { baple } = useCurrentTheme();
+
   return (
     // <div className='m-1'>
     //   <Card
@@ -126,9 +127,7 @@ const PlaceCard2 = ({ place }: Props) => {
               <span className='flex gap-1 items-center justify-center'>
                 <Image
                   src={`/images/icons/${
-                    theme === 'baple'
-                      ? 'write_select.svg'
-                      : 'CBicons/CBwrite_select.svg'
+                    baple ? 'write_select.svg' : 'CBicons/CBwrite_select.svg'
                   }`}
                   width={20}
                   height={20}
@@ -140,7 +139,7 @@ const PlaceCard2 = ({ place }: Props) => {
               <span className='flex gap-2 items-center justify-center'>
                 <Image
                   src={`/images/icons/${
-                    theme === 'baple'
+                    baple
                       ? 'bookmark_select.svg'
                       : 'CBicons/CBbookmark_select_.svg'
                   }`}

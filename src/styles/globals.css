@@ -40,9 +40,21 @@ body {
   color: #fff;
 }
 
+#baple .swiper-button-prev {
+  background: url(/images/icons/button/prev.svg) no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+}
+
+#baple .swiper-button-next {
+  background: url(/images/icons/button/next.svg) no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+}
+
 #baple .swiper-button-next::after,
 #baple .swiper-button-prev::after {
-  color: #7b4cff;
+  display: none;
 }
 
 #color_blind .swiper-button-next::after,
@@ -62,3 +74,10 @@ body {
 /* .swiper-scrollbar-drag {
   color: #fff;
 } */
+
+.ql-editor {
+  min-height: 300px;
+}
+.ql-container.ql-snow.ql-disabled {
+  border: none;
+}

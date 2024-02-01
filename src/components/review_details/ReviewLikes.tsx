@@ -15,7 +15,7 @@ import { toastSuccess, toastWarn } from '@/libs/toastifyAlert';
 import { shareKakao } from '@/utils/shareKaKao';
 import Image from 'next/image';
 import { useLikes } from '@/hooks/useLikes';
-import { useTheme } from 'next-themes';
+import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
 interface Props {
   review: Tables<'reviews'>;
@@ -94,7 +94,7 @@ const ReviewLikes = ({ review }: Props) => {
     navigator.clipboard.writeText(`${baseUrl}${currentPath}`);
     showCopyAlert();
   };
-  const { theme } = useTheme();
+  const { baple } = useCurrentTheme();
 
   return (
     <div className='relative'>
@@ -107,9 +107,7 @@ const ReviewLikes = ({ review }: Props) => {
                 <div className='w-[24px] h-[24px] mr-[6px] xl:mr-0 xl:w-[34px] xl:h-[34px] xl:mb-[4px]'>
                   <Image
                     src={`/images/icons/${
-                      theme === 'baple'
-                        ? 'filled-heart.svg'
-                        : 'CBicons/CBfilled-heart.svg'
+                      baple ? 'filled-heart.svg' : 'CBicons/CBfilled-heart.svg'
                     }`}
                     alt=''
                     width={34}
@@ -164,9 +162,7 @@ const ReviewLikes = ({ review }: Props) => {
             <div className='w-[24px] h-[24px] mr-[4px] xl:mr-0 xl:w-[34px] xl:h-[34px]'>
               <Image
                 src={`/images/icons/${
-                  theme === 'baple'
-                    ? 'share_select.svg'
-                    : 'CBicons/CBshare_select.svg'
+                  baple ? 'share_select.svg' : 'CBicons/CBshare_select.svg'
                 }`}
                 alt='share button'
                 width={34}
@@ -183,11 +179,13 @@ const ReviewLikes = ({ review }: Props) => {
               <div
                 className={`${isShown ? 'visible' : 'invisible'} opacity-${
                   isShown ? '100' : '0'
-                } absolute w-[50px] h-[50px] bg-slate-300 top-[20px] xl:top-[-65px] left-[-70px] xl:left-[44px] rounded-full flex justify-center items-center transition-opacity duration-200 ease-in-out`}
+                } absolute w-[50px] h-[50px]  ${
+                  baple ? 'bg-slate-300' : 'bg-slate-900'
+                } top-[20px] xl:top-[-65px] left-[-70px] xl:left-[44px] rounded-full flex justify-center items-center transition-opacity duration-200 ease-in-out`}
               >
                 <RiKakaoTalkFill
                   size={24}
-                  className='cursor-pointer'
+                  className='cursor-pointer text-primary'
                   onClick={() =>
                     shareKakao({
                       address: placeInfo?.address,
@@ -200,11 +198,13 @@ const ReviewLikes = ({ review }: Props) => {
               <div
                 className={`${isShown ? 'visible' : 'invisible'} opacity-${
                   isShown ? '100' : '0'
-                } absolute w-[50px] h-[50px] bg-slate-300 top-[20px] xl:top-[-10px] left-[-16px] xl:left-[44px] rounded-full flex justify-center items-center transition-all duration-200 ease-in-out`}
+                } absolute w-[50px] h-[50px] ${
+                  baple ? 'bg-slate-300' : 'bg-slate-900'
+                } top-[20px] xl:top-[-10px] left-[-16px] xl:left-[44px] rounded-full flex justify-center items-center transition-all duration-200 ease-in-out`}
               >
                 <FaPaperclip
                   size={24}
-                  className='cursor-pointer'
+                  className='cursor-pointer text-primary'
                   onClick={copyClipboard}
                 />
               </div>

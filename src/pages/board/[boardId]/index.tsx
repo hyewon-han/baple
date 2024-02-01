@@ -1,4 +1,5 @@
 import { getPost } from '@/apis/boards';
+import QuillNoSSRWrapper from '@/components/common/QuillEditor';
 import MainWrapper from '@/components/layout/MainWrapper';
 import Seo from '@/components/layout/Seo';
 import { useBoards } from '@/hooks/useBoards';
@@ -9,6 +10,8 @@ import { Avatar, Button, Divider, Spacer, Spinner } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useRef } from 'react';
+import ReactQuill from 'react-quill';
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 
@@ -22,6 +25,12 @@ const BoardPostPage = () => {
     queryKey: ['posts', boardId],
     queryFn: () => getPost(boardId),
   });
+
+  //QUILL 관련 코드
+  const quillInstance = useRef<ReactQuill>(null);
+  const viewModeModules = {
+    toolbar: false,
+  };
 
   const delPost = () => {
     Swal.fire({
@@ -64,10 +73,11 @@ const BoardPostPage = () => {
         </span>
       </header>
 
-      <Divider className='h-0.5' />
+      <Divider className='h-0.5 mb-5' />
+      <div className='px-4 text-gray-500 order-3'>{post.place_name}</div>
+      <Spacer y={4} />
 
-      <Spacer y={8} />
-      <div className='flex justify-between px-4'>
+      <div className='flex justify-between px-4 mb-4'>
         <div className='flex flex-col sm:flex-row justify-between w-full items-start gap-2 sm:gap-4'>
           <div className='flex items-center gap-4'>
             <Avatar
@@ -84,8 +94,14 @@ const BoardPostPage = () => {
           </div>
         </div>
       </div>
+
       <div className='w-full min-h-[200px] p-4 rounded-md sm:mt-2'>
-        <p className='break-all whitespace-pre-wrap'>{post.content}</p>
+        <QuillNoSSRWrapper
+          forwardedRef={quillInstance}
+          modules={viewModeModules}
+          readOnly
+          value={post.content}
+        />
       </div>
       <Spacer y={5} />
       <Divider className='h-0.5' />

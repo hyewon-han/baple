@@ -52,7 +52,6 @@ const SignupPage = () => {
         },
       },
     });
-    // console.log('data', data);
 
     if (error) {
       console.error('error.message', error.message);
@@ -62,6 +61,13 @@ const SignupPage = () => {
       toastSuccess('회원 가입 성공!');
       router.push('/');
     }
+  };
+
+  const logInWithKakao = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'kakao',
+    });
+    if (error) throw error.message;
   };
 
   return (
@@ -85,7 +91,7 @@ const SignupPage = () => {
             label='이메일'
             variant='bordered'
             placeholder='이메일 아이디를 입력해주세요'
-            className='w-72 sm:w-96 '
+            className='w-72 sm:w-80'
             {...register('email', {
               required: '이메일을 입력하세요',
               pattern: {
@@ -103,6 +109,7 @@ const SignupPage = () => {
             label='비밀번호'
             variant='bordered'
             placeholder='비밀번호는 영문, 숫자 포함 최소 8자 이상 입력해주세요'
+            maxLength={20}
             endContent={
               <button
                 className='focus:outline-none'
@@ -117,12 +124,13 @@ const SignupPage = () => {
               </button>
             }
             type={isVisible1 ? 'text' : 'password'}
-            className='w-72 sm:w-96'
+            className='w-72 sm:w-80'
             {...register('password', {
               required: '비밀번호를 입력해주세요',
               pattern: {
                 value: /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,20}$/,
-                message: '비밀번호 조건에 맞게 입력해주세요',
+                message:
+                  '비밀번호는 영문, 숫자 포함 최소 8자 이상 입력해주세요',
               },
             })}
           />
@@ -135,6 +143,7 @@ const SignupPage = () => {
             label='비밀번호 확인'
             variant='bordered'
             placeholder='비밀번호는 영문, 숫자 포함 최소 8자 이상 입력해주세요'
+            maxLength={20}
             endContent={
               <button
                 className='focus:outline-none'
@@ -149,7 +158,7 @@ const SignupPage = () => {
               </button>
             }
             type={isVisible2 ? 'text' : 'password'}
-            className='w-72 sm:w-96'
+            className='w-72 sm:w-80'
             {...register('confirmPassword', {
               required: '비밀번호를 입력해주세요',
               validate: (value) => value === watchPassword,
@@ -171,8 +180,10 @@ const SignupPage = () => {
               type='text'
               label='닉네임'
               variant='bordered'
-              placeholder='닉네임을 입력해주세요 '
-              className='w-48 sm:w-72'
+              placeholder='2~8글자 사이의 닉네임을 입력해주세요 '
+              className='w-48 sm:w-56'
+              minLength={2}
+              maxLength={9}
               {...register('username', {
                 required: '닉네임을 입력해주세요',
                 maxLength: {
@@ -202,7 +213,7 @@ const SignupPage = () => {
           )}
           <Button
             color='primary'
-            className='w-full'
+            className='w-72 sm:w-80'
             type='submit'
             isDisabled={
               !watchEmail ||
@@ -214,6 +225,14 @@ const SignupPage = () => {
           >
             회원 가입
           </Button>
+          <button onClick={logInWithKakao} className='w-72 sm:w-80'>
+            <Image
+              src='/images/kakao_signup.png'
+              alt='kakao login'
+              width={320}
+              height={300}
+            />
+          </button>
         </form>
       </div>
     </>

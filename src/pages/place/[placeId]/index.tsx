@@ -27,6 +27,7 @@ import PlaceDetailHeader from '@/components/place_detail/PlaceDetailHeader';
 import { getBookmark } from '@/apis/bookmarks';
 import { useBookmarks } from '@/hooks/useBookmarks';
 import { useTheme } from 'next-themes';
+import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
 export type ToggleBookmarkType = () => void;
 export type ShowAlertType = () => void;
@@ -57,12 +58,14 @@ const PlacePage = () => {
       return { recentOrder, likesOrder };
     },
   });
-  console.log('placeInfo', placeInfo);
+  // console.log('placeInfo', placeInfo);
   const { data: bookmarkState } = useQuery({
     queryKey: ['bookmark', userId, placeId],
     queryFn: () => getBookmark({ userId, placeId }),
     enabled: !!userId,
   });
+
+  const { baple } = useCurrentTheme();
 
   useEffect(() => {
     setIsBookmarked(bookmarkState ? bookmarkState.length > 0 : false);
@@ -78,7 +81,7 @@ const PlacePage = () => {
     lng: placeInfo?.lng,
   };
 
-  console.log({ placePosition });
+  // console.log({ imgList });
   // 버튼 토글
   const toggleBookmark = () => {
     if (isBookmarked) {
@@ -112,8 +115,9 @@ const PlacePage = () => {
 
   const Content = () => {
     return (
-      <div className='bg-white  text-black w-[250px] h-[100px] rounded-[20px] flex items-center justify-center text-[20px] font-bold'>
+      <div className='bg-white  text-black w-[250px] h-[100px] rounded-[20px] flex items-center justify-center text-[20px] font-bold text-wrap p-4'>
         <p>{placeInfo.place_name}</p>
+        <div className='w-5 h-5 bg-white absolute bottom-[-10px] rotate-45'></div>
       </div>
     );
   };
@@ -121,7 +125,7 @@ const PlacePage = () => {
   return (
     <MainWrapper>
       <Seo title={`${placeInfo.place_name} | `} />
-      <div className='flex items-center justify-between w-full mb-[20px] sm:hidden'>
+      <div className='flex items-center justify-between w-full mb-[20px] md:hidden'>
         <PlaceDetailHeader
           placeId={placeId}
           placeInfo={placeInfo}
@@ -174,7 +178,7 @@ const PlacePage = () => {
               position={placePosition}
               image={{
                 src: `/images/icons/${
-                  theme === 'baple' ? 'marker.svg' : 'CBicons/CBmarker.svg'
+                  baple ? 'marker.svg' : 'CBicons/CBmarker.svg'
                 }`, // 마커이미지의 주소입니다
                 size: {
                   width: 44,
@@ -249,7 +253,9 @@ const PlacePage = () => {
           {isLoggedIn ? (
             <Button
               color='primary'
-              className='px-4 sm:px-8 py-2 rounded-full text-sm sm:text-md'
+              className={`px-4 text-${
+                baple ? 'white' : 'black'
+              } sm:px-8 py-2 rounded-full text-sm sm:text-md`}
               onClick={() => router.push(`/review/write/${placeId}`)}
             >
               리뷰 작성하기
@@ -257,7 +263,9 @@ const PlacePage = () => {
           ) : (
             <Button
               color='primary'
-              className='px-8 py-2 rounded-full text-sm sm:text-md'
+              className={`px-8 py-2 text-${
+                baple ? 'white' : 'black'
+              } rounded-full text-sm sm:text-md`}
               onClick={() => toastWarn('로그인 후 이용해주세요')}
             >
               리뷰 작성하기

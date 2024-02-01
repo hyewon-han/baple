@@ -1,7 +1,7 @@
 import { ReviewsFromRPC } from '@/types/types';
 import { Pagination, Spacer } from '@nextui-org/react';
 import React from 'react';
-import ReviewCard2 from '../common/ReviewCard2';
+import ReviewCard from '../common/ReviewCard';
 import ReviewCardMobile from '../common/ReviewCardMobile';
 import { useViewport } from '@/hooks/useViewport';
 
@@ -25,7 +25,7 @@ const PaiginatedReviews = ({ reviews }: Props) => {
   return (
     <div className='w-full flex flex-col gap-y-2 items-center'>
       {!isMobile &&
-        items?.map((review, idx) => <ReviewCard2 key={idx} review={review} />)}
+        items?.map((review, idx) => <ReviewCard key={idx} review={review} />)}
       {isMobile &&
         items?.map((review, idx) => (
           <ReviewCardMobile key={idx} review={review} />

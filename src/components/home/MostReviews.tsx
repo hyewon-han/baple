@@ -10,7 +10,7 @@ import { Spacer } from '@nextui-org/react';
 import { useViewport } from '@/hooks/useViewport';
 import type { PlacesForPlaceCard, PlacesForSearch } from '@/types/types';
 import PlaceCard3 from '../common/PlaceCard3';
-import { useTheme } from 'next-themes';
+import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
 interface Props {
   initialData: PlacesForSearch[];
@@ -18,7 +18,8 @@ interface Props {
 
 const MostReviews = ({ initialData }: Props) => {
   const { isMobile, isTablet } = useViewport();
-  const { theme } = useTheme();
+  const { baple } = useCurrentTheme();
+
   const { data: topReviewedPlacesList, isLoading: placesListLoading } =
     useQuery({
       queryKey: ['topReviewedPlacesList'],
@@ -42,13 +43,23 @@ const MostReviews = ({ initialData }: Props) => {
       <Swiper
         loop={true} // 슬라이드 루프
         spaceBetween={5}
-        slidesPerView={isMobile ? 2 : isTablet ? 2 : 4}
+        // slidesPerView={2}
         navigation={true} // prev, next button
         modules={[Navigation, Autoplay]}
-        autoplay={true}
+        // autoplay={true}
         className=''
         allowTouchMove={false}
-        id={`${theme === 'baple' ? 'baple' : 'color_blind'}`}
+        id={`${baple ? 'baple' : 'color_blind'}`}
+        breakpoints={{
+          375: { slidesPerView: 2 },
+          640: { slidesPerView: 2 },
+          768: {
+            slidesPerView: 3,
+          },
+          1024: {
+            slidesPerView: 4,
+          },
+        }}
       >
         {topReviewedPlacesList?.map((place) => {
           return (

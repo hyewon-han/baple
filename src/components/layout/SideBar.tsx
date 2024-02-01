@@ -6,14 +6,15 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
 import { useRouter } from 'next/router';
 import ThemeSwitcher from './ThemeSwitcher';
-import { useTheme } from 'next-themes';
+import { useCurrentTheme } from '@/hooks/useCurrentTheme';
+import Swal from 'sweetalert2';
 
 const SideBar = () => {
   const [isSidebarOpened, setIsSidebarOpened] = useState(false);
   const { userId, isLoggedIn } = useSelector((state: RootState) => state.auth);
   const [isLoaded, setIsLoaded] = useState(false);
   const router = useRouter();
-  const { theme } = useTheme();
+  const { baple } = useCurrentTheme();
 
   useEffect(() => {
     setIsLoaded(true);
@@ -51,13 +52,21 @@ const SideBar = () => {
           )}
           <div
             className={`${
-              theme === 'baple' ? 'bg-gray-200' : 'bg-gray-900'
+              baple ? 'bg-gray-300' : 'bg-gray-900'
             } bg-opacity-90 h-screen w-[300px] md:hidden fixed top-0 left-0 transition-transform transform ${
               isSidebarOpened ? 'translate-x-0' : '-translate-x-full'
             } ease-in-out duration-300 z-40`}
           >
             {/* Content of the sidebar */}
             <div className={`flex flex-col m-16 gap-5`}>
+              <div
+                className={`hover:text-primary ${
+                  router.pathname === '/about' ? 'text-primary' : ''
+                }`}
+                onClick={() => Swal.fire('준비중입니다!')}
+              >
+                배플 소개
+              </div>
               <Link
                 href='/nearby'
                 className={` ${
@@ -80,7 +89,7 @@ const SideBar = () => {
                   router.pathname.startsWith('/board') ? 'text-primary' : ''
                 }`}
               >
-                게시판
+                건의 게시판
               </Link>
               {isLoggedIn ? (
                 <Link

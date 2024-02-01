@@ -7,16 +7,23 @@ import { useForm, FieldErrors, FieldValues } from 'react-hook-form';
 import { toastWarn } from '@/libs/toastifyAlert';
 import { useComments } from '@/hooks/useComments';
 import Image from 'next/image';
+import { useCurrentTheme } from '@/hooks/useCurrentTheme';
+import { useAlarm } from '@/hooks/useAlarm';
 // import { commentsAlert } from '@/apis/commentAlert';
-import { useTheme } from 'next-themes';
 
 interface Props {
   reviewId: string;
+  reviewUserId: string;
   commentsCount: number | undefined;
   placeId: string | undefined;
 }
 
-const CommentInput = ({ reviewId, placeId, commentsCount }: Props) => {
+const CommentInput = ({
+  reviewId,
+  reviewUserId,
+  placeId,
+  commentsCount,
+}: Props) => {
   const {
     register,
     handleSubmit,
@@ -24,9 +31,11 @@ const CommentInput = ({ reviewId, placeId, commentsCount }: Props) => {
   } = useForm({ mode: 'onSubmit' });
   const { isLoggedIn, userId } = useSelector((state: RootState) => state.auth);
   const { insertComment } = useComments(userId as string, placeId);
+  const { insertCommentAlarm } = useAlarm();
 
   const [comment, setComment] = useState('');
-  const { theme } = useTheme();
+  const { baple } = useCurrentTheme();
+
   const submitComment = async () => {
     // e.preventDefault();
     if (!isLoggedIn) {
@@ -34,8 +43,16 @@ const CommentInput = ({ reviewId, placeId, commentsCount }: Props) => {
       return;
     }
     const newCommentData = new newComment(reviewId, userId, comment);
+    const newCommentAlarmInfo = {
+      type: 'comment',
+      review_id: reviewId,
+      sender_id: userId,
+      received_id: reviewUserId,
+      message: comment,
+      read: false,
+    };
     insertComment(newCommentData);
-    // commentsAlert();
+    insertCommentAlarm(newCommentAlarmInfo);
     setComment('');
   };
 
@@ -53,9 +70,7 @@ const CommentInput = ({ reviewId, placeId, commentsCount }: Props) => {
         <span className='px-[10px] flex items-center'>
           <Image
             src={`/images/icons/${
-              theme === 'baple'
-                ? 'comment_select.svg'
-                : 'CBicons/CBcomment_select.svg'
+              baple ? 'comment_select.svg' : 'CBicons/CBcomment_select.svg'
             }`}
             width={20}
             height={20}

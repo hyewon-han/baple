@@ -86,7 +86,7 @@ export const updatePost = async ({
   editValue: EditValueProps;
 }) => {
   const { title, category, content, placeName, userId } = editValue;
-  const { data, error } = await supabase
+  await supabase
     .from('boards')
     .update({
       title,

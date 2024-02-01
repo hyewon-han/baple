@@ -4,7 +4,7 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import { PlaceInfoAllData } from './PlaceDetail';
 import Image from 'next/image';
 import { useViewport } from '@/hooks/useViewport';
-import { useTheme } from 'next-themes';
+import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
 const PlaceDetailHeader = ({
   placeId,
@@ -15,7 +15,8 @@ const PlaceDetailHeader = ({
   showAlert,
 }: PlaceInfoAllData) => {
   const { isMobile } = useViewport();
-  const { theme } = useTheme();
+  const { baple } = useCurrentTheme();
+
   return (
     <>
       <h1 className='text-2xl font-bold md:text-3xl'>{placeInfo.place_name}</h1>
@@ -25,7 +26,7 @@ const PlaceDetailHeader = ({
             <>
               <Image
                 src={`/images/icons/${
-                  theme === 'baple'
+                  baple
                     ? 'bookmark_select.svg'
                     : 'CBicons/CBbookmark_select_.svg'
                 }`}
@@ -36,16 +37,9 @@ const PlaceDetailHeader = ({
                 onClick={toggleBookmark}
               />
 
-              <Image
-                src={`/images/icons/${
-                  theme === 'baple'
-                    ? 'share_select.svg'
-                    : 'CBicons/CBshare_select.svg'
-                }`}
-                alt='kakao share'
-                width={isMobile ? 24 : 34}
-                height={isMobile ? 24 : 34}
-                className='cursor-pointer'
+              <RiKakaoTalkFill
+                size={isMobile ? 34 : 40}
+                className='cursor-pointer text-primary'
                 onClick={() =>
                   shareKakao({
                     address: placeInfo?.address,
@@ -59,7 +53,7 @@ const PlaceDetailHeader = ({
             <>
               <Image
                 src={`/images/icons/${
-                  theme === 'baple' ? 'bookmark.svg' : 'CBicons/CBbookmark.svg'
+                  baple ? 'bookmark.svg' : 'CBicons/CBbookmark.svg'
                 }`}
                 alt='bookmark'
                 width={isMobile ? 24 : 34}
@@ -68,16 +62,9 @@ const PlaceDetailHeader = ({
                 onClick={toggleBookmark}
               />
 
-              <Image
-                src={`/images/icons/${
-                  theme === 'baple'
-                    ? 'share_select.svg'
-                    : 'CBicons/CBshare_select.svg'
-                }`}
-                alt='kakao share'
-                width={isMobile ? 24 : 34}
-                height={isMobile ? 24 : 34}
-                className='cursor-pointer'
+              <RiKakaoTalkFill
+                size={isMobile ? 34 : 40}
+                className='cursor-pointer text-primary'
                 onClick={() =>
                   shareKakao({
                     address: placeInfo?.address,
@@ -91,7 +78,9 @@ const PlaceDetailHeader = ({
         ) : (
           <>
             <Image
-              src='/images/icons/bookmark.svg'
+              src={`/images/icons/${
+                baple ? 'bookmark.svg' : 'CBicons/CBbookmark.svg'
+              }`}
               alt='bookmark'
               width={isMobile ? 24 : 34}
               height={isMobile ? 24 : 34}
@@ -99,16 +88,9 @@ const PlaceDetailHeader = ({
               onClick={showAlert}
             />
 
-            <Image
-              src={`/images/icons/${
-                theme === 'baple'
-                  ? 'share_select.svg'
-                  : 'CBicons/CBshare_select.svg'
-              }`}
-              alt='kakao share'
-              width={isMobile ? 24 : 34}
-              height={isMobile ? 24 : 34}
-              className='cursor-pointer'
+            <RiKakaoTalkFill
+              size={isMobile ? 34 : 40}
+              className='cursor-pointer text-primary'
               onClick={() =>
                 shareKakao({
                   address: placeInfo?.address,

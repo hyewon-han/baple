@@ -1,81 +1,109 @@
-import { getCommentsByReviewId } from '@/apis/comments';
-import { getLikes } from '@/apis/likes';
-import { getUserDataById } from '@/apis/users';
-import { Tables } from '@/types/supabase';
-// import { ReviewCard } from '@/types/types';
-import { formatDate } from '@/utils/dateFormatter';
-import { Avatar, Card, CardBody, CardFooter, Image } from '@nextui-org/react';
-import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
 import React from 'react';
+import { Avatar, Spacer } from '@nextui-org/react';
+import Link from 'next/link';
+import { formatDate } from '@/utils/dateFormatter';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useViewport } from '@/hooks/useViewport';
 
-type Props = {
-  review: Tables<'reviews'>;
-};
+import type { ReviewsFromRPC } from '@/types/types';
+import { useCurrentTheme } from '@/hooks/useCurrentTheme';
+
+interface Props {
+  review: ReviewsFromRPC;
+}
 
 const ReviewCard = ({ review }: Props) => {
-  const router = useRouter();
-  // console.log('reviewProps! >> ', review);
+  const { pathname } = useRouter();
+  const displayPlaceName = pathname === '/place/[placeId]' ? false : true;
+  const {
+    images_url,
+    content,
+    likes_count,
+    comments_count,
+    unique_review_id,
+    place_name,
+    user_name,
+    user_avatar_url,
+  } = review;
+  const { isTablet } = useViewport();
 
-  const { data: likes } = useQuery({
-    queryKey: ['like', review.id],
-    queryFn: () => getLikes(review.id),
-  });
-
-  const { data: comments } = useQuery({
-    queryKey: ['comment', review.id],
-    queryFn: () => getCommentsByReviewId(review.id),
-  });
-
-  const { data: user } = useQuery({
-    queryKey: ['user', review.user_id],
-    queryFn: () => getUserDataById(review.user_id),
-  });
-
-  // console.log('likesCount길이', likes?.length);
-  // console.log('comments길이', comments?.length);
-  // console.log('user data', user);
+  const { baple } = useCurrentTheme();
 
   return (
-    <Card
-      shadow='sm'
-      // key={index}
-      isPressable
-      onPress={() => router.push(`/review/${review.id}`)}
-      className='p-2 w-[230px] h-[280px]'
-    >
-      <CardBody className='overflow-visible p-0'>
-        <Image
-          shadow='sm'
-          radius='lg'
-          width='100%'
-          height={230}
-          alt='review image'
-          className='w-full object-cover h-[140px]'
-          src={
-            Array.isArray(review?.images_url)
-              ? (review?.images_url[0] as string)
-              : undefined
-          }
-        />
-      </CardBody>
-      <CardFooter className='text-small justify-between flex flex-col'>
-        <div className='flex flex-row w-full justify-between'>
-          <div className='flex items-center gap-2'>
-            <Avatar showFallback src={user?.avatar_url} />
-            <span>{user?.user_name}</span>
-          </div>
-          <span className='text-gray-400 text-xs'>
-            {formatDate(review.created_at)}
-          </span>
+    <Link className='w-full' href={`/review/${unique_review_id}`}>
+      <div className='card w-full  md:pr-[47px] py-[18px] p-2 border rounded-xl transition-all'>
+        <div className='flex justify-between gap-x-4'>
+          {isTablet ? (
+            ''
+          ) : (
+            <section className='flex flex-col w-[127px] gap-y-2 min-w-[118px] items-center justify-center'>
+              <Avatar
+                showFallback
+                src={user_avatar_url}
+                className='w-[65px] h-[65px]'
+              />
+              <strong className='text-[15px]'>{user_name}</strong>
+            </section>
+          )}
+
+          <section className='flex flex-col md:w-[60%] w-[80%]'>
+            <div className='flex flex-col gap-4'>
+              <div className='flex gap-x-1'>
+                {images_url?.map((url) => (
+                  <Image
+                    key={url}
+                    alt='review images'
+                    src={url}
+                    height={100}
+                    width={100}
+                    className='w-[100px] h-[100px] transition-all object-cover object-center rounded-md'
+                  />
+                ))}
+              </div>
+              <strong className={` ${displayPlaceName ? 'block' : 'hidden'}`}>
+                {place_name}
+              </strong>
+              <div className='w-full overflow-hidden whitespace-nowrap overflow-ellipsis h-[25px]  text-[15px] '>
+                {content}
+              </div>
+            </div>
+          </section>
+          <section className='flex text-end flex-col items-end justify-between h-auto w-[30%]'>
+            <span className='text-sm text-gray-500'>
+              {formatDate(review.created_at)}
+            </span>
+            <div className='flex justify-end gap-3'>
+              <span className='flex gap-1'>
+                <Image
+                  src={`/images/icons/${
+                    baple
+                      ? 'comment_select.svg'
+                      : 'CBicons/CBcomment_select.svg'
+                  }`}
+                  width={20}
+                  height={20}
+                  alt='comment icon'
+                />
+                {comments_count}
+              </span>
+              <span className='flex gap-1'>
+                <Image
+                  src={`/images/icons/${
+                    baple ? 'heart_select.svg' : 'CBicons/CBfilled-heart.svg'
+                  }`}
+                  width={20}
+                  height={20}
+                  alt='likes icon'
+                />
+
+                {likes_count}
+              </span>
+            </div>
+          </section>
         </div>
-        <div className='flex flex-row justify-end'>
-          <span className='mr-[6px]'>{comments?.length}개의 댓글</span>
-          <span className='mr-[6px]'>❤️ {likes?.length}</span>
-        </div>
-        <p className='w-[100%] h-[100px] p-2 mt-2 bg-white'>{review.content}</p>
-      </CardFooter>
-    </Card>
+      </div>
+    </Link>
   );
 };
 

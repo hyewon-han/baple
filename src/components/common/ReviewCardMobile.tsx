@@ -5,7 +5,7 @@ import type { ReviewsFromRPC } from '@/types/types';
 import { formatDate } from '@/utils/dateFormatter';
 import { Image } from '@nextui-org/react';
 import NextImage from 'next/image';
-import { useTheme } from 'next-themes';
+import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
 interface Props {
   review: ReviewsFromRPC;
@@ -26,7 +26,7 @@ const ReviewCardMobile = ({ review }: Props) => {
     user_avatar_url,
   } = review;
 
-  const { theme } = useTheme();
+  const { baple } = useCurrentTheme();
 
   return (
     <Link className='w-full' href={`/review/${unique_review_id}`}>
@@ -56,9 +56,7 @@ const ReviewCardMobile = ({ review }: Props) => {
             <span className='flex gap-1'>
               <NextImage
                 src={`/images/icons/${
-                  theme === 'baple'
-                    ? 'comment_select.svg'
-                    : 'CBicons/CBcomment_select.svg'
+                  baple ? 'comment_select.svg' : 'CBicons/CBcomment_select.svg'
                 }`}
                 width={20}
                 height={20}
@@ -69,9 +67,7 @@ const ReviewCardMobile = ({ review }: Props) => {
             <span className='flex gap-1'>
               <NextImage
                 src={`/images/icons/${
-                  theme === 'baple'
-                    ? 'heart_select.svg'
-                    : 'CBicons/CBfilled-heart.svg'
+                  baple ? 'heart_select.svg' : 'CBicons/CBfilled-heart.svg'
                 }`}
                 width={20}
                 height={20}

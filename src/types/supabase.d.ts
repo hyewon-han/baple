@@ -9,6 +9,36 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      alarm: {
+        Row: {
+          created_at: string;
+          id: string;
+          message: string | null;
+          read: boolean | null;
+          received_id: string | null;
+          sender_id: string | null;
+          type: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          message?: string | null;
+          read?: boolean | null;
+          received_id?: string | null;
+          sender_id?: string | null;
+          type?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          message?: string | null;
+          read?: boolean | null;
+          received_id?: string | null;
+          sender_id?: string | null;
+          type?: string | null;
+        };
+        Relationships: [];
+      };
       boards: {
         Row: {
           category: string | null;
@@ -306,7 +336,7 @@ export interface Database {
           id: string;
           images_url: string[] | null;
           place_id: string;
-          user_id: string | null;
+          user_id: string;
         };
         Insert: {
           content?: string | null;
@@ -314,7 +344,7 @@ export interface Database {
           id?: string;
           images_url?: Json | null;
           place_id?: string | null;
-          user_id?: string | null;
+          user_id?: string;
         };
         Update: {
           content?: string | null;
@@ -322,7 +352,7 @@ export interface Database {
           id?: string;
           images_url?: Json | null;
           place_id?: string | null;
-          user_id?: string | null;
+          user_id?: string;
         };
         Relationships: [
           {

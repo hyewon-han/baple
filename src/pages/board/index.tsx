@@ -2,7 +2,7 @@ import { getPosts } from '@/apis/boards';
 import MainWrapper from '@/components/layout/MainWrapper';
 import { toastWarn } from '@/libs/toastifyAlert';
 import { RootState } from '@/redux/config/configStore';
-import { formatDate } from '@/utils/dateFormatter';
+import { formatDateNoTime } from '@/utils/dateFormatter';
 import { Button, Divider, Spacer, Spinner } from '@nextui-org/react';
 import { Pagination } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
@@ -26,7 +26,6 @@ const BoardPage = () => {
       return posts.map((post) => ({
         ...post,
         user_name: post.users.user_name,
-        created_at: formatDate(post.created_at),
       }));
     },
   });
@@ -69,7 +68,7 @@ const BoardPage = () => {
           <tr className='text-lg sm:text-xl'>
             <th>카테고리</th>
             <th>제목</th>
-            <th className='hidden md:table-cell lg:table-cell'>작성자</th>
+            <th className='hidden lg:table-cell'>작성자</th>
             <th className='hidden lg:table-cell'>장소</th>
             <th className='hidden lg:table-cell'>작성일</th>
           </tr>
@@ -89,7 +88,7 @@ const BoardPage = () => {
                     : item.title
                   : item.title}
               </td>
-              <td className='text-center hidden md:table-cell lg:table-cell'>
+              <td className='text-center hidden lg:table-cell'>
                 {item.users.user_name}
               </td>
               <td className='text-center hidden lg:table-cell whitespace-nowrap'>
@@ -98,7 +97,7 @@ const BoardPage = () => {
                   : item.place_name}
               </td>
               <td className='text-center hidden lg:table-cell'>
-                {item.created_at.slice(0, 11)}
+                {formatDateNoTime(item.created_at)}
               </td>
             </tr>
           ))}

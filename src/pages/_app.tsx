@@ -55,7 +55,11 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const router = useRouter();
 
-  if (router.pathname === '/login' || router.pathname === '/signup') {
+  if (
+    router.pathname === '/login' ||
+    router.pathname === '/signup' ||
+    router.pathname === '/update-password'
+  ) {
     return (
       <main className={nanumSquareRound.className}>
         <Providers>

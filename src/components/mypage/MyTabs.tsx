@@ -1,7 +1,7 @@
 import { getBookmarksByUserId } from '@/apis/bookmarks';
 import { getLikedReviews, getReviewsByUserIdrpc } from '@/apis/reviews';
 import PlaceCard2 from '../common/PlaceCard2';
-import ReviewCard2 from '../common/ReviewCard2';
+import ReviewCard from '../common/ReviewCard';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardBody, Tabs, Tab, Spinner } from '@nextui-org/react';
 import { useSelector } from 'react-redux';
@@ -110,7 +110,7 @@ const MyTabs = () => {
               {!isMobile && (
                 <div className='flex flex-col gap-1'>
                   {likedReviews?.recentOrderLiked.map((review, idx) => (
-                    <ReviewCard2 review={review} key={idx} />
+                    <ReviewCard review={review} key={idx} />
                   ))}
                 </div>
               )}
@@ -142,7 +142,7 @@ const MyTabs = () => {
               {!isMobile && (
                 <div className='flex flex-col gap-1'>
                   {writtenReviews?.recentOrderWritten.map((review, idx) => (
-                    <ReviewCard2 review={review} key={idx} />
+                    <ReviewCard review={review} key={idx} />
                   ))}
                 </div>
               )}

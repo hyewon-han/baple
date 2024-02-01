@@ -5,6 +5,7 @@ import MapPlaceCard from './MapPlaceCard';
 import PagiNation from './PagiNation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
 const PlacesModal = ({
   regionName,
@@ -34,6 +35,8 @@ const PlacesModal = ({
     // 전체데이터가 변할 때마다 게시물 수 업데이트
     setPage(1);
   }, [places]);
+
+  const { baple } = useCurrentTheme();
   return (
     <div className={`absolute  w-[100%] h-[100%]`}>
       <div
@@ -55,8 +58,8 @@ const PlacesModal = ({
             className='flex absolute  w-[40px] h-[40px] z-10 right-[-10px] sm:h-[60px]'
             src={
               isModalVisible
-                ? 'images/icons/button_내주변장소_오.svg'
-                : 'images/icons/button_내주변장소_왼.svg'
+                ? `images/icons/${baple ? '' : 'CB'}button_내주변장소_오.svg`
+                : `images/icons/${baple ? '' : 'CB'}button_내주변장소_왼.svg`
             }
             width={60}
             height={60}

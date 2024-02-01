@@ -12,8 +12,9 @@ import { PlacesForSearch } from '@/types/types';
 import TopButton from '@/components/common/TopButton';
 import Image from 'next/image';
 import MainWrapper from '@/components/layout/MainWrapper';
-import { setSearchValue } from '@/redux/modules/searchValueSlice';
+import { saveSearchValue } from '@/redux/modules/searchSlice';
 import { useRouter } from 'next/router';
+import { saveSelectedBtn } from '@/redux/modules/seletedBtnSlice';
 
 // const inter = Inter({ subsets: ['latin'] });
 
@@ -30,20 +31,38 @@ interface Props {
 
 const Home = ({ topBookmarked, topReviewed }: Props) => {
   // const { username, userId } = useSelector((state: RootState) => state.auth);
+  const selectedBtn = useSelector((state: RootState) => state.selectedBtn);
   const [isLoaded, setIsLoaded] = useState(false);
-
+  const [searchValue, setSearchValue] = useState('');
+  const dispatch = useDispatch();
+  const router = useRouter();
   useEffect(() => {
     setIsLoaded(true);
   }, []);
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+
+  const handleClickSearchBtn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(setSearchValue(localSearchValue));
+    dispatch(saveSearchValue(searchValue));
     router.push('/places');
   };
 
-  const [localSearchValue, setLocalSearchValue] = useState('');
+  const handleClickBtns = (value: string) => {
+    dispatch(saveSelectedBtn(value));
+  };
+
+  const generateBtns = (value: string, label: string) => (
+    <Button
+      key={value}
+      onClick={() => handleClickBtns(value)}
+      color='primary'
+      radius='full'
+      variant={selectedBtn.includes(value) ? 'solid' : 'bordered'}
+      className='w-full md:w-36'
+    >
+      {label}
+    </Button>
+  );
+
   return (
     <>
       {isLoaded ? (
@@ -55,15 +74,25 @@ const Home = ({ topBookmarked, topReviewed }: Props) => {
             slideHeight={'400px'} // 캐러셀 높이
           />
           <MainWrapper>
+            <div className='grid grid-cols-2 sm:grid-cols-4 place-items-center gap-2 sm:w-[60%] mx-auto'>
+              {generateBtns('is_paid', '입장료')}
+              {generateBtns('is_easy_door', '장애인용 출입문')}
+              {generateBtns('is_wheelchair_rental', '휠체어 대여')}
+              {generateBtns('is_guide_dog', '안내견 동반')}
+              {generateBtns('is_braille_guide', '점자 가이드')}
+              {generateBtns('is_audio_guide', '오디오 가이드')}
+              {generateBtns('is_disabled_toilet', '장애인용 화장실')}
+              {generateBtns('is_disabled_parking', '장애인용 주차장')}
+            </div>
             {/* 검색창 */}
             <form
-              onSubmit={handleSearch}
+              onSubmit={handleClickSearchBtn}
               className='flex justify-center w-full sm:w-[60%] m-auto mt-10 mb-4 sm:mb-8 bg-primary p-[2px] rounded-full overflow-hidden'
             >
               <input
                 placeholder='장소이름을 검색하세요'
-                value={localSearchValue}
-                onChange={(e) => setLocalSearchValue(e.target.value)}
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
                 className='rounded-full w-[80%] sm:w-full p-2 px-4 placeholder:text-md focus:outline-none'
               />
               <Button
@@ -79,6 +108,7 @@ const Home = ({ topBookmarked, topReviewed }: Props) => {
                 />
               </Button>
             </form>
+
             <div className='flex flex-col w-full justify-center items-center'>
               <MostReviews initialData={topReviewed} />
               <Spacer y={10} />
@@ -95,8 +125,18 @@ const Home = ({ topBookmarked, topReviewed }: Props) => {
 
 export default Home;
 
-export async function getServerSideProps() {
+// export async function getServerSideProps() {
+//   const topBookmarked = await getTopBookmarkedPlaces();
+//   const topReviewed = await getTopReviewedPlaces();
+//   return { props: { topBookmarked, topReviewed } };
+// }
+
+export async function getStaticProps() {
   const topBookmarked = await getTopBookmarkedPlaces();
   const topReviewed = await getTopReviewedPlaces();
-  return { props: { topBookmarked, topReviewed } };
+
+  return {
+    props: { topBookmarked, topReviewed },
+    revalidate: 60 * 10, // 10분마다 갱신
+  };
 }
