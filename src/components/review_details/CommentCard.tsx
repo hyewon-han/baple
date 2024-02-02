@@ -7,6 +7,7 @@ import { useComments } from '@/hooks/useComments';
 import Swal from 'sweetalert2';
 
 import type { CommentsWithUser } from '@/types/types';
+import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
 interface Props {
   comment: CommentsWithUser;
@@ -16,7 +17,7 @@ const CommentCard = ({ comment }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newContent, setNewContent] = useState('');
   const { deleteComment, updateComment } = useComments();
-
+  const { baple } = useCurrentTheme();
   const { userId: currentUserId } = useSelector(
     (state: RootState) => state.auth,
   );
@@ -29,7 +30,7 @@ const CommentCard = ({ comment }: Props) => {
       showCancelButton: true,
       confirmButtonText: '삭제',
       cancelButtonText: '취소',
-      confirmButtonColor: '#7b4cff',
+      confirmButtonColor: baple ? '#7b4cff' : '#66b6ff',
     }).then((result) => {
       if (result.isConfirmed) {
         deleteComment(commentId);

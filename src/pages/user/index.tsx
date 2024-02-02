@@ -8,14 +8,22 @@ import { RootState } from '@/redux/config/configStore';
 import MyTabs from '@/components/mypage/MyTabs';
 import MyProfile from '@/components/mypage/MyProfile';
 import MainWrapper from '@/components/layout/MainWrapper';
+import { useRouter } from 'next/router';
 
 const UserPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const { userId } = useSelector((state: RootState) => state.auth);
+  const { userId, isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const router = useRouter();
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/');
+    }
+  }, [isLoggedIn, router]);
 
   const {
     data: user,

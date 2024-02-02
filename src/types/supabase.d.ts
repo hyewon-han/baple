@@ -9,11 +9,11 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      alarm: {
+      alarms: {
         Row: {
           created_at: string;
           id: string;
-          message: string | null;
+          like_id: string | null;
           read: boolean | null;
           received_id: string | null;
           sender_id: string | null;
@@ -22,7 +22,7 @@ export interface Database {
         Insert: {
           created_at?: string;
           id?: string;
-          message?: string | null;
+          like_id?: string | null;
           read?: boolean | null;
           received_id?: string | null;
           sender_id?: string | null;
@@ -31,7 +31,7 @@ export interface Database {
         Update: {
           created_at?: string;
           id?: string;
-          message?: string | null;
+          like_id?: string | null;
           read?: boolean | null;
           received_id?: string | null;
           sender_id?: string | null;

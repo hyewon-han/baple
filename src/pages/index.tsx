@@ -1,4 +1,3 @@
-import { Inter } from 'next/font/google';
 import Seo from '@/components/layout/Seo';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
@@ -19,9 +18,9 @@ import { saveSelectedBtn } from '@/redux/modules/seletedBtnSlice';
 // const inter = Inter({ subsets: ['latin'] });
 
 const imgList = [
-  'https://velog.velcdn.com/images/jetiiin/post/53bf0230-ed13-4bd3-a643-5b053bc664fa/image.png',
-  'https://velog.velcdn.com/images/jetiiin/post/baa72e93-0b63-4624-aa52-a584b12fe09a/image.png',
-  'https://velog.velcdn.com/images/jetiiin/post/2b79044d-826f-4b35-b6d1-c2eeee7f92a6/image.png',
+  '/images/mainCarousel1.svg',
+  '/images/mainCarousel2.svg',
+  // 'https://velog.velcdn.com/images/jetiiin/post/2b79044d-826f-4b35-b6d1-c2eeee7f92a6/image.png',
 ];
 
 interface Props {
@@ -42,8 +41,10 @@ const Home = ({ topBookmarked, topReviewed }: Props) => {
 
   const handleClickSearchBtn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(saveSearchValue(searchValue));
-    router.push('/places');
+    if (searchValue) {
+      dispatch(saveSearchValue(searchValue));
+      router.push('/places');
+    }
   };
 
   const handleClickBtns = (value: string) => {
@@ -57,7 +58,7 @@ const Home = ({ topBookmarked, topReviewed }: Props) => {
       color='primary'
       radius='full'
       variant={selectedBtn.includes(value) ? 'solid' : 'bordered'}
-      className='w-full md:w-36'
+      className='w-full'
     >
       {label}
     </Button>
@@ -65,16 +66,16 @@ const Home = ({ topBookmarked, topReviewed }: Props) => {
 
   return (
     <>
+      <Seo />
       {isLoaded ? (
         <div>
-          <Seo />
           <Carousel
             slideData={imgList} // imgList가 없으면 빈배열
             slidesPerView={1} // 보여줄 슬라이스 수
-            slideHeight={'400px'} // 캐러셀 높이
+            slideHeight='full'
           />
           <MainWrapper>
-            <div className='grid grid-cols-2 sm:grid-cols-4 place-items-center gap-2 sm:w-[60%] mx-auto'>
+            <div className='grid grid-cols-2 md:grid-cols-4 place-items-center gap-2 md:w-[60%] mx-auto'>
               {generateBtns('is_paid', '입장료')}
               {generateBtns('is_easy_door', '장애인용 출입문')}
               {generateBtns('is_wheelchair_rental', '휠체어 대여')}

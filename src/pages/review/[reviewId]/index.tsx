@@ -3,8 +3,8 @@ import MainWrapper from '@/components/layout/MainWrapper';
 import CommentInput from '@/components/review_details/CommentInput';
 import CommentList from '@/components/review_details/CommentList';
 import ReviewBody from '@/components/review_details/ReviewBody';
-import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react';
 import { getReviewById } from '@/apis/reviews';
 import { Spacer, Spinner } from '@nextui-org/react';
 import Seo from '@/components/layout/Seo';
@@ -15,12 +15,13 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
 import { useViewport } from '@/hooks/useViewport';
 import _ from 'lodash';
+import { RealtimeChannel } from '@supabase/supabase-js';
+import { supabase } from '@/libs/supabase';
 
 const ReviewPage = () => {
   const router = useRouter();
   const reviewId = router.query.reviewId as string;
   const [isEditing, setIsEditing] = useState(false);
-
   const { userId: currentUserId } = useSelector(
     (state: RootState) => state.auth,
   );
@@ -46,6 +47,27 @@ const ReviewPage = () => {
   });
 
   const placeId = review?.place_id;
+
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (!currentUserId) return;
+    const subscription: RealtimeChannel = supabase
+      .channel('custom-insert-channel')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'comments' },
+        (payload) => {
+          queryClient.invalidateQueries({
+            queryKey: ['comments', reviewId],
+          });
+        },
+      )
+      .subscribe();
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [queryClient]);
 
   if (isLoading) {
     return (

@@ -1,11 +1,6 @@
-import { deletePost, insertNewPost, updatePost } from '@/apis/boards';
 import { deleteLikes, getLikes, insertLikes } from '@/apis/likes';
-
-import { toastSuccess } from '@/libs/toastifyAlert';
 import { Tables } from '@/types/supabase';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
-
 interface Likes {
   id: string;
   user_id: string;
@@ -18,7 +13,6 @@ export const useLikes = (
   placeInfo: Tables<'places'>,
 ) => {
   const queryClient = useQueryClient();
-  const router = useRouter();
 
   const insertLikesMutation = useMutation({
     mutationFn: insertLikes,

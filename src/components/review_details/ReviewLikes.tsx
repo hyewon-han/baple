@@ -1,12 +1,9 @@
 import { getLike, getLikes } from '@/apis/likes';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-
-import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
-import { FaShareAlt } from 'react-icons/fa';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { FaPaperclip } from 'react-icons/fa';
 import { Tables } from '@/types/supabase';
@@ -16,6 +13,7 @@ import { shareKakao } from '@/utils/shareKaKao';
 import Image from 'next/image';
 import { useLikes } from '@/hooks/useLikes';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
+import { useAlarm } from '@/hooks/useAlarm';
 
 interface Props {
   review: Tables<'reviews'>;
@@ -26,7 +24,8 @@ const ReviewLikes = ({ review }: Props) => {
   const { userId, isLoggedIn } = useSelector((state: RootState) => state.auth);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isShown, setIsShown] = useState(false);
-  const { id: reviewId } = review;
+  const { insertAlarm } = useAlarm();
+  const { id: reviewId, user_id: reviewUserId } = review;
 
   const { data: placeInfo } = useQuery({
     queryKey: ['placeInfo', review.place_id],
@@ -57,6 +56,13 @@ const ReviewLikes = ({ review }: Props) => {
 
   // 버튼 토글
   const toggleLikes = () => {
+    const alarmInfo = {
+      type: 'like',
+      sender_id: userId,
+      received_id: reviewUserId,
+      review_id: reviewId,
+      read: false,
+    };
     if (isLiked) {
       setIsLiked(false);
       deleteLike({ userId: userId, reviewId });
@@ -65,6 +71,7 @@ const ReviewLikes = ({ review }: Props) => {
       setIsLiked(true);
       insertLike({ userId: userId, reviewId });
       plusLikeCount(reviewId);
+      insertAlarm(alarmInfo);
     }
   };
 

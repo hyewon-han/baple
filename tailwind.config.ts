@@ -104,6 +104,7 @@ module.exports = {
   ],
   safelist: [
     'h-[400px]',
+    'h-[500px]',
     'visible',
     'invisible',
     'opacity-100',

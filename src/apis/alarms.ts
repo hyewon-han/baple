@@ -5,21 +5,22 @@ interface AlarmInfoType {
   review_id: string;
   sender_id: string;
   received_id: string;
-  message: string;
+  read: boolean;
 }
 
 // 알림 추가
-export const insertNewCommentAlarm = async (alarmInfo: AlarmInfoType) => {
-  await supabase.from('alarm').insert([alarmInfo]);
+export const insertNewAlarm = async (alarmInfo: AlarmInfoType) => {
+  await supabase.from('alarms').insert([alarmInfo]);
 };
 
 // 알림 가져오기
-export const getCommentAlarm = async (userId: string) => {
+export const getAlarm = async (userId: string) => {
   const { data, error } = await supabase
-    .from('alarm')
+    .from('alarms')
     .select('*')
     .eq('received_id', userId)
     .eq('read', false);
+  // .eq('type', 'comment');
   // .single();
   if (error) {
     throw error;
@@ -29,9 +30,9 @@ export const getCommentAlarm = async (userId: string) => {
 };
 
 // 읽음 처리
-export const updateCommentAlarm = async (alarmId: string) => {
+export const updateAlarm = async (alarmId: string) => {
   await supabase
-    .from('alarm')
+    .from('alarms')
     .update({
       read: true,
     })
@@ -40,10 +41,10 @@ export const updateCommentAlarm = async (alarmId: string) => {
 };
 
 // 모두 읽음 처리
-export const updateCommentAllAlarm = async (receivedId: string) => {
+export const updateAllAlarm = async (receivedId: string) => {
   console.log(receivedId);
   await supabase
-    .from('alarm')
+    .from('alarms')
     .update({
       read: true,
     })

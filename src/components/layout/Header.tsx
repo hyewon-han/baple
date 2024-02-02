@@ -10,6 +10,11 @@ import {
   DropdownMenu,
   DropdownItem,
   Button,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  User,
+  Divider,
 } from '@nextui-org/react';
 import { RootState } from '@/redux/config/configStore';
 import { useRouter } from 'next/router';
@@ -28,13 +33,13 @@ const Header = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<any>(null);
-  // const [userId, setUserId] = useState('');
   const { userId, isLoggedIn } = useSelector((state: RootState) => state.auth);
   const { isMobile, isTablet } = useViewport();
   const [isLoaded, setIsLoaded] = useState(false);
   const { baple } = useCurrentTheme();
-  const [alarmState, setAlarmState] = useState(false);
+  const [alarmState, setAlarmState] = useState<boolean>();
   const { alarmData } = useAlarm();
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -42,6 +47,11 @@ const Header = () => {
 
   const queryClient = useQueryClient();
 
+  useEffect(() => {
+    setAlarmState(alarmData?.length === 0 ? false : true);
+  }, [alarmData?.length]);
+
+  // 알림
   useEffect(() => {
     if (!userId) return;
     const subscription: RealtimeChannel = supabase
@@ -51,12 +61,12 @@ const Header = () => {
         {
           event: 'INSERT',
           schema: 'public',
-          table: 'alarm',
+          table: 'alarms',
           filter: `received_id=eq.${userId}`,
         },
         (payload) => {
           queryClient.invalidateQueries({
-            queryKey: ['alarm', userId],
+            queryKey: ['alarms'],
           });
           setAlarmState(true);
         },
@@ -66,12 +76,12 @@ const Header = () => {
         {
           event: 'UPDATE',
           schema: 'public',
-          table: 'alarm',
+          table: 'alarms',
           filter: `received_id=eq.${userId}`,
         },
         (payload) => {
           queryClient.invalidateQueries({
-            queryKey: ['alarm', userId],
+            queryKey: ['alarms'],
           });
         },
       )
@@ -79,7 +89,7 @@ const Header = () => {
     return () => {
       subscription.unsubscribe();
     };
-  }, [userId]);
+  }, [queryClient]);
 
   useEffect(() => {
     if (alarmData?.length === 0) {
@@ -140,7 +150,6 @@ const Header = () => {
           }),
         );
         setCurrentUser(session?.user);
-        // setusername(username);
       }
     });
   }, [dispatch, user]);
@@ -219,37 +228,52 @@ const Header = () => {
                   <AlarmModal alarmState={alarmState} />
 
                   {/* 프로필 */}
-                  <span className='hidden md:block'>
-                    반가워요 {user?.user_name}님!
-                  </span>
-                  <Dropdown>
-                    <DropdownTrigger>
+
+                  <Popover
+                    isOpen={isPopoverOpen}
+                    shouldCloseOnInteractOutside={() => {
+                      setIsPopoverOpen(false);
+                      return true;
+                    }}
+                  >
+                    <PopoverTrigger>
                       <Avatar
                         showFallback
                         src={user?.avatar_url}
                         className='hover:brightness-50 transition cursor-pointer'
+                        onClick={() => setIsPopoverOpen(!isPopoverOpen)}
                       />
-                    </DropdownTrigger>
-                    <DropdownMenu aria-label='Static Actions'>
-                      <DropdownItem
-                        key='mypage'
-                        // href={`/user/${currentUser.id}`}
+                    </PopoverTrigger>
+                    <PopoverContent className='flex gap-3'>
+                      <div className='flex flex-col items-center mt-5'>
+                        <User
+                          name={`${user?.user_name}`}
+                          description={`${user?.email}`}
+                          avatarProps={{
+                            src: user?.avatar_url,
+                          }}
+                        />
+                      </div>
+                      <Divider className='my-2' />
+                      <Link
+                        href={`/user`}
+                        className='hover:bg-gray-200 brightness-30 transition-all w-full text-center rounded p-2 cursor-pointer'
+                        onClick={() => setIsPopoverOpen(false)}
                       >
-                        <Link
-                          className='block'
-                          href={`/user/${currentUser.id}`}
-                        >
-                          마이페이지
-                        </Link>
-                      </DropdownItem>
-                      <DropdownItem key='logout' onClick={logOutHandler}>
+                        마이페이지
+                      </Link>
+                      <div
+                        onClick={logOutHandler}
+                        className='hover:bg-gray-200 brightness-30 transition-all w-full text-center rounded p-2 cursor-pointer'
+                      >
                         로그아웃
-                      </DropdownItem>
-                      <DropdownItem key='mode'>
-                        색맹모드 <ThemeSwitcher />
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
+                      </div>
+                      <div className='w-full flex justify-center items-center gap-2'>
+                        <span>색약모드</span>
+                        <ThemeSwitcher />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                 </div>
               ) : (
                 <div className='hidden md:flex gap-4 w-full justify-end '>

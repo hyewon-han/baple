@@ -6,6 +6,7 @@ import { RootState } from '@/redux/config/configStore';
 import { useSelector } from 'react-redux';
 import { Avatar, Input } from '@nextui-org/react';
 import { formatDate } from '@/utils/dateFormatter';
+import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
 interface Props {
   comment: CommentsWithUser;
@@ -15,7 +16,7 @@ const CommentCardMobile = ({ comment }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newContent, setNewContent] = useState('');
   const { deleteComment, updateComment } = useComments();
-
+  const { baple } = useCurrentTheme();
   const { userId: currentUserId } = useSelector(
     (state: RootState) => state.auth,
   );
@@ -28,7 +29,7 @@ const CommentCardMobile = ({ comment }: Props) => {
       showCancelButton: true,
       confirmButtonText: '삭제',
       cancelButtonText: '취소',
-      confirmButtonColor: '#7b4cff',
+      confirmButtonColor: baple ? '#7b4cff' : '#66b6ff',
     }).then((result) => {
       if (result.isConfirmed) {
         deleteComment(commentId);

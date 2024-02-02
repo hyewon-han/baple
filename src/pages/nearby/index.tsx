@@ -219,7 +219,7 @@ const NearByPage = () => {
       ) : (
         <div className='w-[100%] h-[90vh] flex items-center justify-center'>
           <Spinner
-            label='현재위치 불러오는중 혹은 현재위치 사용불가'
+            label='로딩이 계속 된다면 새로고침 후 위치 접근 권한을 허용해 주세요!'
             color='primary'
             size='lg'
             labelColor='primary'

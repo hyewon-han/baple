@@ -31,7 +31,7 @@ const CommentInput = ({
   } = useForm({ mode: 'onSubmit' });
   const { isLoggedIn, userId } = useSelector((state: RootState) => state.auth);
   const { insertComment } = useComments(userId as string, placeId);
-  const { insertCommentAlarm } = useAlarm();
+  const { insertAlarm } = useAlarm();
 
   const [comment, setComment] = useState('');
   const { baple } = useCurrentTheme();
@@ -48,11 +48,11 @@ const CommentInput = ({
       review_id: reviewId,
       sender_id: userId,
       received_id: reviewUserId,
-      message: comment,
+      like_id: undefined,
       read: false,
     };
     insertComment(newCommentData);
-    insertCommentAlarm(newCommentAlarmInfo);
+    insertAlarm(newCommentAlarmInfo);
     setComment('');
   };
 

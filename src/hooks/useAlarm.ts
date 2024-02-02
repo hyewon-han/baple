@@ -1,9 +1,9 @@
 import {
-  getCommentAlarm,
-  insertNewCommentAlarm,
-  updateCommentAlarm,
-  updateCommentAllAlarm,
-} from '@/apis/commentAlarm';
+  getAlarm,
+  insertNewAlarm,
+  updateAlarm,
+  updateAllAlarm,
+} from '@/apis/alarms';
 import { RootState } from '@/redux/config/configStore';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
@@ -12,37 +12,38 @@ export const useAlarm = () => {
   const queryClient = useQueryClient();
   const { userId } = useSelector((state: RootState) => state.auth);
 
+  // 알림
   const { data: alarmData } = useQuery({
-    queryKey: ['alarm', userId],
-    queryFn: () => getCommentAlarm(userId),
+    queryKey: ['alarms'],
+    queryFn: () => getAlarm(userId),
     enabled: !!userId,
   });
 
   const insertCommentAlarmMutation = useMutation({
-    mutationFn: insertNewCommentAlarm,
+    mutationFn: insertNewAlarm,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['alarm', userId] });
+      queryClient.invalidateQueries({ queryKey: ['alarms'] });
     },
   });
 
   const updateCommentAlarmMutation = useMutation({
-    mutationFn: updateCommentAlarm,
+    mutationFn: updateAlarm,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['alarm', userId] });
+      queryClient.invalidateQueries({ queryKey: ['alarms'] });
     },
   });
 
   const updateCommentAllAlarmMutation = useMutation({
-    mutationFn: updateCommentAllAlarm,
+    mutationFn: updateAllAlarm,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['alarm', userId] });
+      queryClient.invalidateQueries({ queryKey: ['alarms'] });
     },
   });
 
   return {
-    insertCommentAlarm: insertCommentAlarmMutation.mutate,
-    updateCommentAlarm: updateCommentAlarmMutation.mutate,
-    updateCommentAllAlarm: updateCommentAllAlarmMutation.mutate,
+    insertAlarm: insertCommentAlarmMutation.mutate,
+    updateAlarm: updateCommentAlarmMutation.mutate,
+    updateAllAlarm: updateCommentAllAlarmMutation.mutate,
     alarmData,
   };
 };

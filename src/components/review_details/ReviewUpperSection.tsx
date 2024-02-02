@@ -7,8 +7,7 @@ import Link from 'next/link';
 import Swal from 'sweetalert2';
 import { useReviews } from '@/hooks/useReviews';
 import ReviewLikes from './ReviewLikes';
-import { useQuery } from '@tanstack/react-query';
-import { getPlaceInfo } from '@/apis/places';
+import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
 interface Props {
   review: ReviewWithPlaceAndUser;
@@ -24,7 +23,7 @@ const ReviewUpperSection = ({
   currentUserId,
 }: Props) => {
   const router = useRouter();
-
+  const { baple } = useCurrentTheme();
   const showDelEditBtn = currentUserId === review.user_id ? true : false;
 
   const { deleteReview } = useReviews(
@@ -40,7 +39,7 @@ const ReviewUpperSection = ({
       showCancelButton: true,
       confirmButtonText: '삭제',
       cancelButtonText: '취소',
-      confirmButtonColor: '#7b4cff',
+      confirmButtonColor: baple ? '#7b4cff' : '#66b6ff',
     }).then((result) => {
       if (result.isConfirmed) {
         if (review.images_url) {

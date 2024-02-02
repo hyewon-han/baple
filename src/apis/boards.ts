@@ -2,7 +2,8 @@ import { supabase } from '@/libs/supabase';
 
 // 게시글 쓰기
 export const insertNewPost = async (formData: EditValueProps) => {
-  const { userId, category, title, content, placeName } = formData;
+  const { userId, category, title, content, placeName, attached_images } =
+    formData;
   const { data, error } = await supabase.from('boards').insert([
     {
       user_id: userId,
@@ -10,6 +11,7 @@ export const insertNewPost = async (formData: EditValueProps) => {
       title,
       content,
       place_name: placeName,
+      attached_images,
     },
   ]);
   // console.log('post 추가 성공', data);
@@ -53,10 +55,18 @@ export const getPost = async (boardId: string) => {
 export const deletePost = async ({
   userId,
   boardId,
+  images,
 }: {
   userId: string;
   boardId: string;
+  images: string[];
 }) => {
+  if (images && images.length !== 0) {
+    const { data, error } = await supabase.storage
+      .from('board_images')
+      .remove(images);
+  }
+
   const { error } = await supabase
     .from('boards')
     .delete()
@@ -75,6 +85,7 @@ interface EditValueProps {
   content: string;
   placeName: string;
   userId: string;
+  attached_images: string[];
 }
 
 // 게시글 수정

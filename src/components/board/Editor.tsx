@@ -13,6 +13,7 @@ import ReactQuill from 'react-quill';
 import { supabase } from '@/libs/supabase';
 import imageCompression from 'browser-image-compression';
 import SpinnerModal from '../common/SpinnerModal';
+import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
 const categoryList = ['신규장소', '불편사항'];
 
@@ -25,13 +26,21 @@ const Editor = ({ isEdit }: Props) => {
   const router = useRouter();
   const { insertPost, updatePost } = useBoards();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-
+  // const [imgArr, setImgArr] = useState<string[]>([]);
+  const { baple } = useCurrentTheme();
   const boardId: string = router.query.boardId as string;
-  const [inputs, setInputs] = useState({
+  const [inputs, setInputs] = useState<{
+    title: string;
+    category: string;
+    content: string;
+    place_name: string;
+    images: string[];
+  }>({
     title: '',
     category: '신규장소',
     content: '',
     place_name: '',
+    images: [],
   });
 
   const { data: post } = useQuery({
@@ -62,6 +71,11 @@ const Editor = ({ isEdit }: Props) => {
   };
   //QUILL 이미지 핸들러
   const imageHandler = async () => {
+    const fileName = Date.now().toString();
+    setInputs((prevInputs) => ({
+      ...prevInputs,
+      images: [...prevInputs.images, fileName],
+    }));
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');
@@ -72,15 +86,15 @@ const Editor = ({ isEdit }: Props) => {
       const rawfile = input.files?.[0] as File;
       try {
         const options = {
-          maxSizeMB: 1, //storage 에 들어가는 사진은 절대로 1mb를 넘지 않음(확인완료)
+          maxSizeMB: 1,
           maxWidthOrHeight: 1920,
-          useWebWorker: true, // 멀티쓰레드 사용 여부. 사용못할시 자동으로 싱글쓰레드로 동작
+          useWebWorker: true,
         };
         const file = await imageCompression(rawfile, options);
 
         const { data: fileData, error: fileError } = await supabase.storage
           .from('board_images')
-          .upload(`${Date.now()}`, file);
+          .upload(fileName, file);
         if (fileError) {
           console.error('이미지 업로드 에러', fileError.message);
           return;
@@ -144,6 +158,7 @@ const Editor = ({ isEdit }: Props) => {
     content: inputs.content,
     placeName: inputs.place_name,
     userId,
+    attached_images: inputs.images,
   };
 
   const createPost = (e: React.FormEvent<HTMLFormElement>) => {
@@ -158,7 +173,7 @@ const Editor = ({ isEdit }: Props) => {
       showCancelButton: true,
       confirmButtonText: '등록',
       cancelButtonText: '취소',
-      confirmButtonColor: '#7b4cff',
+      confirmButtonColor: baple ? '#7b4cff' : '#66b6ff',
     }).then((result) => {
       if (result.isConfirmed) {
         insertPost(formData);
@@ -176,7 +191,7 @@ const Editor = ({ isEdit }: Props) => {
       showCancelButton: true,
       confirmButtonText: '수정',
       cancelButtonText: '취소',
-      confirmButtonColor: '#7b4cff',
+      confirmButtonColor: baple ? '#7b4cff' : '#66b6ff',
     }).then((result) => {
       if (result.isConfirmed) {
         updatePost({ boardId, editValue: formData });
@@ -191,6 +206,7 @@ const Editor = ({ isEdit }: Props) => {
         category: post.category || '신규장소',
         content: post.content || '',
         place_name: post.place_name || '',
+        images: post.attached_images || [],
       });
     }
   }, [isEdit, post]);
@@ -242,16 +258,6 @@ const Editor = ({ isEdit }: Props) => {
             maxLength={16}
           />
         </div>
-        {/* <Textarea
-          type='text'
-          variant='bordered'
-          minRows={10}
-          label='내용 (장소에 대한 간략한 설명도 적어주세요 :)'
-          aria-label='내용'
-          name='content'
-          value={inputs.content}
-          onChange={inputChange}
-        /> */}
         <div>
           {modalOpen && <SpinnerModal message={modalMessage} />}
 

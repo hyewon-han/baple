@@ -3,6 +3,7 @@ import QuillNoSSRWrapper from '@/components/common/QuillEditor';
 import MainWrapper from '@/components/layout/MainWrapper';
 import Seo from '@/components/layout/Seo';
 import { useBoards } from '@/hooks/useBoards';
+import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 import { toastSuccess } from '@/libs/toastifyAlert';
 import { RootState } from '@/redux/config/configStore';
 import { formatDate } from '@/utils/dateFormatter';
@@ -19,6 +20,7 @@ const BoardPostPage = () => {
   const router = useRouter();
   const boardId: string = router.query.boardId as string;
   const userInfo = useSelector((state: RootState) => state.auth);
+  const { baple } = useCurrentTheme();
   const { deletePost } = useBoards();
 
   const { data: post, isLoading } = useQuery({
@@ -39,10 +41,14 @@ const BoardPostPage = () => {
       showCancelButton: true,
       confirmButtonText: '삭제',
       cancelButtonText: '취소',
-      confirmButtonColor: '#7b4cff',
+      confirmButtonColor: baple ? '#7b4cff' : '#66b6ff',
     }).then((result) => {
       if (result.isConfirmed) {
-        deletePost({ userId: userInfo.userId, boardId });
+        deletePost({
+          userId: userInfo.userId,
+          boardId,
+          images: post.attached_images,
+        });
         toastSuccess('삭제 되었습니다');
       }
     });
