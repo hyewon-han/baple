@@ -14,6 +14,7 @@ import Image from 'next/image';
 import { useLikes } from '@/hooks/useLikes';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 import { useAlarm } from '@/hooks/useAlarm';
+import { useViewport } from '@/hooks/useViewport';
 
 interface Props {
   review: Tables<'reviews'>;
@@ -25,12 +26,12 @@ const ReviewLikes = ({ review }: Props) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isShown, setIsShown] = useState(false);
   const { insertAlarm } = useAlarm();
+  const { isMobile } = useViewport();
   const { id: reviewId, user_id: reviewUserId } = review;
 
   const { data: placeInfo } = useQuery({
     queryKey: ['placeInfo', review.place_id],
     queryFn: () => getPlaceInfo(review.place_id),
-    // staleTime: Infinity,
   });
 
   const { data: likeState } = useQuery({
@@ -89,7 +90,7 @@ const ReviewLikes = ({ review }: Props) => {
   const toggleShareBtn = () => {
     setIsShown((prev) => !prev);
     if (!isShown) {
-      const time = setTimeout((isShown) => setIsShown(false), 5000);
+      const time = setTimeout(() => setIsShown(false), 5000);
       return () => clearTimeout(time);
     }
   };
@@ -116,7 +117,7 @@ const ReviewLikes = ({ review }: Props) => {
                     src={`/images/icons/${
                       baple ? 'filled-heart.svg' : 'CBicons/CBfilled-heart.svg'
                     }`}
-                    alt=''
+                    alt='like icon'
                     width={34}
                     height={34}
                     onClick={toggleLikes}
@@ -133,7 +134,7 @@ const ReviewLikes = ({ review }: Props) => {
                 <div className='w-[24px] h-[24px] mr-[6px] xl:mr-0 xl:w-[34px] xl:h-[34px] xl:mb-[4px]'>
                   <Image
                     src='/images/icons/empty-heart.svg'
-                    alt=''
+                    alt='like icon'
                     width={34}
                     height={34}
                     onClick={toggleLikes}
@@ -151,7 +152,7 @@ const ReviewLikes = ({ review }: Props) => {
               <div className='w-[24px] h-[24px] mr-[6px] xl:mr-0 xl:w-[34px] xl:h-[34px] xl:mb-[4px]'>
                 <Image
                   src='/images/icons/empty-heart.svg'
-                  alt=''
+                  alt='like icon'
                   width={34}
                   height={34}
                   onClick={showLoginAlert}
@@ -186,12 +187,12 @@ const ReviewLikes = ({ review }: Props) => {
               <div
                 className={`${isShown ? 'visible' : 'invisible'} opacity-${
                   isShown ? '100' : '0'
-                } absolute w-[50px] h-[50px]  ${
-                  baple ? 'bg-slate-300' : 'bg-slate-900'
-                } top-[20px] xl:top-[-65px] left-[-70px] xl:left-[44px] rounded-full flex justify-center items-center transition-opacity duration-200 ease-in-out`}
+                } absolute w-[44px] h-[44px] xl:w-[50px] xl:h-[50px]  ${
+                  baple ? 'bg-slate-200' : 'bg-slate-900'
+                } top-[18px] xl:top-[-65px] left-[-64px] xl:left-[44px] rounded-full flex justify-center items-center transition-opacity duration-200 ease-in-out`}
               >
                 <RiKakaoTalkFill
-                  size={24}
+                  size={isMobile ? 20 : 24}
                   className='cursor-pointer text-primary'
                   onClick={() =>
                     shareKakao({
@@ -205,12 +206,12 @@ const ReviewLikes = ({ review }: Props) => {
               <div
                 className={`${isShown ? 'visible' : 'invisible'} opacity-${
                   isShown ? '100' : '0'
-                } absolute w-[50px] h-[50px] ${
-                  baple ? 'bg-slate-300' : 'bg-slate-900'
-                } top-[20px] xl:top-[-10px] left-[-16px] xl:left-[44px] rounded-full flex justify-center items-center transition-all duration-200 ease-in-out`}
+                } absolute w-[44px] h-[44px] xl:w-[50px] xl:h-[50px] ${
+                  baple ? 'bg-slate-200' : 'bg-slate-900'
+                } top-[18px] xl:top-[-10px] left-[-16px] xl:left-[44px] rounded-full flex justify-center items-center transition-all duration-200 ease-in-out`}
               >
                 <FaPaperclip
-                  size={24}
+                  size={isMobile ? 20 : 24}
                   className='cursor-pointer text-primary'
                   onClick={copyClipboard}
                 />

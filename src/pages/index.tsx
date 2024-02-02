@@ -13,7 +13,10 @@ import Image from 'next/image';
 import MainWrapper from '@/components/layout/MainWrapper';
 import { saveSearchValue } from '@/redux/modules/searchSlice';
 import { useRouter } from 'next/router';
-import { saveSelectedBtn } from '@/redux/modules/seletedBtnSlice';
+import {
+  resetSelectedBtn,
+  saveSelectedBtn,
+} from '@/redux/modules/seletedBtnSlice';
 
 // const inter = Inter({ subsets: ['latin'] });
 
@@ -38,6 +41,11 @@ const Home = ({ topBookmarked, topReviewed }: Props) => {
   useEffect(() => {
     setIsLoaded(true);
   }, []);
+
+  useEffect(() => {
+    dispatch(saveSearchValue(''));
+    dispatch(resetSelectedBtn());
+  }, [dispatch]);
 
   const handleClickSearchBtn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,7 +84,7 @@ const Home = ({ topBookmarked, topReviewed }: Props) => {
           />
           <MainWrapper>
             <div className='grid grid-cols-2 md:grid-cols-4 place-items-center gap-2 md:w-[60%] mx-auto'>
-              {generateBtns('is_paid', '입장료')}
+              {generateBtns('is_paid', '입장료 있음')}
               {generateBtns('is_easy_door', '장애인용 출입문')}
               {generateBtns('is_wheelchair_rental', '휠체어 대여')}
               {generateBtns('is_guide_dog', '안내견 동반')}
@@ -95,6 +103,7 @@ const Home = ({ topBookmarked, topReviewed }: Props) => {
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
                 className='rounded-full w-[80%] sm:w-full p-2 px-4 placeholder:text-md focus:outline-none'
+                autoFocus
               />
               <Button
                 color='primary'
@@ -125,12 +134,6 @@ const Home = ({ topBookmarked, topReviewed }: Props) => {
 };
 
 export default Home;
-
-// export async function getServerSideProps() {
-//   const topBookmarked = await getTopBookmarkedPlaces();
-//   const topReviewed = await getTopReviewedPlaces();
-//   return { props: { topBookmarked, topReviewed } };
-// }
 
 export async function getStaticProps() {
   const topBookmarked = await getTopBookmarkedPlaces();

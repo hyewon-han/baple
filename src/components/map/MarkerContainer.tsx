@@ -2,8 +2,6 @@ import { Tables } from '@/types/supabase';
 import { useEffect, useRef, useState } from 'react';
 import { CustomOverlayMap, MapMarker, useMap } from 'react-kakao-maps-sdk';
 import PlaceCard2 from '../common/PlaceCard2';
-import PlaceCard3 from '../common/PlaceCard3';
-import PlaceCard from '../common/PlaceCard';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
 const EventMarkerContainer = ({ place }: { place: Tables<'places'> }) => {

@@ -71,7 +71,7 @@ const LogInPage = () => {
       const { data, error } = await supabase.auth.resetPasswordForEmail(
         watchEmailForResetPw,
         {
-          redirectTo: 'http://localhost:3000/update-password',
+          redirectTo: `${process.env.NEXT_PUBLIC_BASEURL}/update-password`,
         },
       );
       toastAlert(

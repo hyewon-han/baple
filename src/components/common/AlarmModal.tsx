@@ -2,6 +2,7 @@ import { useAlarm } from '@/hooks/useAlarm';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 import { RootState } from '@/redux/config/configStore';
 import {
+  Badge,
   Button,
   Popover,
   PopoverContent,
@@ -39,7 +40,10 @@ const AlarmModal = ({ alarmState }: Props) => {
         <PopoverTrigger>
           <div className='w-[20px] sm:mr-4'>
             {alarmState ? (
-              <VscBellDot size={25} className='cursor-pointer' />
+              // <VscBellDot size={25} className='cursor-pointer' />
+              <Badge content={alarmData?.length} color='primary'>
+                <VscBell size={25} className='cursor-pointer' />
+              </Badge>
             ) : (
               <VscBell size={25} className='cursor-pointer' />
             )}
@@ -68,7 +72,7 @@ const AlarmModal = ({ alarmState }: Props) => {
                 <div className='flex'>
                   <Image
                     src={`/images/icons/${
-                      baple ? 'heart_select' : 'CBIcons/CBfilled-heart'
+                      baple ? 'comment_select' : 'CBicons/CBcomment_select'
                     }.svg`}
                     width={14}
                     height={14}
@@ -81,7 +85,7 @@ const AlarmModal = ({ alarmState }: Props) => {
                 <div className='flex'>
                   <Image
                     src={`/images/icons/${
-                      baple ? 'comment_select' : 'CBicons/CBcomment_select'
+                      baple ? 'heart_select' : 'CBIcons/CBfilled-heart'
                     }.svg`}
                     width={14}
                     height={14}

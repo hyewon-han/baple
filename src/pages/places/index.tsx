@@ -3,7 +3,7 @@ import PlaceCard from '@/components/common/PlaceCard';
 import TopButton from '@/components/common/TopButton';
 import MainWrapper from '@/components/layout/MainWrapper';
 import Seo from '@/components/layout/Seo';
-import { Button } from '@nextui-org/react';
+import { Button, Spinner } from '@nextui-org/react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -12,27 +12,24 @@ import { saveSearchValue } from '@/redux/modules/searchSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetchPlacesData } from '@/apis/places';
-import {
-  resetSelectedBtn,
-  saveSelectedBtn,
-} from '@/redux/modules/seletedBtnSlice';
-import _ from 'lodash';
+import useLocalStorage from 'use-local-storage';
+import { saveSelectedBtn } from '@/redux/modules/seletedBtnSlice';
+import SkeletonCard from '@/components/places/SkeletonCard';
+import { useRouter } from 'next/router';
 
 const PlacesPage = () => {
   const searchValue = useSelector((state: RootState) => state.search);
   const selectedBtn = useSelector((state: RootState) => state.selectedBtn);
   const [realSearch, setRealSearch] = useState(searchValue);
-
+  const router = useRouter();
   const dispatch = useDispatch();
   const currentPage = 1;
+  const [scrollY] = useLocalStorage('places_list_scroll', 0);
 
   useEffect(() => {
-    //클린업함수 -> 언마운트 될때 redux state 빈 스트링으로 초기화
-    return () => {
-      dispatch(saveSearchValue(''));
-      dispatch(resetSelectedBtn());
-    };
-  }, [dispatch]);
+    // 기본값이 "0"이기 때문에 스크롤 값이 저장됐을 때에만 window를 스크롤시킨다.
+    if (scrollY !== 0) window.scrollTo(0, scrollY);
+  }, [scrollY]);
 
   const handleClickSearchBtn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,7 +41,8 @@ const PlacesPage = () => {
     data: places,
     hasNextPage,
     fetchNextPage,
-    refetch,
+    status,
+    isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: ['places', realSearch, selectedBtn],
     queryFn: fetchPlacesData,
@@ -62,8 +60,6 @@ const PlacesPage = () => {
     },
   });
 
-  // console.log('places!!!!', places);
-
   const { ref } = useInView({
     threshold: 0,
     onChange: (inView) => {
@@ -73,14 +69,9 @@ const PlacesPage = () => {
   });
 
   const handleClickBtns = (value: string) => {
-    // setSelected((prevSelected) =>
-    //   prevSelected.includes(value)
-    //     ? prevSelected.filter((item) => item !== value)
-    //     : [...prevSelected, value],
-    // );
     dispatch(saveSelectedBtn(value));
   };
-  console.log('selectedBtn', selectedBtn);
+
   const generateBtns = (value: string, label: string) => (
     <Button
       key={value}
@@ -124,7 +115,7 @@ const PlacesPage = () => {
       <div className='flex gap-6 flex-col md:flex md:flex-row relative'>
         {/* 태그 */}
         <div className='grid grid-cols-2 sm:grid-cols-3 place-items-center md:w-36 md:flex md:flex-col gap-4 md:fixed'>
-          {generateBtns('is_paid', '입장료')}
+          {generateBtns('is_paid', '입장료 있음')}
           {generateBtns('is_easy_door', '장애인용 출입문')}
           {generateBtns('is_wheelchair_rental', '휠체어 대여')}
           {generateBtns('is_guide_dog', '안내견 동반')}
@@ -135,9 +126,14 @@ const PlacesPage = () => {
         </div>
         {/* 카드 */}
         <div className='relative grid grid-cols-2 lg:grid-cols-3 md:grid-cols-2 sm:gap-3 places-items-center w-full md:w-[75%] md:ml-48 '>
-          {places?.map((place, idx) => (
-            <PlaceCard key={idx} place={place} />
-          ))}
+          {status === 'pending' ? (
+            <>
+              <SkeletonCard />
+              <SkeletonCard />
+            </>
+          ) : (
+            places?.map((place, idx) => <PlaceCard key={idx} place={place} />)
+          )}
 
           {places?.length === 0 ? (
             <div className='absolute inset-x-0 min-h-[30rem] flex justify-center flex-col gap-5 items-center '>
@@ -152,8 +148,12 @@ const PlacesPage = () => {
           ) : null}
         </div>
       </div>
-
       <div ref={ref} className=' w-full h-6'></div>
+      {isFetchingNextPage && (
+        <div className='w-full flex sm:ml-12 justify-center'>
+          <Spinner color='primary' size='lg' />
+        </div>
+      )}
       <TopButton />
     </MainWrapper>
   );

@@ -57,9 +57,21 @@ body {
   display: none;
 }
 
+#color_blind .swiper-button-prev {
+  background: url(/images/icons/button/prev_blind.svg) no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+}
+
+#color_blind .swiper-button-next {
+  background: url(/images/icons/button/next_blind.svg) no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+}
+
 #color_blind .swiper-button-next::after,
 #color_blind .swiper-button-prev::after {
-  color: #66b6ff;
+  display: none;
 }
 
 /* .swiper-scrollbar {

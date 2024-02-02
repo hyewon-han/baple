@@ -13,7 +13,13 @@ import _ from 'lodash';
 import { useViewport } from '@/hooks/useViewport';
 import Seo from '@/components/layout/Seo';
 
-const BoardPage = () => {
+import type { fetchedPosts } from '@/types/types';
+
+interface Props {
+  initialPostData: fetchedPosts[];
+}
+
+const BoardPage = ({ initialPostData }: Props) => {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const userInfo = useSelector((state: RootState) => state.auth);
@@ -22,6 +28,7 @@ const BoardPage = () => {
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ['posts'],
     queryFn: () => getPosts(),
+    initialData: initialPostData,
     select: (posts) => {
       return posts.map((post) => ({
         ...post,
@@ -139,3 +146,12 @@ const BoardPage = () => {
 };
 
 export default BoardPage;
+
+export async function getStaticProps() {
+  const initialPostData = await getPosts();
+  console.log(initialPostData);
+  return {
+    props: { initialPostData },
+    revalidate: 60 * 60, // 60분마다 갱신
+  };
+}

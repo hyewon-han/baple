@@ -102,3 +102,17 @@ export interface PlacesForSearch extends PlacesForPlaceCard {
   is_disabled_parking: boolean;
   [key: string]: string;
 }
+
+export interface fetchedPosts {
+  id: string;
+  category: string;
+  title: string;
+  content: string;
+  place_name: string;
+  created_at: string;
+  user_id: string;
+  attached_images: string[] | null;
+  users: {
+    user_name: string;
+  };
+}

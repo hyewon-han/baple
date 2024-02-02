@@ -47,30 +47,6 @@ export const updatePlaceImage = async ({ id, imageUrl }: Params) => {
 
   if (error) throw error;
 };
-/*
-export const fetchPlacesData = async ({
-  pageParam = 1,
-  queryKey,
-}: {
-  pageParam?: number;
-  queryKey: string[];
-}) => {
-  console.log('fetchPlacesData호출');
-  const pageSize = 20;
-  // const searchValue = queryKey[1] || ''; // queryKey에서 검색어를 추출합니다.
-  console.log('페이지파람!!', pageParam);
-  const [_, searchValue] = queryKey;
-  const { data, error } = await supabase
-    .from('places')
-    .select()
-    .ilike('place_name', `%${searchValue}%`)
-    .range((pageParam - 1) * pageSize, pageParam * pageSize - 1); // 페이징
-
-  if (error) throw error;
-  return data;
-};
-*/
-// type QueryKey = ['places', string, string[]];
 
 export const fetchPlacesData = async ({
   pageParam = 1,
@@ -80,15 +56,12 @@ export const fetchPlacesData = async ({
   queryKey: (string | string[])[];
 }) => {
   const [_, searchValue, selectedBtn] = queryKey;
+  const PAGESIZE = 21;
   let result;
   const { data: explainData, error } = await supabase
     .rpc('search_places', {
       p_search_value: searchValue,
     })
-    // .from('places')
-    // .select()
-    // .ilike('place_name', `%${searchValue}%`)
-    // .range((pageParam - 1) * pageSize, pageParam * pageSize - 1)
     .explain({ format: 'json', analyze: true });
 
   console.log('explainData', explainData);
@@ -116,13 +89,16 @@ export const fetchPlacesData = async ({
     }
   }
 
-  const { data } = await query.range((pageParam - 1) * 21, pageParam * 21 - 1);
+  const { data } = await query.range(
+    (pageParam - 1) * PAGESIZE,
+    pageParam * PAGESIZE - 1,
+  );
 
   const resultPlaces = {
     total_length: result['Actual Rows'] as number,
     data: data,
     page: pageParam,
-    total_pages: Math.ceil(result['Actual Rows'] / 20),
+    total_pages: Math.ceil(result['Actual Rows'] / PAGESIZE),
   };
 
   if (resultPlaces) return resultPlaces;

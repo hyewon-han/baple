@@ -5,10 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Avatar,
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
   Button,
   Popover,
   PopoverContent,
@@ -159,7 +155,6 @@ const Header = () => {
     if (error) throw error;
     router.push('/');
   };
-
   return (
     <>
       {isLoaded ? (
@@ -231,6 +226,7 @@ const Header = () => {
 
                   <Popover
                     isOpen={isPopoverOpen}
+                    onOpenChange={(open) => setIsPopoverOpen(open)}
                     shouldCloseOnInteractOutside={() => {
                       setIsPopoverOpen(false);
                       return true;
@@ -241,7 +237,6 @@ const Header = () => {
                         showFallback
                         src={user?.avatar_url}
                         className='hover:brightness-50 transition cursor-pointer'
-                        onClick={() => setIsPopoverOpen(!isPopoverOpen)}
                       />
                     </PopoverTrigger>
                     <PopoverContent className='flex gap-3'>
@@ -268,7 +263,7 @@ const Header = () => {
                       >
                         로그아웃
                       </div>
-                      <div className='w-full flex justify-center items-center gap-2'>
+                      <div className='w-full flex justify-center items-center gap-2 p-2'>
                         <span>색약모드</span>
                         <ThemeSwitcher />
                       </div>

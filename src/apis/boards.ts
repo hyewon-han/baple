@@ -61,6 +61,7 @@ export const deletePost = async ({
   boardId: string;
   images: string[];
 }) => {
+  //저장된 이미지가 있을 경우 이를 storage 에서 제거
   if (images && images.length !== 0) {
     const { data, error } = await supabase.storage
       .from('board_images')
@@ -76,7 +77,6 @@ export const deletePost = async ({
   if (error) {
     console.log(error);
   }
-  // console.log('게시글 삭제');
 };
 
 interface EditValueProps {

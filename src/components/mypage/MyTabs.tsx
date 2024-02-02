@@ -1,6 +1,5 @@
 import { getBookmarksByUserId } from '@/apis/bookmarks';
 import { getLikedReviews, getReviewsByUserIdrpc } from '@/apis/reviews';
-import PlaceCard2 from '../common/PlaceCard2';
 import ReviewCard from '../common/ReviewCard';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardBody, Tabs, Tab, Spinner } from '@nextui-org/react';
@@ -10,7 +9,6 @@ import { getMyBookmarkedPlaces } from '@/apis/places';
 import PlaceCard from '../common/PlaceCard';
 import ReviewCardMobile from '../common/ReviewCardMobile';
 import { useViewport } from '@/hooks/useViewport';
-import PlaceCard3 from '../common/PlaceCard3';
 import Image from 'next/image';
 import _ from 'lodash';
 
