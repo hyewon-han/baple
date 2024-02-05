@@ -69,6 +69,11 @@ body {
   background-position: center;
 }
 
+#about .swiper-button-next::after,
+#about .swiper-button-prev::after {
+  color: #7B4CFF;
+}
+
 #color_blind .swiper-button-next::after,
 #color_blind .swiper-button-prev::after {
   display: none;
@@ -90,14 +95,14 @@ body {
 .ql-editor {
   min-height: 300px;
 }
+
 .ql-container.ql-snow.ql-disabled {
   border: none;
 }
 
 body {
   font-family: 'NanumSquareRound';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff')
-    format('woff');
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }

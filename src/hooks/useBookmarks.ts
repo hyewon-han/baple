@@ -1,8 +1,14 @@
-import { deleteBookmark, insertBookmark } from '@/apis/bookmarks';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteBookmark, getBookmark, insertBookmark } from '@/apis/bookmarks';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useBookmarks = (userId: string, placeId: string) => {
   const queryClient = useQueryClient();
+
+  const { data: bookmarkState } = useQuery({
+    queryKey: ['bookmark', userId, placeId],
+    queryFn: () => getBookmark({ userId, placeId }),
+    enabled: !!userId,
+  });
 
   const insertBookmarkMutation = useMutation({
     mutationFn: insertBookmark,
@@ -65,5 +71,6 @@ export const useBookmarks = (userId: string, placeId: string) => {
   return {
     insertBookmark: insertBookmarkMutation.mutate,
     deleteBookmark: deleteBookmarkMutation.mutate,
+    bookmarkState,
   };
 };

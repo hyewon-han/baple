@@ -5,7 +5,7 @@ import { Navigation, Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
-import { Spacer } from '@nextui-org/react';
+import { Chip, Spacer } from '@nextui-org/react';
 import { useViewport } from '@/hooks/useViewport';
 import PlaceCard3 from '../common/PlaceCard3';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
@@ -33,11 +33,14 @@ const MostReviews = ({ initialData }: Props) => {
 
   return (
     <div className='w-full '>
-      <div className='flex flex-col gap-2'>
+      <div className='flex gap-2 items-center'>
         <span className='text-2xl text-primary font-bold'>
           리뷰가 많은 장소
         </span>
-        <span className='font-light'>리뷰가 많이 달렸어요!</span>
+        <Chip color='primary' size='md' variant='flat'>
+          TOP 8
+        </Chip>
+        {/* <span className='font-light'>리뷰가 많이 달렸어요!</span> */}
       </div>
       <Spacer y={4} />
       <Swiper

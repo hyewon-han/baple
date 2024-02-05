@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState: string[] = [];
 
 const selectedBtnSlice = createSlice({
-  name: 'selected',
+  name: 'selectedBtn',
   initialState,
   reducers: {
     saveSelectedBtn: (state, action) => {

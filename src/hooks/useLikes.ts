@@ -1,6 +1,6 @@
-import { deleteLikes, getLikes, insertLikes } from '@/apis/likes';
+import { deleteLikes, getLike, getLikes, insertLikes } from '@/apis/likes';
 import { Tables } from '@/types/supabase';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 interface Likes {
   id: string;
   user_id: string;
@@ -13,6 +13,17 @@ export const useLikes = (
   placeInfo: Tables<'places'>,
 ) => {
   const queryClient = useQueryClient();
+
+  const { data: likeState } = useQuery({
+    queryKey: ['likes', userId, reviewId],
+    queryFn: () => getLike({ userId: userId, reviewId }),
+    enabled: !!userId,
+  });
+
+  const { data: likeCount } = useQuery({
+    queryKey: ['likes', reviewId],
+    queryFn: () => getLikes(reviewId),
+  });
 
   const insertLikesMutation = useMutation({
     mutationFn: insertLikes,
@@ -132,5 +143,7 @@ export const useLikes = (
     deleteLike: deleteLikesMutation.mutate,
     plusLikeCount: plusLikesCountMutation.mutate,
     minusLikeCount: minusLikesCountMutation.mutate,
+    likeState,
+    likeCount,
   };
 };

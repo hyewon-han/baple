@@ -1,4 +1,5 @@
 import { supabase } from '@/libs/supabase';
+import { Tables } from '@/types/supabase';
 
 interface Props {
   userId: string;
@@ -6,20 +7,23 @@ interface Props {
 }
 
 // 좋아요 추가
-export const insertLikes = async ({ userId, reviewId }: Props) => {
-  const { data, error } = await supabase
+export const insertLikes = async ({
+  userId,
+  reviewId,
+}: Props): Promise<void> => {
+  const { error } = await supabase
     .from('likes')
     .insert({ user_id: userId, review_id: reviewId })
     .select();
   if (error) {
     throw error;
   }
-  // console.log('좋아요 성공', data);
-  return data;
 };
 
 // 좋아요 모두 가져오기
-export const getLikes = async (reviewId: string) => {
+export const getLikes = async (
+  reviewId: string,
+): Promise<Tables<'likes'>[]> => {
   const { data, error } = await supabase
     .from('likes')
     .select()
@@ -29,11 +33,14 @@ export const getLikes = async (reviewId: string) => {
     throw error;
   }
 
-  return data;
+  return data as Tables<'likes'>[];
 };
 
 // 현재 유저가 누른 좋아요 상태
-export const getLike = async ({ userId, reviewId }: Props) => {
+export const getLike = async ({
+  userId,
+  reviewId,
+}: Props): Promise<Tables<'likes'>[]> => {
   const { data, error } = await supabase
     .from('likes')
     .select()
@@ -43,11 +50,14 @@ export const getLike = async ({ userId, reviewId }: Props) => {
   if (error) {
     throw error;
   }
-  return data;
+  return data as Tables<'likes'>[];
 };
 
 // 좋아요 삭제
-export const deleteLikes = async ({ userId, reviewId }: Props) => {
+export const deleteLikes = async ({
+  userId,
+  reviewId,
+}: Props): Promise<void> => {
   const { error } = await supabase
     .from('likes')
     .delete()
@@ -57,7 +67,6 @@ export const deleteLikes = async ({ userId, reviewId }: Props) => {
   if (error) {
     console.log(error);
   }
-  // console.log('좋아요 삭제');
 };
 
 export const getLikesByUserId = async (userId: string) => {

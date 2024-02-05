@@ -48,6 +48,7 @@ export const updatePlaceImage = async ({ id, imageUrl }: Params) => {
   if (error) throw error;
 };
 
+// 무한스크롤을 위한 queryFn
 export const fetchPlacesData = async ({
   pageParam = 1,
   queryKey,
@@ -55,7 +56,7 @@ export const fetchPlacesData = async ({
   pageParam?: number;
   queryKey: (string | string[])[];
 }) => {
-  const [_, searchValue, selectedBtn] = queryKey;
+  const [_, searchValue, selectedBtn, selecetedCity] = queryKey;
   const PAGESIZE = 21;
   let result;
   const { data: explainData, error } = await supabase
@@ -77,6 +78,13 @@ export const fetchPlacesData = async ({
     p_search_value: searchValue,
   });
 
+  if (selecetedCity) {
+    if (!Array.isArray(selecetedCity)) {
+      // selectedBtn가 배열이 아니면 단일 값으로 처리
+      query = query.in('city', [selecetedCity]);
+    }
+  }
+
   if (selectedBtn) {
     // selectedBtn가 배열이면 forEach 실행
     if (Array.isArray(selectedBtn)) {
@@ -88,11 +96,14 @@ export const fetchPlacesData = async ({
       query = query.in(selectedBtn, [true]);
     }
   }
+  console.log('query', query);
 
   const { data } = await query.range(
     (pageParam - 1) * PAGESIZE,
     pageParam * PAGESIZE - 1,
   );
+
+  console.log('data!!', data);
 
   const resultPlaces = {
     total_length: result['Actual Rows'] as number,

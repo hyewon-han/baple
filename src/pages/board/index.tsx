@@ -16,10 +16,10 @@ import Seo from '@/components/layout/Seo';
 import type { fetchedPosts } from '@/types/types';
 
 interface Props {
-  initialPostData: fetchedPosts[];
+  initialPostsData: fetchedPosts[];
 }
 
-const BoardPage = ({ initialPostData }: Props) => {
+const BoardPage = ({ initialPostsData }: Props) => {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const userInfo = useSelector((state: RootState) => state.auth);
@@ -28,7 +28,7 @@ const BoardPage = ({ initialPostData }: Props) => {
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ['posts'],
     queryFn: () => getPosts(),
-    initialData: initialPostData,
+    initialData: initialPostsData,
     select: (posts) => {
       return posts.map((post) => ({
         ...post,
@@ -147,11 +147,10 @@ const BoardPage = ({ initialPostData }: Props) => {
 
 export default BoardPage;
 
-export async function getStaticProps() {
-  const initialPostData = await getPosts();
-  console.log(initialPostData);
+export async function getServerSideProps() {
+  const initialPostsData = await getPosts();
+
   return {
-    props: { initialPostData },
-    revalidate: 60 * 60, // 60분마다 갱신
+    props: { initialPostsData },
   };
 }

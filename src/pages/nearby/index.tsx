@@ -1,4 +1,5 @@
 import Seo from '@/components/layout/Seo';
+import MarkerContainer from '@/components/map/MarkerContainer';
 import EventMarkerContainer from '@/components/map/MarkerContainer';
 import MylocationButton from '@/components/map/MylocationButton';
 import MylocationOverlayMap from '@/components/map/MylocationOverlayMap';
@@ -201,7 +202,7 @@ const NearByPage = () => {
 
           {/* 커스텀 오버레이를 뿌려줌 */}
           {place?.map((place) => (
-            <EventMarkerContainer key={place.id} place={place} />
+            <MarkerContainer key={place.id} place={place} />
           ))}
           {place?.length !== 0 ? (
             <PlacesModal

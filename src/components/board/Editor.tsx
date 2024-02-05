@@ -125,7 +125,6 @@ const Editor = ({ isEdit }: Props) => {
           [{ header: [1, 2, 3, 4, 5, false] }],
           ['bold', 'underline', 'italic', 'strike'],
           [{ list: 'ordered' }, { list: 'bullet' }],
-          [{ color: [] }],
         ],
         handlers: {
           image: imageHandler,
@@ -296,6 +295,7 @@ const Editor = ({ isEdit }: Props) => {
             </Button>
           )}
         </div>
+        <Spacer y={10} />
       </form>
     </section>
   );

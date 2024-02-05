@@ -4,7 +4,7 @@ import { CustomOverlayMap, MapMarker, useMap } from 'react-kakao-maps-sdk';
 import PlaceCard2 from '../common/PlaceCard2';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
-const EventMarkerContainer = ({ place }: { place: Tables<'places'> }) => {
+const MarkerContainer = ({ place }: { place: Tables<'places'> }) => {
   const map = useMap();
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const overlayRef = useRef<HTMLDivElement | null>(null);
@@ -59,4 +59,4 @@ const EventMarkerContainer = ({ place }: { place: Tables<'places'> }) => {
   );
 };
 
-export default EventMarkerContainer;
+export default MarkerContainer;

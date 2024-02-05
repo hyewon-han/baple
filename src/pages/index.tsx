@@ -17,6 +17,8 @@ import {
   resetSelectedBtn,
   saveSelectedBtn,
 } from '@/redux/modules/seletedBtnSlice';
+import { CITYS } from '@/utils/defaultValue';
+import { saveSelectedCity } from '@/redux/modules/selectedCitySlice';
 
 // const inter = Inter({ subsets: ['latin'] });
 
@@ -34,6 +36,7 @@ interface Props {
 const Home = ({ topBookmarked, topReviewed }: Props) => {
   // const { username, userId } = useSelector((state: RootState) => state.auth);
   const selectedBtn = useSelector((state: RootState) => state.selectedBtn);
+  const selectedCity = useSelector((state: RootState) => state.selectedCity);
   const [isLoaded, setIsLoaded] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const dispatch = useDispatch();
@@ -45,11 +48,12 @@ const Home = ({ topBookmarked, topReviewed }: Props) => {
   useEffect(() => {
     dispatch(saveSearchValue(''));
     dispatch(resetSelectedBtn());
+    dispatch(saveSelectedCity(''));
   }, [dispatch]);
 
   const handleClickSearchBtn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (searchValue) {
+    if (searchValue || selectedCity) {
       dispatch(saveSearchValue(searchValue));
       router.push('/places');
     }
@@ -98,11 +102,23 @@ const Home = ({ topBookmarked, topReviewed }: Props) => {
               onSubmit={handleClickSearchBtn}
               className='flex justify-center w-full sm:w-[60%] m-auto mt-10 mb-4 sm:mb-8 bg-primary p-[2px] rounded-full overflow-hidden'
             >
+              <div className='flex w-full max-w-xs flex-col gap-2'>
+                <select
+                  className='max-w-xs bg-white rounded-bl-full rounded-tl-full p-3 w-full h-full'
+                  onChange={(e) => dispatch(saveSelectedCity(e.target.value))}
+                >
+                  {CITYS.map((city) => (
+                    <option key={city.key} value={city.value}>
+                      {city.key}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <input
                 placeholder='장소이름을 검색하세요'
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                className='rounded-full w-[80%] sm:w-full p-2 px-4 placeholder:text-md focus:outline-none'
+                className='rounded-br-full rounded-tr-full w-[80%] sm:w-full p-2 px-4 placeholder:text-md focus:outline-none'
                 autoFocus
               />
               <Button

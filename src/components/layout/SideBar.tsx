@@ -59,14 +59,14 @@ const SideBar = () => {
           >
             {/* Content of the sidebar */}
             <div className={`flex flex-col m-16 gap-5`}>
-              <div
-                className={`hover:text-primary ${
+              <Link
+                href='/about'
+                className={` ${
                   router.pathname === '/about' ? 'text-primary' : ''
                 }`}
-                onClick={() => Swal.fire('준비중입니다!')}
               >
                 배플 소개
-              </div>
+              </Link>
               <Link
                 href='/nearby'
                 className={` ${
@@ -91,16 +91,7 @@ const SideBar = () => {
               >
                 건의 게시판
               </Link>
-              {isLoggedIn ? (
-                <Link
-                  href={`/user/${userId}`}
-                  className={` ${
-                    router.pathname.startsWith('/user') ? 'text-primary' : ''
-                  }`}
-                >
-                  마이페이지
-                </Link>
-              ) : (
+              {isLoggedIn ? null : (
                 <>
                   <Link
                     href='/login'

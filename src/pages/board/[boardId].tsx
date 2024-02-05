@@ -1,4 +1,4 @@
-import { getPost } from '@/apis/boards';
+import { getPost, getPosts } from '@/apis/boards';
 import QuillNoSSRWrapper from '@/components/common/QuillEditor';
 import MainWrapper from '@/components/layout/MainWrapper';
 import Seo from '@/components/layout/Seo';
@@ -9,6 +9,7 @@ import { RootState } from '@/redux/config/configStore';
 import { formatDate } from '@/utils/dateFormatter';
 import { Avatar, Button, Divider, Spacer, Spinner } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
+import { error } from 'console';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';
@@ -16,7 +17,11 @@ import ReactQuill from 'react-quill';
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 
-const BoardPostPage = () => {
+interface Props {
+  initialPostData: any;
+}
+
+const BoardPostPage = ({ initialPostData }: Props) => {
   const router = useRouter();
   const boardId: string = router.query.boardId as string;
   const userInfo = useSelector((state: RootState) => state.auth);
@@ -26,6 +31,7 @@ const BoardPostPage = () => {
   const { data: post, isLoading } = useQuery({
     queryKey: ['posts', boardId],
     queryFn: () => getPost(boardId),
+    initialData: initialPostData,
   });
 
   //QUILL 관련 코드
@@ -132,3 +138,23 @@ const BoardPostPage = () => {
 };
 
 export default BoardPostPage;
+
+export async function getStaticPaths() {
+  const data = await getPosts();
+  const ids = data.map((post) => post.id);
+  const params = ids.map((id) => ({ params: { boardId: id } }));
+  return {
+    paths: params,
+    fallback: 'blocking',
+  };
+}
+export async function getStaticProps(context: any) {
+  const { params } = context;
+  const { boardId } = params;
+  const initialPostData = await getPost(boardId);
+
+  return {
+    props: { initialPostData },
+    revalidate: 60 * 60, // 60분마다 갱신
+  };
+}

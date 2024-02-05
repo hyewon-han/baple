@@ -1,4 +1,5 @@
 import { supabase } from '@/libs/supabase';
+import { Tables } from '@/types/supabase';
 
 interface AlarmInfoType {
   type: string;
@@ -8,29 +9,32 @@ interface AlarmInfoType {
   read: boolean;
 }
 
+interface Props extends Tables<'alarms'> {
+  review_id: string;
+}
+
 // 알림 추가
-export const insertNewAlarm = async (alarmInfo: AlarmInfoType) => {
+export const insertNewAlarm = async (
+  alarmInfo: AlarmInfoType,
+): Promise<void> => {
   await supabase.from('alarms').insert([alarmInfo]);
 };
 
 // 알림 가져오기
-export const getAlarm = async (userId: string) => {
+export const getAlarm = async (userId: string): Promise<Props[]> => {
   const { data, error } = await supabase
     .from('alarms')
     .select('*')
     .eq('received_id', userId)
     .eq('read', false);
-  // .eq('type', 'comment');
-  // .single();
   if (error) {
     throw error;
   }
-  // console.log(data);
-  return data;
+  return data as Props[];
 };
 
 // 읽음 처리
-export const updateAlarm = async (alarmId: string) => {
+export const updateAlarm = async (alarmId: string): Promise<void> => {
   await supabase
     .from('alarms')
     .update({
@@ -41,8 +45,7 @@ export const updateAlarm = async (alarmId: string) => {
 };
 
 // 모두 읽음 처리
-export const updateAllAlarm = async (receivedId: string) => {
-  console.log(receivedId);
+export const updateAllAlarm = async (receivedId: string): Promise<void> => {
   await supabase
     .from('alarms')
     .update({

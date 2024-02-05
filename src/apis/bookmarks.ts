@@ -1,4 +1,5 @@
 import { supabase } from '@/libs/supabase';
+import { Tables } from '@/types/supabase';
 
 interface Props {
   userId: string | null;
@@ -6,20 +7,24 @@ interface Props {
 }
 
 // 북마크 추가
-export const insertBookmark = async ({ userId, placeId }: Props) => {
-  const { data, error } = await supabase
+export const insertBookmark = async ({
+  userId,
+  placeId,
+}: Props): Promise<void> => {
+  const { error } = await supabase
     .from('bookmarks')
     .insert({ user_id: userId, place_id: placeId })
     .select();
   if (error) {
     throw error;
   }
-  // console.log('북마크 성공', data);
-  return data;
 };
 
 // 북마크 가져오기
-export const getBookmark = async ({ userId, placeId }: Props) => {
+export const getBookmark = async ({
+  userId,
+  placeId,
+}: Props): Promise<Tables<'bookmarks'>[]> => {
   const { data, error } = await supabase
     .from('bookmarks')
     .select()
@@ -29,11 +34,14 @@ export const getBookmark = async ({ userId, placeId }: Props) => {
   if (error) {
     throw error;
   }
-  return data;
+  return data as Tables<'bookmarks'>[];
 };
 
 // 북마크 삭제
-export const deleteBookmark = async ({ userId, placeId }: Props) => {
+export const deleteBookmark = async ({
+  userId,
+  placeId,
+}: Props): Promise<void> => {
   const { error } = await supabase
     .from('bookmarks')
     .delete()
@@ -41,9 +49,8 @@ export const deleteBookmark = async ({ userId, placeId }: Props) => {
     .eq('place_id', placeId);
 
   if (error) {
-    console.log(error);
+    throw error;
   }
-  // console.log('북마크 삭제');
 };
 
 // 유저가 북마크한 장소
@@ -61,6 +68,7 @@ export const getBookmarksByUserId = async (userId: string) => {
 
   return data.flatMap((item) => item.places) || [];
 };
+
 // 장소별 북마크
 export const getBookmarksByPlaceId = async (placeId: string) => {
   const { data, error } = await supabase

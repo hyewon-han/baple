@@ -3,10 +3,11 @@ import { configureStore } from '@reduxjs/toolkit';
 import placesData from '../modules/placesDataSlice';
 import search from '../modules/searchSlice';
 import selectedBtn from '../modules/seletedBtnSlice';
+import selectedCity from '../modules/selectedCitySlice';
 
 export type RootState = ReturnType<typeof store.getState>;
 const store = configureStore({
-  reducer: { auth, placesData, search, selectedBtn },
+  reducer: { auth, placesData, search, selectedBtn, selectedCity },
 });
 export default store;
 

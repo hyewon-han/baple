@@ -24,74 +24,25 @@ import AlarmModal from '../common/AlarmModal';
 import { useAlarm } from '@/hooks/useAlarm';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import Swal from 'sweetalert2';
+import { useAlarmSubscribe } from '@/hooks/useAlarmSubscribe';
 
 const Header = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<any>(null);
   const { userId, isLoggedIn } = useSelector((state: RootState) => state.auth);
-  const { isMobile, isTablet } = useViewport();
+  const { isMobile } = useViewport();
   const [isLoaded, setIsLoaded] = useState(false);
   const { baple } = useCurrentTheme();
   const [alarmState, setAlarmState] = useState<boolean>();
-  const { alarmData } = useAlarm();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
 
-  const queryClient = useQueryClient();
-
-  useEffect(() => {
-    setAlarmState(alarmData?.length === 0 ? false : true);
-  }, [alarmData?.length]);
-
-  // 알림
-  useEffect(() => {
-    if (!userId) return;
-    const subscription: RealtimeChannel = supabase
-      .channel('custom-filter-channel')
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'alarms',
-          filter: `received_id=eq.${userId}`,
-        },
-        (payload) => {
-          queryClient.invalidateQueries({
-            queryKey: ['alarms'],
-          });
-          setAlarmState(true);
-        },
-      )
-      .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'alarms',
-          filter: `received_id=eq.${userId}`,
-        },
-        (payload) => {
-          queryClient.invalidateQueries({
-            queryKey: ['alarms'],
-          });
-        },
-      )
-      .subscribe();
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [queryClient]);
-
-  useEffect(() => {
-    if (alarmData?.length === 0) {
-      setAlarmState(false);
-    }
-  }, [alarmData]);
+  // 실시간 알림
+  useAlarmSubscribe(setAlarmState);
 
   const {
     data: user,
@@ -179,15 +130,16 @@ const Header = () => {
                     height={100}
                   />
                 </Link>
+
                 <div className='hidden md:flex gap-16 items-center w-[65vw] justify-start pl-10'>
-                  <div
+                  <Link
+                    href='/about'
                     className={`hover:text-primary ${
                       router.pathname === '/about' ? 'text-primary' : ''
                     }`}
-                    onClick={() => Swal.fire('준비중입니다!')}
                   >
                     배플 소개
-                  </div>
+                  </Link>
                   <Link
                     href='/nearby'
                     className={`hover:text-primary w-auto ${

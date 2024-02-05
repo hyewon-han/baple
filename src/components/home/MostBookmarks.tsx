@@ -5,7 +5,7 @@ import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
-import { Spacer } from '@nextui-org/react';
+import { Chip, Spacer } from '@nextui-org/react';
 import { useViewport } from '@/hooks/useViewport';
 import PlaceCard3 from '../common/PlaceCard3';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
@@ -33,11 +33,13 @@ const MostBookmarks = ({ initialData }: Props) => {
 
   return (
     <div className='w-full'>
-      <div className='flex flex-col gap-2'>
+      <div className='flex gap-2 items-center'>
         <span className='text-2xl text-primary font-bold'>
-          많은 사람들이 즐겨 찾는 장소
+          사람들이 즐겨 찾는 장소
         </span>
-        <span className='font-light'>많은 사람들이 즐겨 찾았어요!</span>
+        <Chip color='primary' size='md' variant='flat'>
+          TOP 8
+        </Chip>
       </div>
       <Spacer y={4} />
       <Swiper

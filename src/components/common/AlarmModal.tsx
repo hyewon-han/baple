@@ -38,7 +38,7 @@ const AlarmModal = ({ alarmState }: Props) => {
     <>
       <Popover placement='bottom'>
         <PopoverTrigger>
-          <div className='w-[20px] sm:mr-4'>
+          <div className='sm:mr-4 flex'>
             {alarmState ? (
               // <VscBellDot size={25} className='cursor-pointer' />
               <Badge content={alarmData?.length} color='primary'>

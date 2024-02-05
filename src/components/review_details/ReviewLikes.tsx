@@ -1,4 +1,3 @@
-import { getLike, getLikes } from '@/apis/likes';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
 import { useQuery } from '@tanstack/react-query';
@@ -34,22 +33,14 @@ const ReviewLikes = ({ review }: Props) => {
     queryFn: () => getPlaceInfo(review.place_id),
   });
 
-  const { data: likeState } = useQuery({
-    queryKey: ['likes', userId, reviewId],
-    queryFn: () => getLike({ userId: userId, reviewId }),
-    enabled: !!userId,
-  });
-
-  const { data: likeCount } = useQuery({
-    queryKey: ['likes', reviewId],
-    queryFn: () => getLikes(reviewId),
-  });
-
-  const { insertLike, deleteLike, plusLikeCount, minusLikeCount } = useLikes(
-    userId,
-    reviewId,
-    placeInfo,
-  );
+  const {
+    likeState,
+    likeCount,
+    insertLike,
+    deleteLike,
+    plusLikeCount,
+    minusLikeCount,
+  } = useLikes(userId, reviewId, placeInfo);
 
   useEffect(() => {
     setIsLiked(likeState ? likeState.length > 0 : false);

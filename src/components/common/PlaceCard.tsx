@@ -39,53 +39,53 @@ const PlaceCard = ({ place }: Props) => {
       href={`/place/${unique_place_id}`}
       onClick={() => setScrollY(window.scrollY)}
     >
-      <div className='relative w-[90%] h-[200px] mx-auto sm:w-full sm:h-[14.5rem] transition-all ring-2 ring-gray-100 rounded-3xl overflow-hidden shadow-md hover:ring-4 hover:ring-primary '>
+      <div className='relative w-[90%] h-[200px] mx-auto sm:w-full sm:h-[14.5rem]  transition-all ring-2 ring-gray-100 rounded-3xl overflow-hidden shadow-md hover:ring-4 hover:ring-primary'>
         <NextImage
           src={imgURL}
           alt='place_image'
           fill={true}
           className='rounded-3xl'
         />
-        <div className='absolute top-0 w-full h-full transition-opacity cursor-pointer backdrop-blur-sm backdrop-brightness-50 opacity-0 hover:opacity-100 grid grid-cols-2 place-items-start pb-16 px-5 pt-5 rounded-xl'>
+        <div className='absolute top-0 w-full h-full transition-opacity cursor-pointer backdrop-blur-sm backdrop-brightness-50 opacity-0 hover:opacity-100 grid grid-cols-2 place-items-center pb-16 px-5 rounded-xl'>
           {is_paid ? (
-            <Chip size='sm' variant='solid'>
+            <div className='bg-primary text-[0.6rem] sm:text-xs p-1 rounded-xl w-20 sm:w-24 text-center text-white '>
               입장료 있음
-            </Chip>
+            </div>
           ) : null}
           {is_easy_door ? (
-            <Chip size='sm' variant='solid'>
+            <div className='bg-primary text-[0.6rem] sm:text-xs p-1 rounded-xl w-20 sm:w-24 text-center text-white '>
               장애인용 출입문
-            </Chip>
+            </div>
           ) : null}
           {is_wheelchair_rental ? (
-            <Chip size='sm' variant='solid'>
+            <div className='bg-primary text-[0.6rem] sm:text-xs p-1 rounded-xl w-20 sm:w-24 text-center text-white '>
               휠체어 대여
-            </Chip>
+            </div>
           ) : null}
           {is_guide_dog ? (
-            <Chip size='sm' variant='solid'>
+            <div className='bg-primary text-[0.6rem] sm:text-xs p-1 rounded-xl w-20 sm:w-24 text-center text-white '>
               안내견 동반
-            </Chip>
+            </div>
           ) : null}
           {is_braille_guide ? (
-            <Chip size='sm' variant='solid'>
+            <div className='bg-primary text-[0.6rem] sm:text-xs p-1 rounded-xl w-20 sm:w-24 text-center text-white'>
               점자 가이드
-            </Chip>
+            </div>
           ) : null}
           {is_disabled_parking ? (
-            <Chip size='sm' variant='solid'>
+            <div className='bg-primary text-[0.6rem] sm:text-xs p-1 rounded-xl w-20 sm:w-24 text-center text-white'>
               장애인용 주차장
-            </Chip>
+            </div>
           ) : null}
           {is_audio_guide ? (
-            <Chip size='sm' variant='solid'>
+            <div className='bg-primary text-[0.6rem] sm:text-xs p-1 rounded-xl w-20 sm:w-24 text-center text-white '>
               오디오 가이드
-            </Chip>
+            </div>
           ) : null}
           {is_disabled_toilet ? (
-            <Chip size='sm' variant='solid'>
+            <div className='bg-primary text-[0.6rem] sm:text-xs p-1 rounded-xl w-20 sm:w-24 text-center text-white'>
               장애인용 화장실
-            </Chip>
+            </div>
           ) : null}
         </div>
         <div className='absolute h-[4rem]  w-full bottom-0 p-2  text-black bg-white bg-opacity-90'>
