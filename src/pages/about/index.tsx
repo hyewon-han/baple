@@ -36,12 +36,16 @@ const AboutPage = () => {
         <p className='sm:mt-[200px] mt-[100px] text-[30px] font-extrabold'>
           Team Mission
         </p>
-        <p className='w-[80%] sm:w-[60%] text-center mt-[80px] text-[18px] mb-[100px]  sm:text-[20px] break-words'>
-          Baple은 Barrier Free와 Best Place를 결합해, 교통 약자들을 위한 배리어
-          프리 정보를 소개하는 플랫폼입니다. 우리의 목표는 모든 사람이 쉽게
-          이용할 수 있는 장소를 찾고 공유하며 더 나은 환경을 만들어가는
-          것입니다.
-        </p>
+        <div className='flex  flex-col text-center items-center'>
+          <p className='w-[80%] sm:w-full  mt-[80px] text-[18px]  flex sm:text-[20px] break-words'>
+            Baple은 Barrier Free와 Best Place를 결합해, 교통 약자들을 위한
+            배리어 프리 정보를 소개하는 플랫폼입니다.
+          </p>
+          <p className='text-[18px] sm:text-[20px] mb-[100px]'>
+            우리의 목표는 모든 사람이 쉽게 이용할 수 있는 장소를 찾고 공유하며
+            더 나은 환경을 만들어가는 것입니다.
+          </p>
+        </div>
       </motion.div>
 
       <div className='w-full sm:h-[60rem]   h-auto flex flex-col  items-center bg-[#EFEAFF]'>

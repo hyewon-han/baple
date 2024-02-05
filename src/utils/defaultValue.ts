@@ -1,5 +1,5 @@
 export const CITYS = [
-  { key: '지역을 선택해주세요', value: '' },
+  { key: '지역을 선택하세요', value: '' },
   { key: '강원특별자치도', value: '강원특별자치도' },
   { key: '경기', value: '경기' },
   { key: '경남', value: '경남' },

@@ -19,14 +19,9 @@ import {
 } from '@/redux/modules/seletedBtnSlice';
 import { CITYS } from '@/utils/defaultValue';
 import { saveSelectedCity } from '@/redux/modules/selectedCitySlice';
+import { useViewport } from '@/hooks/useViewport';
 
 // const inter = Inter({ subsets: ['latin'] });
-
-const imgList = [
-  '/images/mainCarousel1.svg',
-  '/images/mainCarousel2.svg',
-  // 'https://velog.velcdn.com/images/jetiiin/post/2b79044d-826f-4b35-b6d1-c2eeee7f92a6/image.png',
-];
 
 interface Props {
   topBookmarked: PlacesForSearch[];
@@ -41,6 +36,19 @@ const Home = ({ topBookmarked, topReviewed }: Props) => {
   const [searchValue, setSearchValue] = useState('');
   const dispatch = useDispatch();
   const router = useRouter();
+  const { isMobile } = useViewport();
+
+  const WebImgList = [
+    '/images/mainCarousel1.png',
+    '/images/mainCarousel2.png',
+    '/images/mainCarousel3.png',
+  ];
+
+  const MobileImgList = [
+    '/images/mobile_banner1.png',
+    '/images/mobile_banner2.png',
+    '/images/mobile_banner3.png',
+  ];
   useEffect(() => {
     setIsLoaded(true);
   }, []);
@@ -82,7 +90,7 @@ const Home = ({ topBookmarked, topReviewed }: Props) => {
       {isLoaded ? (
         <div>
           <Carousel
-            slideData={imgList} // imgList가 없으면 빈배열
+            slideData={isMobile ? MobileImgList : WebImgList} // imgList가 없으면 빈배열
             slidesPerView={1} // 보여줄 슬라이스 수
             slideHeight='full'
           />
@@ -100,11 +108,11 @@ const Home = ({ topBookmarked, topReviewed }: Props) => {
             {/* 검색창 */}
             <form
               onSubmit={handleClickSearchBtn}
-              className='flex justify-center w-full sm:w-[60%] m-auto mt-10 mb-4 sm:mb-8 bg-primary p-[2px] rounded-full overflow-hidden'
+              className='flex justify-center w-full md:w-[60%] m-auto mt-10 mb-4 sm:mb-8 bg-primary p-[2px] rounded-full overflow-hidden'
             >
               <div className='flex w-full max-w-xs flex-col gap-2'>
                 <select
-                  className='max-w-xs bg-white rounded-bl-full rounded-tl-full p-3 w-full h-full'
+                  className='max-w-xs rounded-bl-full rounded-tl-full p-3 w-full h-full'
                   onChange={(e) => dispatch(saveSelectedCity(e.target.value))}
                 >
                   {CITYS.map((city) => (

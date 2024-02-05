@@ -2,7 +2,6 @@ import { getPosts } from '@/apis/boards';
 import MainWrapper from '@/components/layout/MainWrapper';
 import { toastWarn } from '@/libs/toastifyAlert';
 import { RootState } from '@/redux/config/configStore';
-import { formatDateNoTime } from '@/utils/dateFormatter';
 import { Button, Divider, Spacer, Spinner } from '@nextui-org/react';
 import { Pagination } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
@@ -10,8 +9,8 @@ import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
-import { useViewport } from '@/hooks/useViewport';
 import Seo from '@/components/layout/Seo';
+import BoardTable from '@/components/board/BoardTable';
 
 import type { fetchedPosts } from '@/types/types';
 
@@ -23,7 +22,6 @@ const BoardPage = ({ initialPostsData }: Props) => {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const userInfo = useSelector((state: RootState) => state.auth);
-  const { isMobile } = useViewport();
 
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ['posts'],
@@ -68,48 +66,8 @@ const BoardPage = ({ initialPostsData }: Props) => {
       <header className='flex mt-[50px] mb-3 sm:mb-6 justify-between'>
         <h2 className='text-2xl sm:text-3xl font-bold'>게시판</h2>
       </header>
-
       <Divider className='h-0.5 mb-[18px]' />
-      <table className='w-[96%] m-auto h-auto'>
-        <thead>
-          <tr className='text-lg sm:text-xl'>
-            <th>카테고리</th>
-            <th>제목</th>
-            <th className='hidden lg:table-cell'>작성자</th>
-            <th className='hidden lg:table-cell'>장소</th>
-            <th className='hidden lg:table-cell'>작성일</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((item) => (
-            <tr
-              key={item.id}
-              className='cursor-pointer hover:scale-[1.003] text-sm h-[40px]'
-              onClick={() => router.push(`board/${item.id}`)}
-            >
-              <td className='text-center'>{item.category}</td>
-              <td className='text-center w-[70%] lg:w-[50%] pre-line'>
-                {isMobile
-                  ? item.title.length > 14
-                    ? item.title.slice(0, 14) + '...'
-                    : item.title
-                  : item.title}
-              </td>
-              <td className='text-center hidden lg:table-cell'>
-                {item.users.user_name}
-              </td>
-              <td className='text-center hidden lg:table-cell whitespace-nowrap'>
-                {item.place_name.length > 10
-                  ? item.place_name.substr(0, 10) + '...'
-                  : item.place_name}
-              </td>
-              <td className='text-center hidden lg:table-cell'>
-                {formatDateNoTime(item.created_at)}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <BoardTable items={items} />
       <Spacer y={6} />
       <div className='flex justify-center w-full'>
         <Pagination

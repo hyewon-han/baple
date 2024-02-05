@@ -2,7 +2,7 @@ import { getPost } from '@/apis/boards';
 import { useBoards } from '@/hooks/useBoards';
 import { toastError, toastWarn } from '@/libs/toastifyAlert';
 import { RootState } from '@/redux/config/configStore';
-import { Button, Input, Textarea, Spacer, Divider } from '@nextui-org/react';
+import { Button, Input, Spacer, Divider } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -26,7 +26,6 @@ const Editor = ({ isEdit }: Props) => {
   const router = useRouter();
   const { insertPost, updatePost } = useBoards();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  // const [imgArr, setImgArr] = useState<string[]>([]);
   const { baple } = useCurrentTheme();
   const boardId: string = router.query.boardId as string;
   const [inputs, setInputs] = useState<{

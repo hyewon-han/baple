@@ -2,7 +2,7 @@ import { supabase } from '@/libs/supabase';
 import { RootState } from '@/redux/config/configStore';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import { useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useAlarm } from './useAlarm';
 
@@ -55,8 +55,4 @@ export const useAlarmSubscribe = (setAlarmState: (value: boolean) => void) => {
       setAlarmState(false);
     }
   }, [alarmData]);
-
-  useEffect(() => {
-    setAlarmState(alarmData?.length === 0 ? false : true);
-  }, [alarmData?.length]);
 };

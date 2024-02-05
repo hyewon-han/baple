@@ -16,6 +16,7 @@ import PlaceDetailInfoHeader from '@/components/place_details/PlaceDetailInfoHea
 import { useBookmarks } from '@/hooks/useBookmarks';
 import PlaceDetailReview from '@/components/place_details/PlaceDetailReview';
 import PlaceDetailMap from '@/components/place_details/PlaceDetailMap';
+import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
 export type ToggleBookmarkType = () => void;
 export type ShowAlertType = () => void;
@@ -48,6 +49,11 @@ const PlacePage = () => {
       return { recentOrder, likesOrder };
     },
   });
+
+  const { baple } = useCurrentTheme();
+  const defaultImage = baple
+    ? '/images/default3.png'
+    : '/images/default3_blue.png';
 
   useEffect(() => {
     setIsBookmarked(bookmarkState ? bookmarkState.length > 0 : false);
@@ -109,11 +115,7 @@ const PlacePage = () => {
           <div className='w-full mb-[30px] md:mb-0 md:mr-[30px] md:w-[40%]'>
             {imgList && (
               <CarouselThumb
-                slideData={
-                  imgList.length !== 0
-                    ? imgList
-                    : ['/images/default_image2.png']
-                } // imgList가 없으면 빈배열
+                slideData={imgList.length !== 0 ? imgList : [defaultImage]} // imgList가 없으면 빈배열
               />
             )}
           </div>

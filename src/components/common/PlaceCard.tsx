@@ -29,9 +29,13 @@ const PlaceCard = ({ place }: Props) => {
     is_wheelchair_rental,
   } = place;
 
-  const imgURL = image_url !== '' ? image_url : '/images/default_image2.png';
-
   const { baple } = useCurrentTheme();
+  const defaultImage = baple
+    ? '/images/default3.png'
+    : '/images/default3_blue.png';
+
+  const imgURL = image_url !== '' ? image_url : defaultImage;
+
   const [scrollY, setScrollY] = useLocalStorage('places_list_scroll', 0);
 
   return (
@@ -46,9 +50,9 @@ const PlaceCard = ({ place }: Props) => {
           fill={true}
           className='rounded-3xl'
         />
-        <div className='absolute top-0 w-full h-full transition-opacity cursor-pointer backdrop-blur-sm backdrop-brightness-50 opacity-0 hover:opacity-100 grid grid-cols-2 place-items-center pb-16 px-5 rounded-xl'>
+        <div className='absolute top-0 w-full h-full transition-opacity cursor-pointer backdrop-blur-sm backdrop-brightness-50 opacity-0 hover:opacity-100 grid grid-cols-2 content-start place-items-center gap-y-3 px-10 py-4'>
           {is_paid ? (
-            <div className='bg-primary text-[0.6rem] sm:text-xs p-1 rounded-xl w-20 sm:w-24 text-center text-white '>
+            <div className='bg-primary text-[0.6rem] sm:text-xs p-1 rounded-xl w-30 sm:w-24 text-center text-white '>
               입장료 있음
             </div>
           ) : null}

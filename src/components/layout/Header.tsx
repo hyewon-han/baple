@@ -14,16 +14,13 @@ import {
 } from '@nextui-org/react';
 import { RootState } from '@/redux/config/configStore';
 import { useRouter } from 'next/router';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { getUserDataById } from '@/apis/users';
 import Image from 'next/image';
 import ThemeSwitcher from './ThemeSwitcher';
 import { useViewport } from '@/hooks/useViewport';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 import AlarmModal from '../common/AlarmModal';
-import { useAlarm } from '@/hooks/useAlarm';
-import { RealtimeChannel } from '@supabase/supabase-js';
-import Swal from 'sweetalert2';
 import { useAlarmSubscribe } from '@/hooks/useAlarmSubscribe';
 
 const Header = () => {

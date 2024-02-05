@@ -1,7 +1,7 @@
 import { Tables } from '@/types/supabase';
 import { useEffect, useRef, useState } from 'react';
 import { CustomOverlayMap, MapMarker, useMap } from 'react-kakao-maps-sdk';
-import PlaceCard2 from '../common/PlaceCard2';
+import MarkerPlaceCard from './MarkerPlaceCard';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
 const MarkerContainer = ({ place }: { place: Tables<'places'> }) => {
@@ -50,7 +50,7 @@ const MarkerContainer = ({ place }: { place: Tables<'places'> }) => {
           zIndex={2}
         >
           <div ref={overlayRef}>
-            <PlaceCard2 place={place} />
+            <MarkerPlaceCard place={place} />
           </div>
           {/* <PlaceCard place={place} /> */}
         </CustomOverlayMap>

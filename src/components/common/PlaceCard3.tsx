@@ -38,9 +38,12 @@ const PlaceCard3 = ({ place }: Props) => {
     is_wheelchair_rental,
   } = place;
 
-  const imgURL = image_url !== '' ? image_url : '/images/default_image2.png';
-
   const { baple } = useCurrentTheme();
+  const defaultImage = baple
+    ? '/images/default.png'
+    : '/images/default_blue.png';
+
+  const imgURL = image_url !== '' ? image_url : defaultImage;
 
   return (
     <div className='m-1 flex'>
