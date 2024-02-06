@@ -46,13 +46,6 @@ const kakaoInit = () => {
 };
 
 export default function App({ Component, pageProps }: AppProps) {
-  // 이 useEffect 테스트용임 배포시 안지우면 모바일에서 지도 터치 안됨
-  // useEffect(() => {
-  //   window.ontouchstart = null;
-  //   window.ontouchmove = null;
-  //   window.ontouchend = null;
-  // }, []);
-
   const router = useRouter();
 
   if (

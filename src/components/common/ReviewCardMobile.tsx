@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import type { ReviewsFromRPC } from '@/types/types';
-import { formatDate } from '@/utils/dateFormatter';
 import { Image } from '@nextui-org/react';
 import NextImage from 'next/image';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
@@ -22,8 +21,6 @@ const ReviewCardMobile = ({ review }: Props) => {
     comments_count,
     unique_review_id,
     place_name,
-    user_name,
-    user_avatar_url,
   } = review;
 
   const { baple } = useCurrentTheme();

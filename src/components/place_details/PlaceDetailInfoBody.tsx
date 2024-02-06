@@ -1,10 +1,11 @@
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 import { useViewport } from '@/hooks/useViewport';
-import { Tables } from '@/types/supabase';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { FaLink } from 'react-icons/fa';
+
+import type { Tables } from '@/types/supabase';
 
 interface Props {
   placeInfo: Tables<'places'>;

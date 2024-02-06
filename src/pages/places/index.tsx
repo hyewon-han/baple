@@ -3,7 +3,7 @@ import PlaceCard from '@/components/common/PlaceCard';
 import TopButton from '@/components/common/TopButton';
 import MainWrapper from '@/components/layout/MainWrapper';
 import Seo from '@/components/layout/Seo';
-import { Button, Select, SelectItem, Spinner } from '@nextui-org/react';
+import { Button, Spinner } from '@nextui-org/react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -25,7 +25,6 @@ const PlacesPage = () => {
   const dispatch = useDispatch();
   const currentPage = 1;
   const [scrollY] = useLocalStorage('places_list_scroll', 0);
-  // const [selectedCity, setSelectedCity] = useState('');
   const selectedCity = useSelector((state: RootState) => state.selectedCity);
 
   useEffect(() => {

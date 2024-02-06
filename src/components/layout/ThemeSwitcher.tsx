@@ -27,7 +27,6 @@ const ThemeSwitcher = () => {
 
   return (
     <Switch
-      // defaultSelected
       isSelected={isSelected}
       onValueChange={setIsSelected}
       onChange={themeToggleHandler}

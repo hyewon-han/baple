@@ -1,9 +1,10 @@
-import { ReviewsFromRPC } from '@/types/types';
 import { Pagination, Spacer } from '@nextui-org/react';
 import React from 'react';
 import ReviewCard from '../common/ReviewCard';
 import ReviewCardMobile from '../common/ReviewCardMobile';
 import { useViewport } from '@/hooks/useViewport';
+
+import type { ReviewsFromRPC } from '@/types/types';
 
 interface Props {
   reviews?: ReviewsFromRPC[] | undefined;

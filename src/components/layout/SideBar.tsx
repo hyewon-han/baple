@@ -7,11 +7,10 @@ import { RootState } from '@/redux/config/configStore';
 import { useRouter } from 'next/router';
 import ThemeSwitcher from './ThemeSwitcher';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
-import Swal from 'sweetalert2';
 
 const SideBar = () => {
   const [isSidebarOpened, setIsSidebarOpened] = useState(false);
-  const { userId, isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
   const [isLoaded, setIsLoaded] = useState(false);
   const router = useRouter();
   const { baple } = useCurrentTheme();

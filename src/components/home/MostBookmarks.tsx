@@ -6,7 +6,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
 import { Chip, Spacer } from '@nextui-org/react';
-import { useViewport } from '@/hooks/useViewport';
 import PlaceCard3 from '../common/PlaceCard3';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
@@ -17,7 +16,6 @@ interface Props {
 }
 
 const MostBookmarks = ({ initialData }: Props) => {
-  const { isMobile, isTablet } = useViewport();
   const { baple } = useCurrentTheme();
 
   const { data: topBookmarkedPlacesList, isLoading: placesListLoading } =
@@ -45,7 +43,6 @@ const MostBookmarks = ({ initialData }: Props) => {
       <Swiper
         loop={true} // 슬라이드 루프
         spaceBetween={5}
-        // slidesPerView={isMobile ? 2 : isTablet ? 3 : 4}
         navigation={true} // prev, next button
         modules={[Navigation, Autoplay]}
         autoplay={true}

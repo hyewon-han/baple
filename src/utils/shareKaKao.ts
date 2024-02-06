@@ -12,8 +12,7 @@ export const shareKakao = async ({ address, place_name, placeId }: Props) => {
     content: {
       title: 'Baple',
       description: `${place_name}`,
-      imageUrl:
-        'https://velog.velcdn.com/images/jetiiin/post/3e477527-5e73-4a52-a8de-c0d1dec00f8a/image.png',
+      imageUrl: '/images/aboutPage/about_LOGO.png',
       link: {
         mobileWebUrl: `${process.env.NEXT_PUBLIC_BASEURL}/place/${placeId}`,
         webUrl: `${process.env.NEXT_PUBLIC_BASEURL}/place/${placeId}`,

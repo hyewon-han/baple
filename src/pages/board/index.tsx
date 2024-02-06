@@ -15,7 +15,7 @@ import BoardTable from '@/components/board/BoardTable';
 const BoardPage = () => {
   const router = useRouter();
   const [page, setPage] = useState(1);
-  const userInfo = useSelector((state: RootState) => state.auth);
+  const { userId } = useSelector((state: RootState) => state.auth);
 
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ['posts'],
@@ -76,7 +76,7 @@ const BoardPage = () => {
       <Spacer y={8} />
       <Divider className='h-0.5 mb-[18px]' />
       <div className='text-right mb-6 sm:mb-0'>
-        {userInfo.userId ? (
+        {userId ? (
           <Button
             className='bg-primary px-8 py-2 rounded-full text-white'
             onClick={() => router.push('/board/write')}

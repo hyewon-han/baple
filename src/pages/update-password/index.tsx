@@ -1,8 +1,8 @@
 import { Button, Input } from '@nextui-org/react';
 import { EyeFilledIcon } from '@/components/login/EyeFilledIcon';
 import { EyeSlashFilledIcon } from '@/components/login/EyeSlashFilledIcon';
-import React, { useEffect, useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { supabase } from '@/libs/supabase';
 import { toastError, toastSuccess } from '@/libs/toastifyAlert';
 import { useRouter } from 'next/router';
@@ -29,19 +29,6 @@ const UpdatePasswordPage = () => {
   const [isVisible2, setIsVisible2] = useState(false);
   const toggleVisibility1 = () => setIsVisible1(!isVisible1);
   const toggleVisibility2 = () => setIsVisible2(!isVisible2);
-
-  //   useEffect(() => {
-  //     supabase.auth.onAuthStateChange(async (event, session) => {
-  //       if (event == "PASSWORD_RECOVERY") {
-  //         const newPassword = prompt("What would you like your new password to be?");
-  //         const { data, error } = await supabase.auth
-  //           .updateUser({ password: watchPassword })
-
-  //         if (data) alert("Password updated successfully!")
-  //         if (error) alert("There was an error updating your password.")
-  //       }
-  //     })
-  //   }, [])
 
   const changePassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

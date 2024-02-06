@@ -1,5 +1,4 @@
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
-import { Tables } from '@/types/supabase';
 import { Button } from '@nextui-org/react';
 import { useRef, useState } from 'react';
 import {
@@ -10,6 +9,8 @@ import {
   Roadview,
   ZoomControl,
 } from 'react-kakao-maps-sdk';
+
+import type { Tables } from '@/types/supabase';
 
 interface Props {
   placeInfo: Tables<'places'>;

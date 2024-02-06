@@ -7,7 +7,6 @@ import MostBookmarks from '@/components/home/MostBookmarks';
 import { Button, Spacer } from '@nextui-org/react';
 import Carousel from '@/components/common/Carousel';
 import { getTopBookmarkedPlaces, getTopReviewedPlaces } from '@/apis/places';
-import { PlacesForSearch } from '@/types/types';
 import TopButton from '@/components/common/TopButton';
 import Image from 'next/image';
 import MainWrapper from '@/components/layout/MainWrapper';
@@ -21,7 +20,7 @@ import { CITYS } from '@/utils/defaultValue';
 import { saveSelectedCity } from '@/redux/modules/selectedCitySlice';
 import { useViewport } from '@/hooks/useViewport';
 
-// const inter = Inter({ subsets: ['latin'] });
+import type { PlacesForSearch } from '@/types/types';
 
 interface Props {
   topBookmarked: PlacesForSearch[];
@@ -29,7 +28,6 @@ interface Props {
 }
 
 const Home = ({ topBookmarked, topReviewed }: Props) => {
-  // const { username, userId } = useSelector((state: RootState) => state.auth);
   const selectedBtn = useSelector((state: RootState) => state.selectedBtn);
   const selectedCity = useSelector((state: RootState) => state.selectedCity);
   const [isLoaded, setIsLoaded] = useState(false);

@@ -1,4 +1,3 @@
-import { getBookmarksByUserId } from '@/apis/bookmarks';
 import { getLikedReviews, getReviewsByUserIdrpc } from '@/apis/reviews';
 import ReviewCard from '../common/ReviewCard';
 import { useQuery } from '@tanstack/react-query';

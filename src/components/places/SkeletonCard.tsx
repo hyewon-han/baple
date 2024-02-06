@@ -1,4 +1,4 @@
-import { Button, Card, Skeleton } from '@nextui-org/react';
+import { Card, Skeleton } from '@nextui-org/react';
 import React from 'react';
 
 const SkeletonCard = () => {

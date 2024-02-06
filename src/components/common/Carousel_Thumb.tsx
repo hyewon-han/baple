@@ -61,10 +61,6 @@ const CarouselThumb = ({ slideData }: { slideData: string[] }) => {
         watchSlidesProgress={true}
         slideToClickedSlide
         className='thumbs cursor-pointer'
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false, // 사용자 상호작용시 슬라이더 일시 정지 비활성
-        }}
       >
         {slideData.map((slide: string) => (
           <SwiperSlide key={slide}>

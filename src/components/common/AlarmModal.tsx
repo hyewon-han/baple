@@ -10,7 +10,7 @@ import {
 } from '@nextui-org/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { VscBell, VscBellDot } from 'react-icons/vsc';
+import { VscBell } from 'react-icons/vsc';
 import { useSelector } from 'react-redux';
 
 interface Props {
@@ -40,7 +40,6 @@ const AlarmModal = ({ alarmState }: Props) => {
         <PopoverTrigger>
           <div className='sm:mr-4 flex'>
             {alarmState ? (
-              // <VscBellDot size={25} className='cursor-pointer' />
               <Badge content={alarmData?.length} color='primary'>
                 <VscBell size={25} className='cursor-pointer' />
               </Badge>

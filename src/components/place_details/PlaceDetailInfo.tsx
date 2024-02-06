@@ -1,8 +1,9 @@
-import { Tables } from '@/types/supabase';
 import { ShowAlertType, ToggleBookmarkType } from '@/pages/place/[placeId]';
 import PlaceDetailInfoHeader from './PlaceDetailInfoHeader';
 import PlaceDetailInfoBody from './PlaceDetailInfoBody';
 import PlaceDetailInfoFooter from './PlaceDetailInfoFooter';
+
+import type { Tables } from '@/types/supabase';
 
 export interface PlaceInfoAllData {
   placeId: string;

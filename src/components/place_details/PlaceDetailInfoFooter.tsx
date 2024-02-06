@@ -1,8 +1,9 @@
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
-import { Tables } from '@/types/supabase';
 import { Chip } from '@nextui-org/react';
 import Image from 'next/image';
 import React from 'react';
+
+import type { Tables } from '@/types/supabase';
 
 interface Props {
   placeInfo: Tables<'places'>;

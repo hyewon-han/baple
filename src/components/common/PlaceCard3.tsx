@@ -1,17 +1,8 @@
-import React, { useState } from 'react';
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Chip,
-} from '@nextui-org/react';
+import React from 'react';
+import { Card, CardBody, CardFooter } from '@nextui-org/react';
 import { useRouter } from 'next/router';
-import type { PlacesForPlaceCard, PlacesForSearch } from '@/types/types';
+import type { PlacesForSearch } from '@/types/types';
 import NextImage from 'next/image'; // 모듈명 변경
-import { MdPhotoCameraBack } from 'react-icons/md';
-import Link from 'next/link';
 import Image from 'next/image';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
@@ -28,14 +19,6 @@ const PlaceCard3 = ({ place }: Props) => {
     image_url,
     place_name,
     unique_place_id,
-    is_audio_guide,
-    is_braille_guide,
-    is_disabled_parking,
-    is_disabled_toilet,
-    is_easy_door,
-    is_guide_dog,
-    is_paid,
-    is_wheelchair_rental,
   } = place;
 
   const { baple } = useCurrentTheme();
@@ -79,7 +62,6 @@ const PlaceCard3 = ({ place }: Props) => {
                 width={20}
                 height={20}
                 alt='write_icon'
-                // className='object-cover'
               />
               {reviews_count}
             </span>

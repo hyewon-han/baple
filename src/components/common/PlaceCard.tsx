@@ -1,4 +1,3 @@
-import { Chip } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import type { PlacesForSearch } from '@/types/types';
 import NextImage from 'next/image'; // 모듈명 변경

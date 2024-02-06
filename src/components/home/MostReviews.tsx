@@ -1,12 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { getTopReviewedPlaces } from '@/apis/places';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Autoplay, Pagination } from 'swiper/modules';
+import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
 import { Chip, Spacer } from '@nextui-org/react';
-import { useViewport } from '@/hooks/useViewport';
 import PlaceCard3 from '../common/PlaceCard3';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
@@ -17,7 +16,6 @@ interface Props {
 }
 
 const MostReviews = ({ initialData }: Props) => {
-  const { isMobile, isTablet } = useViewport();
   const { baple } = useCurrentTheme();
 
   const { data: topReviewedPlacesList, isLoading: placesListLoading } =
@@ -40,17 +38,14 @@ const MostReviews = ({ initialData }: Props) => {
         <Chip color='primary' size='md' variant='flat'>
           TOP 8
         </Chip>
-        {/* <span className='font-light'>리뷰가 많이 달렸어요!</span> */}
       </div>
       <Spacer y={4} />
       <Swiper
         loop={true} // 슬라이드 루프
         spaceBetween={5}
-        // slidesPerView={2}
         navigation={true} // prev, next button
         modules={[Navigation, Autoplay]}
-        // autoplay={true}
-        className=''
+        autoplay={true}
         allowTouchMove={false}
         id={`${baple ? 'baple' : 'color_blind'}`}
         breakpoints={{

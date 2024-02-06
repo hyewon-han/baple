@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Spacer } from '@nextui-org/react';
+import { Avatar } from '@nextui-org/react';
 import Link from 'next/link';
 import { formatDate } from '@/utils/dateFormatter';
 import Image from 'next/image';

@@ -26,11 +26,7 @@ const MyProfile = () => {
   const [newAvatar, setNewAvatar] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState(avatarUrl);
   const { isMobile } = useViewport();
-  const {
-    data: user,
-    error,
-    isLoading,
-  } = useQuery({
+  const { data: user, error } = useQuery({
     queryKey: ['user', userId],
     queryFn: () => getUserDataById(userId),
     enabled: !!userId,

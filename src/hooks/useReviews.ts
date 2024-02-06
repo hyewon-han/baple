@@ -47,7 +47,6 @@ export const useReviews = (
       return { prevReview };
     },
     onError: (error, updateReviewParams, context) => {
-      // Rollback to the previous review data in case of an error
       if (context?.prevReview) {
         queryClient.setQueryData(['review', reviewId], context.prevReview);
       }

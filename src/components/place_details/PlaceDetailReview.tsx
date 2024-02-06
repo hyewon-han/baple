@@ -6,7 +6,8 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/config/configStore';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
-import { ReviewsFromRPC } from '@/types/types';
+
+import type { ReviewsFromRPC } from '@/types/types';
 
 interface Props {
   placeId: string;

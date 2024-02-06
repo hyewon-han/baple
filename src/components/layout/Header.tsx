@@ -41,11 +41,7 @@ const Header = () => {
   // 실시간 알림
   useAlarmSubscribe(setAlarmState);
 
-  const {
-    data: user,
-    error,
-    isLoading,
-  } = useQuery({
+  const { data: user } = useQuery({
     queryKey: ['user', userId],
     queryFn: () => getUserDataById(userId),
     enabled: !!userId,
@@ -54,8 +50,6 @@ const Header = () => {
     supabase.auth.onAuthStateChange((event, session) => {
       const userId = session?.user.id as string;
       const email = session?.user.email;
-      const avatarUrl = session?.user.user_metadata.avatar_url;
-      const username = session?.user.user_metadata.user_name;
       if (event === 'INITIAL_SESSION' && session !== null) {
         setCurrentUser(session?.user);
         dispatch(
