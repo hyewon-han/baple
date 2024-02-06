@@ -12,7 +12,6 @@ interface Props {
 const BoardTable = ({ items }: Props) => {
   const router = useRouter();
   const { isMobile } = useViewport();
-  console.log('items 가 뭐임?', items);
 
   return (
     <table className='w-[96%] m-auto h-auto'>

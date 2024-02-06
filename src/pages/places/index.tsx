@@ -57,7 +57,6 @@ const PlacesPage = () => {
       }
     },
     select: (data) => {
-      console.log('data@', data);
       return data.pages.map((pageData) => pageData?.data).flat();
     },
   });

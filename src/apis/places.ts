@@ -65,8 +65,6 @@ export const fetchPlacesData = async ({
     })
     .explain({ format: 'json', analyze: true });
 
-  console.log('explainData', explainData);
-
   if (Array.isArray(explainData)) {
     result = explainData
       .map((item) => item.Plan)
@@ -96,14 +94,11 @@ export const fetchPlacesData = async ({
       query = query.in(selectedBtn, [true]);
     }
   }
-  console.log('query', query);
 
   const { data } = await query.range(
     (pageParam - 1) * PAGESIZE,
     pageParam * PAGESIZE - 1,
   );
-
-  console.log('data!!', data);
 
   const resultPlaces = {
     total_length: result['Actual Rows'] as number,

@@ -6,13 +6,13 @@ import ReviewCardMobile from '../common/ReviewCardMobile';
 import { useViewport } from '@/hooks/useViewport';
 
 interface Props {
-  reviews: ReviewsFromRPC[] | undefined;
+  reviews?: ReviewsFromRPC[] | undefined;
 }
 
-const PaiginatedReviews = ({ reviews }: Props) => {
+const PaiginatedReviews = ({ reviews = [] }: Props) => {
   const [page, setPage] = React.useState(1);
   const rowsPerPage = 5;
-  const pages = Math.ceil(reviews!.length / rowsPerPage);
+  const pages = Math.ceil((reviews?.length ?? 0) / rowsPerPage);
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;

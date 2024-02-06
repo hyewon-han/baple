@@ -88,7 +88,7 @@ const PlaceCard3 = ({ place }: Props) => {
                 src={`/images/icons/${
                   baple
                     ? 'bookmark_select.svg'
-                    : 'CBicons/CBbookmark_select_.svg'
+                    : 'CBicons/CBbookmark_select.svg'
                 }`}
                 width={20}
                 height={20}

@@ -6,6 +6,7 @@ import YoutubeCard from '@/components/about/YoutubeCard';
 import { Button } from '@nextui-org/react';
 import { useViewport } from '@/hooks/useViewport';
 import Link from 'next/link';
+import Seo from '@/components/layout/Seo';
 
 const AboutPage = () => {
   const { isMobile } = useViewport();
@@ -19,6 +20,7 @@ const AboutPage = () => {
 
   return (
     <div className='w-full flex flex-col justify-center items-center overflow-hidden'>
+      <Seo />
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -117,7 +119,8 @@ const AboutPage = () => {
                 height={500}
                 sizes='100vw'
                 alt='이미지'
-                className='relative m-auto object-scale-down scale-90 sm:scale-100'
+                className='relative m-auto object-scale-down'
+                priority={true}
               />
             </div>
           </div>

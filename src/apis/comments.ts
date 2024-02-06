@@ -1,5 +1,4 @@
 import { supabase } from '@/libs/supabase';
-
 import newComment from '@/utils/newComment';
 import type { CommentsWithUser } from '@/types/types';
 

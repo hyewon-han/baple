@@ -42,6 +42,7 @@ const CommentInput = ({
       toastWarn('로그인 후 이용해 주세요');
       return;
     }
+
     const newCommentData = new newComment(reviewId, userId, comment);
     const newCommentAlarmInfo = {
       type: 'comment',

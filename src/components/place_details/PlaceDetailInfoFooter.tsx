@@ -11,14 +11,14 @@ interface Props {
 const PlaceDetailInfoFooter = ({ placeInfo }: Props) => {
   const { baple } = useCurrentTheme();
   const isInfoArray = [
-    placeInfo.is_audio_guide,
-    placeInfo.is_braille_guide,
-    placeInfo.is_disabled_parking,
-    placeInfo.is_disabled_toilet,
-    placeInfo.is_easy_door,
-    placeInfo.is_guide_dog,
-    placeInfo.is_paid,
-    placeInfo.is_wheelchair_rental,
+    placeInfo?.is_audio_guide,
+    placeInfo?.is_braille_guide,
+    placeInfo?.is_disabled_parking,
+    placeInfo?.is_disabled_toilet,
+    placeInfo?.is_easy_door,
+    placeInfo?.is_guide_dog,
+    placeInfo?.is_paid,
+    placeInfo?.is_wheelchair_rental,
   ];
 
   const infoDetails = [

@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { Avatar, Input } from '@nextui-org/react';
 import { formatDate } from '@/utils/dateFormatter';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
-
+import { toastWarn } from '@/libs/toastifyAlert';
 interface Props {
   comment: CommentsWithUser;
 }
@@ -73,6 +73,13 @@ const CommentCardMobile = ({ comment }: Props) => {
               <button
                 className='border rounded w-10 h-6 border-primary text-[12px] text-primary'
                 onClick={() => {
+                  if (!newContent.trim()) {
+                    toastWarn('수정할 내용을 입력하세요!');
+                    return;
+                  } else if (newContent === comment?.content) {
+                    toastWarn('내용이 변경되지 않았습니다!');
+                    return;
+                  }
                   updateComment({ commentId: comment.id, newContent });
                   setIsEditing(false);
                 }}

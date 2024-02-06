@@ -65,8 +65,6 @@ const LogInPage = () => {
         .eq('email', watchEmailForResetPw)
         .single();
 
-    console.log('validateEmail', validateEmailData);
-    console.log('validateEmailError', validateEmailError);
     if (validateEmailData) {
       const { data, error } = await supabase.auth.resetPasswordForEmail(
         watchEmailForResetPw,
@@ -77,8 +75,8 @@ const LogInPage = () => {
       toastAlert(
         '비밀번호 재설정을 위한 이메일을 발송했습니다. 메일함을 확인해주세요!',
       );
-      console.log('비번재설정', data);
-      if (error) console.log(error);
+
+      if (error) throw error;
     } else {
       toastError('가입하지 않은 이메일입니다!');
     }

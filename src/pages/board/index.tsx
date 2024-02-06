@@ -12,13 +12,7 @@ import _ from 'lodash';
 import Seo from '@/components/layout/Seo';
 import BoardTable from '@/components/board/BoardTable';
 
-import type { fetchedPosts } from '@/types/types';
-
-interface Props {
-  initialPostsData: fetchedPosts[];
-}
-
-const BoardPage = ({ initialPostsData }: Props) => {
+const BoardPage = () => {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const userInfo = useSelector((state: RootState) => state.auth);
@@ -26,7 +20,6 @@ const BoardPage = ({ initialPostsData }: Props) => {
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ['posts'],
     queryFn: () => getPosts(),
-    initialData: initialPostsData,
     select: (posts) => {
       return posts.map((post) => ({
         ...post,
@@ -104,11 +97,3 @@ const BoardPage = ({ initialPostsData }: Props) => {
 };
 
 export default BoardPage;
-
-export async function getServerSideProps() {
-  const initialPostsData = await getPosts();
-
-  return {
-    props: { initialPostsData },
-  };
-}

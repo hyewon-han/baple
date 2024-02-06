@@ -14,7 +14,6 @@ export const insertNewPost = async (formData: EditValueProps) => {
       attached_images,
     },
   ]);
-  // console.log('post 추가 성공', data);
   if (error) throw error;
 };
 
@@ -75,7 +74,7 @@ export const deletePost = async ({
     .eq('id', boardId);
 
   if (error) {
-    console.log(error);
+    throw error;
   }
 };
 

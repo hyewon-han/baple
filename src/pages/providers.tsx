@@ -13,16 +13,11 @@ type Props = {
 };
 
 const Providers = ({ children }: Props) => {
-  // AS-IS
-  // const client = new QueryClient();
-
-  // TO-BE
   const [queryClient] = React.useState(
     () =>
       new QueryClient({
         defaultOptions: {
           queries: {
-            //staletime 지정 안할시 클리이언트사이드에서 즉시 refetching 됨
             staleTime: 60 * 1000,
           },
         },

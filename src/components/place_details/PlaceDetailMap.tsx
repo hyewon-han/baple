@@ -44,7 +44,6 @@ const PlaceDetailMap = ({ placeInfo }: Props) => {
           scrollwheel={true}
           keyboardShortcuts={true}
           style={{
-            // 지도의 크기
             width: '100%',
             height: '300px',
           }}
@@ -56,7 +55,7 @@ const PlaceDetailMap = ({ placeInfo }: Props) => {
             image={{
               src: `/images/icons/${
                 baple ? 'marker.svg' : 'CBicons/CBmarker.svg'
-              }`, // 마커이미지의 주소입니다
+              }`,
               size: {
                 width: 44,
                 height: 40,
@@ -86,7 +85,6 @@ const PlaceDetailMap = ({ placeInfo }: Props) => {
           }}
           ref={roadviewRef}
         >
-          {/* <RoadviewMarker position={placePosition} /> */}
           <Button
             className='absolute top-[5px] left-[5px] z-10 flex w-[90px] h-[32px] justify-center'
             variant='solid'
@@ -107,14 +105,12 @@ const PlaceDetailMap = ({ placeInfo }: Props) => {
                 return;
               }
 
-              const projection = roadview.getProjection(); // viewpoint(화면좌표)값을 추출할 수 있는 projection 객체를 가져옵니다.
-              // 커스텀오버레이의 position과 altitude값을 통해 viewpoint값(화면좌표)를 추출합니다.
-              console.log(overlay.getPosition());
+              const projection = roadview.getProjection();
               const viewpoint = projection.viewpointFromCoords(
                 overlay.getPosition(),
                 overlay.getAltitude(),
               );
-              roadview.setViewpoint(viewpoint); //커스텀 오버레이를 로드뷰의 가운데에 오도록 로드뷰의 시점을 변화 시킵니다.
+              roadview.setViewpoint(viewpoint);
             }}
           >
             <Content />

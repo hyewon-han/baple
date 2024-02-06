@@ -7,7 +7,7 @@ export const useBookmarks = (userId: string, placeId: string) => {
   const { data: bookmarkState } = useQuery({
     queryKey: ['bookmark', userId, placeId],
     queryFn: () => getBookmark({ userId, placeId }),
-    enabled: !!userId,
+    enabled: !!placeId,
   });
 
   const insertBookmarkMutation = useMutation({

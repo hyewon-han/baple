@@ -1,13 +1,10 @@
 import React from 'react';
-// import { Card, CardBody, CardFooter, Image } from '@nextui-org/react';
-import { useRouter } from 'next/router';
 import { Tables } from '@/types/supabase';
 import { useQuery } from '@tanstack/react-query';
 import { getBookmarksByPlaceId } from '@/apis/bookmarks';
 import { getReviewsByPlaceId } from '@/apis/reviews';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Chip } from '@nextui-org/react';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
 type Props = {
@@ -15,8 +12,6 @@ type Props = {
 };
 
 const MarkerPlaceCard = ({ place }: Props) => {
-  const router = useRouter();
-  // const imgURL = place.image_url;
   const { baple } = useCurrentTheme();
   const defaultImage = baple
     ? '/images/default3.png'
@@ -102,7 +97,6 @@ const MarkerPlaceCard = ({ place }: Props) => {
                   width={20}
                   height={20}
                   alt='write_icon'
-                  // className='object-cover'
                 />
                 {reviewsData?.length}
               </span>
@@ -111,7 +105,7 @@ const MarkerPlaceCard = ({ place }: Props) => {
                   src={`/images/icons/${
                     baple
                       ? 'bookmark_select.svg'
-                      : 'CBicons/CBbookmark_select_.svg'
+                      : 'CBicons/CBbookmark_select.svg'
                   }`}
                   width={15}
                   height={15}

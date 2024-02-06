@@ -49,6 +49,12 @@ module.exports = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'search.pstatic.net',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   async rewrites() {

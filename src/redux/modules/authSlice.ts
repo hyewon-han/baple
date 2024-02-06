@@ -25,7 +25,6 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logInUser: (state, action) => {
-      // console.log('리덕스페이로드', action.payload);
       const { userId, email, avatarUrl, username } = action.payload;
       state.isLoggedIn = true;
       state.userId = userId;

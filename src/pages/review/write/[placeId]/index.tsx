@@ -25,7 +25,7 @@ const ReviewWritePage = () => {
   >([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const { userId } = useSelector((state: RootState) => state.auth);
+  const { userId, isLoggedIn } = useSelector((state: RootState) => state.auth);
 
   const router = useRouter();
 
@@ -97,6 +97,10 @@ const ReviewWritePage = () => {
   };
 
   const onSubmitReview = async () => {
+    if (!isLoggedIn) {
+      toastWarn('로그인 후 이용해주세요!');
+      return;
+    }
     setModalOpen(true); // 스피너 모달 열기
     const publicUrlList: string[] = [];
     if (selectedFiles) {

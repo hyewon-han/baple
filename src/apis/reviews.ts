@@ -1,7 +1,6 @@
 import { supabase } from '@/libs/supabase';
 
 import type {
-  Json,
   ReviewUpdateParams,
   ReviewWithPlaceAndUser,
   ReviewsFromRPC,
@@ -93,7 +92,6 @@ export const insertNewReview = async ({
       images_url: publicUrlList,
     },
   ]);
-  console.log('리뷰 삽입 데이터 > ', data);
   if (error) throw error;
 };
 

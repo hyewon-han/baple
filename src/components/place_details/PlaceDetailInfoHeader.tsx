@@ -18,7 +18,9 @@ const PlaceDetailInfoHeader = ({
 
   return (
     <>
-      <h1 className='text-2xl font-bold md:text-3xl'>{placeInfo.place_name}</h1>
+      <h1 className='text-2xl font-bold md:text-3xl'>
+        {placeInfo?.place_name}
+      </h1>
       <div className='flex'>
         {isLoggedIn ? (
           isBookmarked ? (
@@ -27,7 +29,7 @@ const PlaceDetailInfoHeader = ({
                 src={`/images/icons/${
                   baple
                     ? 'bookmark_select.svg'
-                    : 'CBicons/CBbookmark_select_.svg'
+                    : 'CBicons/CBbookmark_select.svg'
                 }`}
                 alt='bookmark'
                 width={isMobile ? 24 : 34}

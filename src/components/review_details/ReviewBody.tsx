@@ -32,7 +32,6 @@ const ReviewBody = ({ review, isEditing, setIsEditing }: Props) => {
             <textarea
               className='w-full h-[300px] text-black resize-none p-1'
               onChange={(e) => {
-                // console.log(e.target.value);
                 setEditValue(e.target.value);
               }}
               value={editValue}

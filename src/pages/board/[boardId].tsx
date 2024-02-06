@@ -9,7 +9,6 @@ import { RootState } from '@/redux/config/configStore';
 import { formatDate } from '@/utils/dateFormatter';
 import { Avatar, Button, Divider, Spacer, Spinner } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
-import { error } from 'console';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useRef } from 'react';

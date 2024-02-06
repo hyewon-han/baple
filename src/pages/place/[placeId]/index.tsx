@@ -37,6 +37,7 @@ const PlacePage = () => {
   const { data: placeInfo, isLoading: placeInfoLoading } = useQuery({
     queryKey: ['placeInfo', placeId],
     queryFn: () => getPlaceInfo(placeId),
+    enabled: !!placeId,
   });
 
   const { data: reviews, isLoading: reviewLoading } = useQuery({
@@ -98,7 +99,7 @@ const PlacePage = () => {
   return (
     <>
       <MainWrapper>
-        <Seo title={`${placeInfo.place_name} | `} />
+        <Seo title={`${placeInfo?.place_name} | `} />
         {/* 장소 상세정보 - 모바일에서만 보임 */}
         <div className='flex items-center justify-between w-full mb-[20px] md:hidden'>
           <PlaceDetailInfoHeader

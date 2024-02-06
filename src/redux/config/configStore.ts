@@ -10,9 +10,3 @@ const store = configureStore({
   reducer: { auth, placesData, search, selectedBtn, selectedCity },
 });
 export default store;
-
-const onChange = () => {
-  // console.log('리덕스스토어', store.getState());
-};
-
-store.subscribe(onChange);

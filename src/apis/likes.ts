@@ -32,7 +32,6 @@ export const getLikes = async (
   if (error) {
     throw error;
   }
-
   return data as Tables<'likes'>[];
 };
 
@@ -65,7 +64,7 @@ export const deleteLikes = async ({
     .eq('review_id', reviewId);
 
   if (error) {
-    console.log(error);
+    throw error;
   }
 };
 

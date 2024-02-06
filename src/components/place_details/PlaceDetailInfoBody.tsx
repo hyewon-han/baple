@@ -11,7 +11,13 @@ interface Props {
 }
 
 const PlaceDetailInfoBody = ({ placeInfo }: Props) => {
-  const { tel, address, working_hours, holidays, homepage } = placeInfo;
+  const {
+    tel = '',
+    address = '',
+    working_hours = '',
+    holidays = '',
+    homepage = '',
+  } = placeInfo || {};
   const { isMobile } = useViewport();
   const { baple } = useCurrentTheme();
   return (

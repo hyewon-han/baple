@@ -33,27 +33,19 @@ const PlaceDetailReview = ({
     <section>
       <div className='flex mt-[100px] mb-[30px] justify-between'>
         <h2 className='text-2xl sm:text-3xl font-bold'>방문자 리뷰</h2>
-        {isLoggedIn ? (
-          <Button
-            color='primary'
-            className={`px-4 text-${
-              baple ? 'white' : 'black'
-            } sm:px-8 py-2 rounded-full text-sm sm:text-md`}
-            onClick={() => router.push(`/review/write/${placeId}`)}
-          >
-            리뷰 작성하기
-          </Button>
-        ) : (
-          <Button
-            color='primary'
-            className={`px-8 py-2 text-${
-              baple ? 'white' : 'black'
-            } rounded-full text-sm sm:text-md`}
-            onClick={() => toastWarn('로그인 후 이용해주세요')}
-          >
-            리뷰 작성하기
-          </Button>
-        )}
+        <Button
+          color='primary'
+          className={`px-4 text-${
+            baple ? 'white' : 'black'
+          } sm:px-8 py-2 rounded-full text-sm sm:text-md`}
+          onClick={
+            isLoggedIn
+              ? () => router.push(`/review/write/${placeId}`)
+              : () => toastWarn('로그인 후 이용해주세요')
+          }
+        >
+          리뷰 작성하기
+        </Button>
       </div>
       <Divider className='h-0.5 mb-[30px]' />
       <div className='text-right mb-[20px] px-[10px]'>
