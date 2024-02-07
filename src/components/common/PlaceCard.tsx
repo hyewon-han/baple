@@ -49,7 +49,7 @@ const PlaceCard = ({ place }: Props) => {
           fill={true}
           className='rounded-3xl'
         />
-        <div className='absolute top-0 w-full h-full transition-opacity cursor-pointer backdrop-blur-sm backdrop-brightness-50 opacity-0 hover:opacity-100 grid grid-cols-2 content-start place-items-center gap-y-3 px-10 py-4'>
+        <div className='absolute top-0 w-full h-full transition-opacity cursor-pointer backdrop-blur-sm backdrop-brightness-50 opacity-0 hover:opacity-100 grid grid-cols-2 content-start place-items-center gap-y-3 px-10 py-4 rounded-3xl'>
           {is_paid ? (
             <div className='bg-primary text-[0.6rem] sm:text-xs p-1 rounded-xl w-30 sm:w-24 text-center text-white '>
               입장료 있음

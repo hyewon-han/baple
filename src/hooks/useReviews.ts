@@ -23,6 +23,10 @@ export const useReviews = (
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reviews', placeId] });
       queryClient.invalidateQueries({ queryKey: ['reviews', currentUserId] });
+      queryClient.invalidateQueries({ queryKey: ['likes', currentUserId] });
+      queryClient.invalidateQueries({
+        queryKey: ['bookmarkRPC', currentUserId],
+      });
     },
     onError: () => {
       toastError('문제가 발생하여 삭제하지 못했습니다');
