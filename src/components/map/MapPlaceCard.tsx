@@ -20,7 +20,7 @@ const MapPlaceCard = ({ place }: { place: Tables<'places'> | null }) => {
 
   return (
     <>
-      <Image
+      <img
         src={place?.image_url || '/images/icons/character.svg'}
         alt='이미지'
         className='sm:w-[70px] sm:rounded-[50%] sm:shadow-lg hidden sm:block'
