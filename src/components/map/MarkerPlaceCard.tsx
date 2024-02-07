@@ -35,10 +35,10 @@ const MarkerPlaceCard = ({ place }: Props) => {
   return (
     <Link href={`/place/${place.id}`}>
       <div className='relative w-[12.6rem] h-[9.6rem] mx-auto sm:w-[19rem] sm:h-[14.5rem] transition-all ring-2 ring-gray-100 rounded-3xl overflow-hidden shadow-md hover:ring-4 hover:ring-primary '>
-        <Image
+        <img
           src={imgURL}
           alt={place.place_name}
-          fill={true}
+          // fill={true}
           className='rounded-3xl'
         />
         <div className='absolute top-0 w-full h-full transition-opacity cursor-pointer backdrop-blur-sm backdrop-brightness-50 opacity-0 hover:opacity-100 grid grid-cols-2 content-start place-items-center gap-y-3 px-10 py-4'>
