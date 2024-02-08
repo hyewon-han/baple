@@ -3,7 +3,7 @@ import { Card, CardBody, CardFooter } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import type { PlacesForSearch } from '@/types/types';
 import NextImage from 'next/image'; // 모듈명 변경
-import Image from 'next/image';
+// import Image from 'next/image';
 import { useCurrentTheme } from '@/hooks/useCurrentTheme';
 
 interface Props {
@@ -38,7 +38,7 @@ const PlaceCard3 = ({ place }: Props) => {
         className='w-full h-auto sm:w-full sm:h-auto flex flex-col items-center rounded-3xl aspect-auto'
       >
         <CardBody className='overflow-visible rounded-3xl w-full flex items-center'>
-          <Image
+          <img
             width={300}
             height={300}
             alt={place_name}

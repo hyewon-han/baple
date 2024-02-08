@@ -50,9 +50,15 @@ export const useAlarmSubscribe = (setAlarmState: (value: boolean) => void) => {
     };
   }, []);
 
+  // 모두 읽음 처리
   useEffect(() => {
     if (alarmData?.length === 0) {
       setAlarmState(false);
     }
   }, [alarmData]);
+
+  // 새로고침 시 알림유지
+  useEffect(() => {
+    setAlarmState(alarmData?.length === 0 ? false : true);
+  }, [alarmData?.length]);
 };
