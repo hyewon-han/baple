@@ -51,7 +51,7 @@ const ReviewCard = ({ review }: Props) => {
             <div className='flex flex-col gap-4'>
               <div className='flex gap-x-1'>
                 {images_url?.map((url) => (
-                  <Image
+                  <img
                     key={url}
                     alt='review images'
                     src={url}

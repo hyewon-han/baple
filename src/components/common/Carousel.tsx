@@ -47,8 +47,8 @@ const Carousel = ({
         {slideData.map((slide: string) => (
           <SwiperSlide key={slide}>
             <div className={`h-[${slideHeight}]`}>
-              <Image
-                priority={true}
+              <img
+                // priority={true}
                 src={slide}
                 width={1920}
                 height={500}
